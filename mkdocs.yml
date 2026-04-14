@@ -1,0 +1,7 @@
+site_name: GemPBA
+site_url: https://rapastranac.github.io/gempba-docs/
+repo_url: https://github.com/rapastranac/gempba
+repo_name: rapastranac/gempba
+
+theme:
+  name: material
