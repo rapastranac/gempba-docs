@@ -5,3 +5,32 @@ repo_name: rapastranac/gempba
 
 theme:
   name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Why GemPBA: why-gempba.md
+  - Getting Started:
+      - Overview: getting-started/index.md
+      - Requirements: getting-started/requirements.md
+      - Installation: getting-started/installation.md
+      - Building: getting-started/building.md
+  - Quick Start: quick-start.md
+  - Architecture: architecture.md
+  - API Reference:
+      - Overview: api-reference/index.md
+      - gempba.hpp: api-reference/gempba-hpp.md
+      - node_manager.hpp: api-reference/node-manager.md
+      - node.hpp: api-reference/node.md
+      - node_core.hpp: api-reference/node-core.md
+      - node_traits.hpp: api-reference/node-traits.md
+      - serial_runnable.hpp: api-reference/serial-runnable.md
+      - Load Balancing: api-reference/load-balancing.md
+  - Examples: examples.md
+  - Scheduler Topologies: scheduler-topologies.md
+  - Citing: citing.md
