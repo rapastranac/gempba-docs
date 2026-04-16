@@ -4,7 +4,7 @@
 auto* lb = gempba::mt::create_load_balancer(gempba::balancing_policy::QUASI_HORIZONTAL);
 ```
 
-Implements [`load_balancer`](interfaces/load-balancer.md). The primary scheduling strategy of GemPBA and the main algorithmic contribution of the original research. Designed for branching algorithms where subtree sizes are unknown and highly unbalanced — which is the common case.
+Implements [`load_balancer`](../../interfaces/load-balancer.md). The primary scheduling strategy of GemPBA and the main algorithmic contribution of the original research. Designed for branching algorithms where subtree sizes are unknown and highly unbalanced — which is the common case.
 
 ## The problem it solves
 

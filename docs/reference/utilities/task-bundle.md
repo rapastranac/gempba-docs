@@ -4,7 +4,7 @@
 #include <gempba/utils/task_bundle.hpp>  // included automatically via gempba.hpp
 ```
 
-`task_bundle` pairs a [`task_packet`](task-packet.md) with a `runnable_id`. It is the unit of inter-process task transfer: when a worker sends work to another process, it wraps the serialized arguments in a `task_bundle` so the receiving end knows which [`serial_runnable`](serial-runnable.md) to dispatch it to.
+`task_bundle` pairs a [`task_packet`](task-packet.md) with a `runnable_id`. It is the unit of inter-process task transfer: when a worker sends work to another process, it wraps the serialized arguments in a `task_bundle` so the receiving end knows which [`serial_runnable`](../interfaces/serial-runnable.md) to dispatch it to.
 
 You do not construct `task_bundle` directly in normal use. Node factory functions and the scheduler produce and consume them internally.
 

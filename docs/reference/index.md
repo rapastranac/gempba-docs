@@ -34,5 +34,5 @@ Built-in concrete implementations of the above interfaces.
 | [Work-Stealing](implementations/load-balancers/work-stealing.md)              | `load_balancer` | Benchmarking baseline            |
 | [MPI Semi-Centralized](implementations/schedulers/semi-centralized.md)        | `scheduler`     | Recommended process scheduler    |
 | [MPI Centralized](implementations/schedulers/centralized.md)                  | `scheduler`     | Benchmarking baseline            |
-| [Stats](implementations/stats/default-mpi-stats)                              | `stats`         | Default stats for mpi schedulers |
+| [Stats](implementations/stats/default-mpi-stats.md)                           | `stats`         | Default stats for MPI schedulers |
 | [Stats Visitors](implementations/stats-visitors/default-mpi-stats-visitor.md) | `stats_visitor` | Built-in metric formatters       |

@@ -6,7 +6,7 @@
 
 `load_balancer` is the abstract interface for thread-level work distribution. It decides how pending branches are assigned to idle worker threads within a single process. You never call it directly in normal use — `node_manager` holds a pointer to one and delegates all submission calls through it.
 
-This page documents the contract. For the built-in strategies that implement it, see [Quasi-Horizontal](../quasi-horizontal.md) and [Work-Stealing](../work-stealing.md).
+This page documents the contract. For the built-in strategies that implement it, see [Quasi-Horizontal](../implementations/load-balancers/quasi-horizontal.md) and [Work-Stealing](../implementations/load-balancers/work-stealing.md).
 
 ## Contract
 

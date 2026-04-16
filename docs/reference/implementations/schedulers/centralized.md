@@ -4,11 +4,11 @@
 auto* s = gempba::mp::create_scheduler(gempba::mp::scheduler_topology::CENTRALIZED);
 ```
 
-Implements [`scheduler`](interfaces/scheduler.md). An actively routing multiprocessing scheduler. Uses OpenMPI as the IPC transport.
+Implements [`scheduler`](../../interfaces/scheduler.md). An actively routing multiprocessing scheduler. Uses OpenMPI as the IPC transport.
 
 The center (rank 0) is an active participant: workers send excess tasks to the center, and the center dispatches them to available workers. Every task handoff traverses the center twice — once inbound, once outbound. At small process counts this is negligible; at scale the center becomes a bottleneck.
 
-For the full protocol walkthrough and comparison with the semi-centralized topology, see [Scheduler Topologies](scheduler-topologies.md).
+For the full protocol walkthrough and comparison with the semi-centralized topology, see [Scheduler Topologies](../../../scheduler-topologies.md).
 
 ## Center responsibilities
 

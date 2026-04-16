@@ -50,4 +50,4 @@ gempba::node copy = left;  // cheap copy, same shared_ptr underneath
 if (left == right) { /* same underlying node_core */ }
 ```
 
-`node` satisfies `node_traits<node>`, which is the contract that load balancers and the scheduler depend on. See [`node_traits.hpp`](node-traits.md) for the full interface.
+`node` satisfies `node_traits<node>`, which is the contract that load balancers and the scheduler depend on. See [`node_traits`](../interfaces/node-traits.md) for the full interface.
