@@ -1,4 +1,4 @@
-# `gempba.hpp`
+# `gempba`
 
 ```cpp
 #include <gempba/gempba.hpp>

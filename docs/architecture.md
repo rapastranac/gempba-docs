@@ -6,4 +6,4 @@ The pluggable architecture is the core innovation of this release. Every major c
 
 What this means in practice for a user: you include one header, call a handful of factory functions, and wrap your recursive branches in nodes. The template machinery (function signature matching, IPC serialization, thread pool management) lives in `detail/` and stays there. You write zero templates. The load balancer does not know your function signatures. The scheduler does not know your argument types. Everything is decoupled through interfaces, which is exactly why it can be this clean from the outside.
 
-The [API Reference](api-reference/index.md) section documents each public header and what it does.
+The [API Reference](reference/index.md) section documents each public header and what it does.

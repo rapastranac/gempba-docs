@@ -1,4 +1,4 @@
-# `serial_runnable.hpp`
+# `serial_runnable`
 
 ```cpp
 #include <gempba/core/serial_runnable.hpp>  // included automatically via gempba.hpp

@@ -1,4 +1,4 @@
-# `node_manager.hpp`
+# `node_manager`
 
 `node_manager` is a concrete class. It is intentionally not extensible: every user of GemPBA interacts with the same control interface, and there is no reason for different implementations. You get it from `gempba::get_node_manager()` or from the factory function.
 

@@ -8,9 +8,17 @@ theme:
   features:
     - navigation.tabs
     - navigation.sections
+    - navigation.indexes
     - navigation.top
     - search.suggest
     - content.code.copy
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 nav:
   - Home: index.md
@@ -20,17 +28,47 @@ nav:
       - Requirements: getting-started/requirements.md
       - Installation: getting-started/installation.md
       - Building: getting-started/building.md
-  - Quick Start: quick-start.md
-  - Architecture: architecture.md
-  - API Reference:
-      - Overview: api-reference/index.md
-      - gempba.hpp: api-reference/gempba-hpp.md
-      - node_manager.hpp: api-reference/node-manager.md
-      - node.hpp: api-reference/node.md
-      - node_core.hpp: api-reference/node-core.md
-      - node_traits.hpp: api-reference/node-traits.md
-      - serial_runnable.hpp: api-reference/serial-runnable.md
-      - Load Balancing: api-reference/load-balancing.md
-  - Examples: examples.md
-  - Scheduler Topologies: scheduler-topologies.md
+      - Quick Start: quick-start.md
+  - Reference:
+      - Architecture: architecture.md
+      - API Reference:
+          - Overview: reference/index.md
+          - Defaults:
+            - gempba: reference/defaults/gempba-hpp.md
+            - node_manager: reference/defaults/node-manager.md
+            - node: reference/defaults/node.md
+          - Interfaces:
+              - Overview: reference/interfaces/interfaces.md
+              - node_core: reference/interfaces/node-core.md
+              - node_traits: reference/interfaces/node-traits.md
+              - load_balancer: reference/interfaces/load-balancer.md
+              - scheduler: reference/interfaces/scheduler.md
+              - serial_runnable: reference/interfaces/serial-runnable.md
+              - stats: reference/interfaces/stats.md
+              - stats_visitor: reference/interfaces/stats-visitor.md
+          - Implementations:
+              - Overview: reference/implementations/implementations.md
+              - Load Balancers:
+                - Quasi-Horizontal: reference/implementations/load-balancers/quasi-horizontal.md
+                - Work-Stealing: reference/implementations/load-balancers/work-stealing.md
+              - Schedulers:
+                - MPI Semi-Centralized: reference/implementations/schedulers/semi-centralized.md
+                - MPI Centralized: reference/implementations/schedulers/centralized.md
+              - Stats:
+                  - Default MPI: reference/implementations/stats/default-mpi-stats.md
+              - Stats Visitors:
+                  - Default MPI: reference/implementations/stats-visitors/default-mpi-stats-visitor.md
+          - IPC Topologies:
+              - Scheduler: scheduler-topologies.md
+          - Utilities:
+              - Utilities: reference/utilities/utilities.md
+              - task_packet: reference/utilities/task-packet.md
+              - task_bundle: reference/utilities/task-bundle.md
+              - score: reference/utilities/score.md
+              - result: reference/utilities/result.md
+              - transmission_guard: reference/utilities/transmission-guard.md
+              - tree: reference/utilities/tree.md
+              - Queue: reference/utilities/queue.md
+      - Examples: examples.md
+  - Releases: releases.md
   - Citing: citing.md
