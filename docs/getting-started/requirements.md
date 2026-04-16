@@ -14,5 +14,3 @@ GemPBA uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for some of its 
     - Ubuntu: `apt-get install libspdlog-dev`
     - MSYS2: `pacman -S mingw-w64-x86_64-spdlog`
 - **BS_thread_pool** is fetched automatically by CPM — no action needed.
-
-When building examples or tests, CPM also fetches Boost and GoogleTest automatically. No `apt install libboost-all-dev` hunting required.
