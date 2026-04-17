@@ -2,6 +2,8 @@
 
 ## Ubuntu (APT)
 
+The two `curl` and `echo` lines register the GemPBA APT repository and its GPG signing key so that `apt-get` can find and verify the package. This only needs to be done once per machine.
+
 ```bash
 curl -fsSL https://rapastranac.github.io/gempba/pubkey.gpg \
   | sudo gpg --dearmor -o /etc/apt/keyrings/gempba.gpg
@@ -11,6 +13,38 @@ sudo apt-get update
 sudo apt-get install libgempba-dev
 ```
 
+If you already have the repository registered and just want to pick up a new release:
+
+```bash
+sudo apt-get update && sudo apt-get upgrade libgempba-dev
+```
+
+Alternatively, download the `.deb` directly from the [Releases page](https://github.com/rapastranac/gempba/releases) and install it manually:
+
+```bash
+sudo dpkg -i libgempba-dev_<version>_amd64.deb
+```
+
+### Verify the installation
+
+```bash
+dpkg -s libgempba-dev | grep -E "Status|Version"
+```
+
+### Uninstall
+
+```bash
+sudo apt-get remove libgempba-dev
+```
+
+Use `purge` instead of `remove` if you also want to clear any leftover configuration files:
+
+```bash
+sudo apt-get purge libgempba-dev
+```
+
+---
+
 ## Windows (MSYS2 / MinGW64)
 
 Download the latest `.pkg.tar.zst` from the [Releases page](https://github.com/rapastranac/gempba/releases), then:
@@ -18,6 +52,22 @@ Download the latest `.pkg.tar.zst` from the [Releases page](https://github.com/r
 ```bash
 pacman -U mingw-w64-x86_64-gempba-<version>-1-x86_64.pkg.tar.zst
 ```
+
+If you installed from a local package and want to upgrade to a newer release, download the new package and run the same command again.
+
+### Verify the installation
+
+```bash
+pacman -Qi mingw-w64-x86_64-gempba
+```
+
+### Uninstall
+
+```bash
+pacman -R mingw-w64-x86_64-gempba
+```
+
+---
 
 ## Using in your CMake project (find_package)
 
