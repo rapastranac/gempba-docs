@@ -1,0 +1,119 @@
+/* ── Class index table ─────────────────────────────────────────── */
+
+.class-index {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.6rem 0;
+  font-size: var(--md-typeset-font-size);
+  line-height: 1.4;
+}
+
+.class-index thead th {
+  text-align: left;
+  padding: 0.3rem 0.6rem;
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  font-size: 0.7em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.class-index td {
+  padding: 0.2rem 0.6rem;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  vertical-align: middle;
+}
+
+.class-index td:first-child {
+  white-space: nowrap;
+  width: 28%;
+}
+
+.class-index td:last-child {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.85em;
+}
+
+.class-index tbody tr:hover td {
+  background-color: var(--md-code-bg-color);
+}
+
+/* Category separator rows */
+.class-index tr.category td {
+  padding: 0.5rem 0.6rem 0.15rem;
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  background: none;
+}
+
+.class-index tbody tr.category:hover td {
+  background: none;
+}
+
+/* Nested class indent */
+.class-index tr.nested td:first-child {
+  padding-left: 1.8rem;
+}
+
+.class-index tr.nested td:first-child::before {
+  content: "↳ ";
+  color: var(--md-default-fg-color--lighter);
+}
+
+/* ── File tree ─────────────────────────────────────────────────── */
+
+.file-tree {
+  font-family: var(--md-code-font-family);
+  font-size: 0.82em;
+  line-height: 1.75;
+  margin: 0.6rem 0;
+  padding: 0.8rem 1rem;
+  background: var(--md-code-bg-color);
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.file-tree div {
+  white-space: nowrap;
+}
+
+.file-tree .file-desc {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.9em;
+}
+
+.file-tree .tc {
+  color: var(--md-default-fg-color--lighter);
+  user-select: none;
+}
+
+.file-tree .dn {
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+}
+
+.file-tree .d1 { padding-left: 1.4rem; }
+.file-tree .d2 { padding-left: 2.8rem; }
+.file-tree .d3 { padding-left: 4.2rem; }
+.file-tree .d4 { padding-left: 5.6rem; }
+
+/* ── Abstract badge */
+.abstract-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.04em 0.35em;
+  font-size: 0.65em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  color: var(--md-primary-fg-color);
+  border: 1px solid var(--md-primary-fg-color);
+  vertical-align: middle;
+  opacity: 0.7;
+}
