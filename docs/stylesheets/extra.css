@@ -117,3 +117,10 @@
   vertical-align: middle;
   opacity: 0.7;
 }
+
+
+:root {
+  --md-primary-fg-color:        #119cae;
+  --md-primary-fg-color--light: #17b5ca;
+  --md-primary-fg-color--dark:  #0d7888;
+}

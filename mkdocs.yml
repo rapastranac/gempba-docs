@@ -11,6 +11,8 @@ theme:
   name: material
   logo: assets/logo.svg
   favicon: assets/logo.svg
+  palette:
+    primary: custom
   features:
     - navigation.tabs
     - navigation.sections
