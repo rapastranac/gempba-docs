@@ -8,19 +8,51 @@
 
 You do not construct `task_bundle` directly in normal use. Node factory functions and the scheduler produce and consume them internally.
 
-## Construction
+---
+
+## Constructor
 
 ```cpp
 explicit task_bundle(task_packet data, int runnable_id) noexcept;
 ```
 
+Takes ownership of a serialized argument buffer and associates it with the ID of the runnable that should receive it on the remote end.
+
+---
+
 ## Accessors
 
 ```cpp
-[[nodiscard]] task_packet get_task_packet()  const noexcept;
-[[nodiscard]] int         get_runnable_id()  const noexcept;
-[[nodiscard]] bool        empty()            const noexcept;
-[[nodiscard]] std::size_t size()             const noexcept;  // delegates to task_packet::size()
+[[nodiscard]] task_packet get_task_packet() const noexcept;
 ```
 
-`==` and `!=` compare both `runnable_id` and `task_packet`.
+Returns the serialized argument buffer.
+
+```cpp
+[[nodiscard]] int get_runnable_id() const noexcept;
+```
+
+Returns the ID of the target [`serial_runnable`](../interfaces/serial-runnable.md).
+
+```cpp
+[[nodiscard]] bool empty() const noexcept;
+```
+
+Returns `true` if the contained `task_packet` is empty.
+
+```cpp
+[[nodiscard]] std::size_t size() const noexcept;
+```
+
+Number of bytes in the contained `task_packet`. Delegates to `task_packet::size()`.
+
+---
+
+## Comparison
+
+```cpp
+bool operator==(const task_bundle&) const;
+bool operator!=(const task_bundle&) const;
+```
+
+Compare both `runnable_id` and `task_packet`.

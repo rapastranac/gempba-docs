@@ -34,5 +34,11 @@ For the full performance analysis and formal description, see:
 | C++ compiler | C++23 | GCC 13+, Clang 17+, MSVC 19.38+ |
 | CMake | ≥ 3.28 | |
 | OpenMPI | ≥ 4.0 | Only for multiprocessing support |
+| spdlog | any recent | |
+| fmt | any recent | |
 | Boost | any recent | Optional — examples and tests only |
 | GoogleTest | any recent | Optional — running tests only |
+
+
+
+<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="andrespa" data-description="Support me on Buy me a coffee!" data-message="Thanks for reading. Now let's go for a coffee!" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>

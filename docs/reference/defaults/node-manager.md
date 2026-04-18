@@ -4,50 +4,64 @@
 
 Think of it as your algorithm's control panel: configure the goal, submit work, wait for completion, and collect the result.
 
+---
+
 ## Setup
 
-Call these before submitting any work:
+```cpp
+nm.set_goal(gempba::goal::MAXIMISE, gempba::score_type::I32);
+nm.set_goal(gempba::goal::MINIMISE, gempba::score_type::F64);
+```
+
+Set the optimization direction and the numeric type used to represent scores. Call before submitting any work. Available score types:
 
 ```cpp
-// Set the optimization direction and score representation type
-nm.set_goal(gempba::goal::MAXIMISE, gempba::score_type::I32);
-// or
-nm.set_goal(gempba::goal::MINIMISE, gempba::score_type::F64);
+enum class score_type : std::uint8_t {
+    I32, U_I32, I64, U_I64, F32, F64, F128
+};
+```
 
-// Set the initial best-known score (your algorithm improves from here)
+`I32` is the default. The score represents whatever "best" means for your problem: minimum cost, maximum coverage, shortest path length. You define the semantics. `F128` maps to `long double`.
+
+```cpp
 nm.set_score(gempba::score::make(0));
+```
 
-// Set the number of worker threads
+Set the initial best-known score. Your algorithm improves from this value.
+
+```cpp
 nm.set_thread_pool_size(std::thread::hardware_concurrency());
 ```
 
-Available score types:
+Set the number of worker threads.
 
-| Type | Use when |
-|---|---|
-| `I32` (default) | Integer scores, 32-bit range |
-| `I64` | Integer scores, 64-bit range |
-| `U_I32`, `U_I64` | Unsigned integer scores |
-| `F32`, `F64`, `F128` | Floating point scores |
-
-The score represents whatever "best" means for your problem: minimum cost, maximum coverage, shortest path length, fewest moves. You define the semantics.
+---
 
 ## Submitting work
 
 ```cpp
-// Push a node to the thread pool queue
-// Returns false if no thread picked it up (it was resolved sequentially)
 bool queued = nm.try_local_submit(node);
+```
 
-// Execute the node on the current thread immediately
+Push a node to the thread pool queue. Returns `false` if no idle thread picked it up and the node was resolved sequentially instead.
+
+```cpp
 nm.forward(node);
+```
 
-// (Multiprocessing) Send a node to another MPI rank
+Execute the node on the current thread immediately. Even though this is a sequential call, wrapping the arguments in a node is not just boilerplate: the node stays registered in the exploration tree. If the library identifies an unresolved branch near the root of the current thread's subtree — one that was also handed to `forward` — it can push that root-level node to an idle thread before the current thread gets back to it. By the time the current thread reaches that node, it is already flagged as consumed or discarded, and the entire branch is skipped. This is the mechanism that keeps threads from redundantly exploring subtrees that another thread has already claimed, and it is central to the quasi-horizontal load balancing strategy described in the paper and thesis.
+
+```cpp
 nm.try_remote_submit(node, runnable_id);
+```
 
-// Block until all work is complete
+Send a node to another IPC rank. Multiprocessing only.
+
+```cpp
 nm.wait();
 ```
+
+Block until all work is complete. Mainly to be used in the main thread after submitting the initial node(s). Worker threads should not call this, as they are expected to keep processing work until the entire tree is done.
 
 The typical pattern inside a recursive function:
 
@@ -56,54 +70,80 @@ void my_func(std::thread::id tid, /* your args */, gempba::node parent) {
     // ... create left and right nodes ...
 
     nm.try_local_submit(left);  // offer to the thread pool
-    nm.forward(right);           // run this one on the current thread
+    nm.forward(right);          // run this one on the current thread
 }
 ```
 
 `try_local_submit` either sends `left` to an idle thread or runs it locally if no thread is free. `forward` always runs on the current thread. The load balancer makes the actual scheduling decision.
 
+---
+
 ## Updating results
 
-When your algorithm finds a candidate solution, report it:
-
 ```cpp
-// Pass the result by reference (not a literal) and its score
-MyResult candidate = compute_candidate();
 bool improved = nm.try_update_result(candidate, gempba::score::make(42));
 ```
 
-`try_update_result` is thread-safe. It locks internally, compares the new score against the current best, and updates only if the new one is better according to the goal you set. Returns `true` if the update actually happened.
+Report a candidate solution found by your algorithm. Thread-safe. Compares the new score against the current best and updates only if the new one is better according to the goal you set. Returns `true` if the update happened.
 
-In multiprocessing mode, you also need a serializer so the result can be transmitted across process boundaries:
+```cpp
+nm.try_update_result(candidate, new_score, serializer);
+```
+
+Multiprocessing variant. Requires a serializer so the result can be transmitted across process boundaries:
 
 ```cpp
 std::function<task_packet(MyResult&)> serializer = [](MyResult& r) {
     return task_packet{/* r serialized */};
 };
-
-nm.try_update_result(candidate, new_score, serializer);
 ```
+
+---
 
 ## Reading results
 
 ```cpp
-// Best score seen so far (works in both mt and mp modes)
 gempba::score best = nm.get_score();
+```
 
-// Multithreading: retrieve the actual result object
-auto opt = nm.get_result<MyResult>();      // returns std::nullopt if not set
+Best score seen so far. Works in both multithreaded and multiprocessing modes.
 
-// Multiprocessing: retrieve result as raw bytes for deserialization
+```cpp
+auto opt = nm.get_result<MyResult>();
+```
+
+Retrieve the actual result object. Returns `std::nullopt` if no result has been set. Multithreading only.
+
+```cpp
 std::optional<result> raw = nm.get_result_bytes();
 ```
+
+Retrieve the result as raw bytes for deserialization. Multiprocessing only.
+
+---
 
 ## Diagnostics
 
 ```cpp
-double idle    = nm.get_idle_time();              // cumulative thread idle time (ms)
-size_t reqs    = nm.get_thread_request_count();   // number of times threads requested work
-int    rank    = nm.rank_me();                    // MPI rank (-1 if not in mp mode)
-double elapsed = node_manager::get_wall_time();   // wall clock time
+double idle = nm.get_idle_time();
 ```
 
-The idle time metric is useful for performance tuning. High idle time usually means the tree is too narrow at the top (not enough parallel work early on) or the branching factor drops off faster than threads can grab tasks.
+Cumulative time in milliseconds that threads spent idle waiting for work. High idle time usually means the tree is too narrow at the top, leaving threads with nothing to grab early on.
+
+```cpp
+std::size_t reqs = nm.get_thread_request_count();
+```
+
+Number of times threads requested work from the load balancer.
+
+```cpp
+int rank = nm.rank_me();
+```
+
+IPC rank of this process. Returns `-1` if not in multiprocessing mode.
+
+```cpp
+double elapsed = node_manager::get_wall_time();
+```
+
+Wall-clock time in milliseconds. Static method.

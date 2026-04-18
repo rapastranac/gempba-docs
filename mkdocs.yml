@@ -2,9 +2,17 @@ site_name: GemPBA
 site_url: https://rapastranac.github.io/gempba-docs/
 repo_url: https://github.com/rapastranac/gempba
 repo_name: rapastranac/gempba
+copyright: Copyright &copy; 2021&ndash;2026 <a href="https://andrespastrana.com/" target="_blank" rel="noopener">Andres Pastrana</a>
+
+extra_css:
+  - stylesheets/extra.css
 
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  palette:
+    primary: custom
   features:
     - navigation.tabs
     - navigation.sections
@@ -14,6 +22,7 @@ theme:
     - content.code.copy
 
 markdown_extensions:
+  - attr_list
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -33,6 +42,8 @@ nav:
       - Architecture: architecture.md
       - API Reference:
           - Overview: reference/index.md
+          - Class Index: reference/class-index.md
+          - File Index: reference/file-index.md
           - Defaults:
             - gempba: reference/defaults/gempba-hpp.md
             - node_manager: reference/defaults/node-manager.md
@@ -70,5 +81,8 @@ nav:
               - tree: reference/utilities/tree.md
               - Queue: reference/utilities/queue.md
       - Examples: examples.md
+  - Development:
+      - Contributing: contributing.md
   - Releases: releases.md
   - Citing: citing.md
+  - Sponsor: sponsor/index.md

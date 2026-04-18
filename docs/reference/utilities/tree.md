@@ -6,48 +6,126 @@
 
 `tree` is an index-based tree data structure. Nodes are stored in a flat `std::vector` and identified by integer index. Each node tracks its parent, left and right siblings, and an ordered child list, all via raw pointers into the same vector.
 
-Used internally by the semi-centralized scheduler to represent the process assignment topology built during the startup phase (`buildWaitingList`). Not intended for direct use in user code.
+Used internally by the semi-centralized scheduler to represent the process assignment topology built during the startup phase. Not intended for direct use in user code.
 
 Non-copyable. Movable.
 
-## Construction
+---
+
+## Constructors
 
 ```cpp
-explicit tree(std::size_t size);  // pre-allocate size nodes, indexed 0 … size-1
-tree();                           // empty; use resize() before accessing nodes
-void resize(std::size_t size);    // append size additional nodes
+explicit tree(std::size_t size);
 ```
 
-## Node access
+Pre-allocate `size` nodes, indexed `0 … size-1`.
+
+```cpp
+tree();
+```
+
+Construct an empty tree. Call `resize()` before accessing nodes.
+
+```cpp
+void resize(std::size_t size);
+```
+
+Append `size` additional nodes to the existing tree.
+
+---
+
+## Tree access
 
 ```cpp
 tree_node& operator[](int index);
+```
+
+Returns a reference to the node at `index`.
+
+```cpp
 std::size_t size() const;
 ```
 
-`tree_node` exposes:
+Returns the total number of nodes in the tree.
+
+---
+
+## `tree_node`
+
+Each node exposes the following interface.
+
+### Mutation
 
 ```cpp
-void add_next(int child_index);    // append a child
-void pop_front();                  // remove and unlink the first child
-void release();                    // detach this node from its parent
-void clear();                      // remove all children
-
-bool is_assigned() const;          // true if this node has a parent
-bool has_next() const;             // true if this node has at least one child
-int  get_next() const;             // index of first child, or -1
-int  get_parent() const;           // index of parent, or -1
-int  size() const;                 // number of direct children
+void add_next(int child_index);
 ```
 
-Iteration over a node's children:
+Append a child node by index.
+
+```cpp
+void pop_front();
+```
+
+Remove and unlink the first child.
+
+```cpp
+void release();
+```
+
+Detach this node from its parent.
+
+```cpp
+void clear();
+```
+
+Remove all children from this node.
+
+### Query
+
+```cpp
+bool is_assigned() const;
+```
+
+Returns `true` if this node has a parent.
+
+```cpp
+bool has_next() const;
+```
+
+Returns `true` if this node has at least one child.
+
+```cpp
+int get_next() const;
+```
+
+Returns the index of the first child, or `-1` if there are none.
+
+```cpp
+int get_parent() const;
+```
+
+Returns the index of the parent node, or `-1` if this is a root node.
+
+```cpp
+int size() const;
+```
+
+Returns the number of direct children.
+
+### Iteration
 
 ```cpp
 for (int child_idx : tree[node_idx]) { /* ... */ }
 ```
 
+Range-for over a node's direct children by index.
+
+---
+
 ## Diagnostics
 
 ```cpp
-std::string to_string() const;  // indented text representation of the full tree
+std::string to_string() const;
 ```
+
+Returns an indented text representation of the full tree. Useful for debugging topology issues.

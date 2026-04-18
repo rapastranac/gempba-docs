@@ -4,7 +4,9 @@
 auto* lb = gempba::mt::create_load_balancer(gempba::balancing_policy::QUASI_HORIZONTAL);
 ```
 
-Implements [`load_balancer`](../../interfaces/load-balancer.md). The primary scheduling strategy of GemPBA and the main algorithmic contribution of the original research. Designed for branching algorithms where subtree sizes are unknown and highly unbalanced — which is the common case.
+Implements [`load_balancer`](../../interfaces/load-balancer.md). The primary scheduling strategy of GemPBA and the main algorithmic contribution of the original research. Designed for branching algorithms where subtree sizes are unknown and highly unbalanced, which is the common case.
+
+---
 
 ## The problem it solves
 
@@ -13,6 +15,7 @@ In a branch-and-bound search the recursion tree is highly unbalanced: one subtre
 Quasi-horizontal avoids this by distributing work **near the root first**. Nodes close to the root are parents of the largest subtrees. Handing them to idle threads early gives each thread roughly equal downstream work.
 
 ```mermaid
+%%{init: {'theme': 'base'}}%%
 flowchart TD
     R(("Root")):::root
 
@@ -38,15 +41,17 @@ flowchart TD
     D --> d1(" "):::sub
     D --> d2(" "):::sub
 
-    classDef root fill:#37474f,color:#fff,stroke:none
-    classDef t1   fill:#7b1fa2,color:#fff,stroke:none
-    classDef t2   fill:#1565c0,color:#fff,stroke:none
-    classDef t3   fill:#2e7d32,color:#fff,stroke:none
-    classDef t4   fill:#e65100,color:#fff,stroke:none
-    classDef sub  fill:#eceff1,color:#546e7a,stroke:#b0bec5
+    classDef root fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef t1   fill:#7b1fa2,color:#fff,stroke:#000000
+    classDef t2   fill:#1565c0,color:#fff,stroke:#000000
+    classDef t3   fill:#2e7d32,color:#fff,stroke:#000000
+    classDef t4   fill:#e65100,color:#fff,stroke:#000000
+    classDef sub  fill:#eceff1,color:#546e7a,stroke:#000000
 ```
 
 Each thread receives a root-level child — one step below the tree root. Because these nodes are as high as possible, each thread inherits the largest possible share of remaining work.
+
+---
 
 ## Per-thread root pointer
 
@@ -55,6 +60,7 @@ Each worker thread maintains a **root pointer**: a reference to the highest node
 As branches get resolved or pruned, the root pointer **descends**: if the current root has only one remaining child, there is no parallelism left at that level, so the pointer advances to that child. This continues until a real branching point (two or more pending children) or a leaf is reached. This is the **root correction** step.
 
 ```mermaid
+%%{init: {'theme': 'base'}}%%
 flowchart LR
     subgraph s1["Before: branch A resolved"]
         direction TB
@@ -70,7 +76,7 @@ flowchart LR
 
     subgraph s2["After correction"]
         direction TB
-        R2(("root\npointer")):::newroot
+        R2(("root\npointer (B)")):::newroot
         R2 --> Ba(" "):::active
         R2 --> Bb(" "):::active
         Ba --> Ba1(" "):::sub2
@@ -80,22 +86,24 @@ flowchart LR
 
     s1 -- "root descends\npast single-child nodes" --> s2
 
-    classDef oldroot fill:#37474f,color:#fff,stroke:none
-    classDef newroot fill:#1565c0,color:#fff,stroke:none
-    classDef done    fill:#bdbdbd,color:#9e9e9e,stroke:none
-    classDef active1 fill:#2e7d32,color:#fff,stroke:none
-    classDef active  fill:#2e7d32,color:#fff,stroke:none
-    classDef sub1    fill:#eceff1,color:#546e7a,stroke:#b0bec5
-    classDef sub2    fill:#eceff1,color:#546e7a,stroke:#b0bec5
+    classDef oldroot fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef newroot fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef done    fill:#bdbdbd,color:#9e9e9e,stroke:#000000
+    classDef active1 fill:#2e7d32,color:#fff,stroke:#000000
+    classDef active  fill:#2e7d32,color:#fff,stroke:#000000
+    classDef sub1    fill:#eceff1,color:#546e7a,stroke:#000000
+    classDef sub2    fill:#eceff1,color:#546e7a,stroke:#000000
 ```
 
 Once A is resolved, keeping the root pointer at the original root adds traversal overhead on every future submission. Correction moves it down to B so the thread stays focused on live work only.
+
+---
 
 ## Submission algorithm
 
 When `try_local_submit` is called, the strategy:
 
-1. **Pushes root-level siblings first.** If the submitting node has pending siblings at the current root level, it pushes *those* to idle threads before the current node. This is the horizontal spreading step.
+1. **Pushes root-level siblings first.** If the submitting node has pending siblings at the current root level, it pushes those to idle threads before the current node. This is the horizontal spreading step.
 2. **Prunes the current node** once no more root-level siblings remain.
 3. **Delegates to a thread** if `should_branch()` is true, otherwise marks the node `DISCARDED`.
 4. **Corrects the root pointer** — descends past any single-child nodes just resolved.
@@ -108,6 +116,8 @@ p_root.get_children_count()         // branches remaining at root level
 p_root.get_second_leftmost_child()  // next sibling to push
 p_node.get_leftmost_child()         // descend during root correction
 ```
+
+---
 
 ## When to use
 

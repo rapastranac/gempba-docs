@@ -6,73 +6,118 @@
 
 This is the only header you need. It is the facade for the entire library. It exposes the global accessors, all factory functions, and the two namespaces you will use: `gempba::mt` for multithreading and `gempba::mp` for multiprocessing.
 
+---
+
 ## Global accessors
 
-These are how you reach the shared components from inside your algorithm, after they have been created in `main()`:
+These are how you reach the shared components from inside your algorithm, after they have been created in `main()`.
 
 ```cpp
 load_balancer* lb = gempba::get_load_balancer();
-node_manager&  nm = gempba::get_node_manager();
-scheduler*      s = gempba::get_scheduler();   // multiprocessing only
 ```
+
+Returns a pointer to the active load balancer.
+
+```cpp
+node_manager& nm = gempba::get_node_manager();
+```
+
+Returns a reference to the node manager.
+
+```cpp
+scheduler* s = gempba::get_scheduler();
+```
+
+Returns a pointer to the active scheduler. Multiprocessing only.
+
+---
 
 ## Seed creation
 
-The seed node is the root of your search tree. It has no parent, so it is created outside the recursive function:
+```cpp
+auto seed = gempba::create_seed_node<void>(*lb, &my_func, std::make_tuple(initial_args...));
+```
+
+Creates the root of your search tree for a void function. Has no parent node.
 
 ```cpp
-// void function
-auto seed = gempba::create_seed_node<void>(*lb, &my_func, std::make_tuple(initial_args...));
-
-// non-void function
 auto seed = gempba::create_seed_node<MyReturnType>(*lb, &my_func, std::make_tuple(initial_args...));
 ```
+
+Same for a non-void function.
+
+---
 
 ## Multithreading: `gempba::mt`
 
 ```cpp
-// Built-in policy
 auto* lb = gempba::mt::create_load_balancer(gempba::balancing_policy::QUASI_HORIZONTAL);
+```
 
-// Or bring your own
+Create a load balancer using a built-in balancing policy.
+
+```cpp
 auto* lb = gempba::mt::create_load_balancer(std::make_unique<MyLoadBalancer>());
+```
 
-// One node manager per process
+Create a load balancer with a custom implementation.
+
+```cpp
 auto& nm = gempba::mt::create_node_manager(lb);
+```
 
-// Inside your recursive function: create a node for each branch
+Create the node manager. One per process.
+
+```cpp
 auto child = gempba::mt::create_explicit_node<void>(
     lb, parent, &my_func, std::make_tuple(args...)
 );
+```
 
-// Lazy variant: args are computed on demand, which is useful when preparing them
-// is expensive and the branch might be pruned before it ever executes
+Create a child node inside your recursive function. Arguments are captured eagerly.
+
+```cpp
 auto child = gempba::mt::create_lazy_node<void>(
     lb, parent, &my_func, args_initializer_fn
 );
 ```
 
+Lazy variant. Arguments are computed on demand, which is useful when preparing them is expensive and the branch might be pruned before it ever executes.
+
+---
+
 ## Multiprocessing: `gempba::mp`
 
-Each process runs the setup code and branches on its role (center or worker):
+Each process runs the setup code and branches on its role (center or worker).
 
 ```cpp
-// Built-in scheduler topology
 auto* s = gempba::mp::create_scheduler(gempba::mp::scheduler_topology::SEMI_CENTRALIZED);
+```
 
-// Or bring your own
+Create a scheduler using a built-in topology.
+
+```cpp
 auto* s = gempba::mp::create_scheduler(std::make_unique<MyScheduler>());
+```
 
-// Load balancer that knows about the scheduler
+Create a scheduler with a custom implementation.
+
+```cpp
 auto* lb = gempba::mp::create_load_balancer(
     gempba::balancing_policy::QUASI_HORIZONTAL,
     &s->worker_view()
 );
+```
 
-// Node manager for workers
+Create a load balancer that is aware of the scheduler's worker interface.
+
+```cpp
 auto& nm = gempba::mp::create_node_manager(lb, &s->worker_view());
+```
 
-// Nodes need serializers because arguments cross process boundaries as bytes
+Create the node manager for worker processes.
+
+```cpp
 auto child = gempba::mp::create_explicit_node<void>(
     lb, parent, &my_func,
     std::make_tuple(args...),
@@ -81,10 +126,14 @@ auto child = gempba::mp::create_explicit_node<void>(
 );
 ```
 
+Create a child node with serializers. Required in multiprocessing mode because arguments cross process boundaries as bytes.
+
+---
+
 ## Shutdown
 
 ```cpp
 return gempba::shutdown();
 ```
 
-Call at the end of `main()`. It finalizes the IPC backend (MPI by default) when multiprocessing is enabled and returns the correct exit code. Do not skip this if multiprocessing is on.
+Call at the end of `main()`. Finalizes the IPC backend (MPI by default) when multiprocessing is enabled and returns the correct exit code. Do not skip this if multiprocessing is on.

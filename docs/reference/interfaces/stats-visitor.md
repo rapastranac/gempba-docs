@@ -4,13 +4,18 @@
 #include <gempba/stats/stats_visitor.hpp>  // included automatically via gempba.hpp
 ```
 
-`stats_visitor` is the abstract interface for reading out metrics from a [`stats`](stats.md) object. It has a single pure virtual method:
+Abstract interface for reading out metrics from a [`stats`](stats.md) object. Decouples collection (what is measured) from presentation (how it is reported).
+
+---
+
+## Member functions
 
 ```cpp
-virtual void visit(const stats& stats) = 0;
+virtual void visit(const stats&) = 0;
 ```
+Called by `stats::visit(stats_visitor*)`. Map field names from the stats object to member variables or output targets of your choosing.
 
-The implementation calls `stats.visit(lambda)` internally and maps each field by key name to a member variable or output target of its choosing. This decouples collection (what is measured) from presentation (how it is reported).
+---
 
 ## Custom implementation
 
@@ -29,15 +34,9 @@ public:
         });
     }
 };
-```
 
-Pass a pointer to your visitor to `stats::visit(stats_visitor*)`:
-
-```cpp
 MyStatsVisitor v;
 stats_ptr->visit(&v);
-std::cout << "tasks received: " << v.task_count << "\n";
-std::cout << "idle time:      " << v.idle_ms << " ms\n";
 ```
 
-The key names available depend on the concrete `stats` implementation in use. For the built-in MPI stats, see the field list in [`default_mpi_stats_visitor`](../implementations/stats-visitors/default-mpi-stats-visitor.md).
+Available field names depend on the concrete `stats` implementation. For the built-in MPI stats, see [`default_mpi_stats_visitor`](../implementations/stats-visitors/default-mpi-stats-visitor.md).
