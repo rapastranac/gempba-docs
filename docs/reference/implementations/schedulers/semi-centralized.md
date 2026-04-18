@@ -10,6 +10,8 @@ The center (rank 0) maintains a lightweight state table — process statuses, pr
 
 For the full protocol walkthrough, message sequence diagrams, and comparison with the centralized topology, see [Scheduler Topologies](../../../scheduler-topologies.md).
 
+---
+
 ## Center responsibilities
 
 - Maintain the authoritative process status table (`AVAILABLE`, `RUNNING`, `ASSIGNED`)
@@ -19,12 +21,16 @@ For the full protocol walkthrough, message sequence diagrams, and comparison wit
 
 The center never holds a task queue. Its memory usage is independent of the number of pending tasks.
 
+---
+
 ## Worker responsibilities
 
 - Explore the search tree via the thread pool
 - Notify the center on state transitions (`started_running`, `available`)
 - Send the highest-priority pending task directly to the assigned waiting process
 - Update the local best value when the center broadcasts a new global best
+
+---
 
 ## When to use
 

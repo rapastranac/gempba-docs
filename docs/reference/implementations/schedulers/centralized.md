@@ -10,6 +10,8 @@ The center (rank 0) is an active participant: workers send excess tasks to the c
 
 For the full protocol walkthrough and comparison with the semi-centralized topology, see [Scheduler Topologies](../../../scheduler-topologies.md).
 
+---
+
 ## Center responsibilities
 
 - Maintain a bounded task queue
@@ -19,12 +21,16 @@ For the full protocol walkthrough and comparison with the semi-centralized topol
 
 The center's task queue has a configurable capacity limit. When it is full, workers are signaled to stop sending tasks. When it falls below threshold, workers resume.
 
+---
+
 ## Worker responsibilities
 
 - Explore the search tree via the thread pool
 - Send excess tasks to the center when it is not full
 - Accept tasks dispatched by the center
 - Update the local best value when the center broadcasts a new global best
+
+---
 
 ## When to use
 
