@@ -2,7 +2,7 @@ site_name: GemPBA
 site_url: https://rapastranac.github.io/gempba-docs/
 repo_url: https://github.com/rapastranac/gempba
 repo_name: rapastranac/gempba
-copyright: Copyright &copy; 2021&ndash;2026 Andres Pastrana
+copyright: Copyright &copy; 2021&ndash;2026 <a href="https://andrespastrana.com/" target="_blank" rel="noopener">Andres Pastrana</a>
 
 extra_css:
   - stylesheets/extra.css
