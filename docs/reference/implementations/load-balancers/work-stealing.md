@@ -68,11 +68,11 @@ flowchart TD
 **Blue (QH)** — root-level nodes pushed early; each carries a large subtree.  
 **Orange (WS)** — typical steal targets near the leaves; little remaining work.
 
-|                                     | Quasi-Horizontal | Work-Stealing                 |
-|-------------------------------------|------------------|-------------------------------|
-| Per-thread root tracking            | Yes              | No                            |
-| Root-level sibling spreading        | Yes              | No                            |
-| Root correction after pruning       | Yes              | No                            |
-| Overhead due to parallel requests   | Low              | Very high                     |
-| CPU utilization on unbalanced trees | High             | High                          |
-| Use case                            | Production       | Benchmarking baseline (naive) |
+|                                     | Quasi-Horizontal | Work-Stealing |
+|-------------------------------------|------------------|---------------|
+| Per-thread root tracking            | <span style="color:#388e3c">Yes</span> | <span style="color:#d32f2f">No</span> |
+| Root-level sibling spreading        | <span style="color:#388e3c">Yes</span> | <span style="color:#d32f2f">No</span> |
+| Root correction after pruning       | <span style="color:#388e3c">Yes</span> | <span style="color:#d32f2f">No</span> |
+| Overhead due to parallel requests   | <span style="color:#388e3c">Low</span> | <span style="color:#d32f2f">Very high</span> |
+| CPU utilization on unbalanced trees | <span style="color:#388e3c">High</span> | <span style="color:#f57c00">High (excessive tasks)</span> |
+| Use case                            | <span style="color:#388e3c">Production</span> | <span style="color:#f57c00">Benchmarking baseline (naive)</span> |
