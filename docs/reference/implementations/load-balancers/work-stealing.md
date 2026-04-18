@@ -57,12 +57,12 @@ flowchart TD
         QB1 --> QB3(" "):::nodqh
     end
 
-    classDef rootqh  fill:#37474f,color:#fff,stroke:none
-    classDef rootws  fill:#37474f,color:#fff,stroke:none
-    classDef pushed  fill:#1565c0,color:#fff,stroke:none
-    classDef stolen  fill:#e65100,color:#fff,stroke:none
-    classDef nodqh   fill:#eceff1,color:#546e7a,stroke:#b0bec5
-    classDef nodews  fill:#eceff1,color:#546e7a,stroke:#b0bec5
+    classDef rootqh  fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef rootws  fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef pushed  fill:#1565c0,color:#fff,stroke:#000000
+    classDef stolen  fill:#e65100,color:#fff,stroke:#000000
+    classDef nodqh   fill:#eceff1,color:#546e7a,stroke:#000000
+    classDef nodews  fill:#eceff1,color:#546e7a,stroke:#000000
 ```
 
 **Blue (QH)** — root-level nodes pushed early; each carries a large subtree.  

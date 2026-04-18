@@ -38,12 +38,12 @@ flowchart TD
     D --> d1(" "):::sub
     D --> d2(" "):::sub
 
-    classDef root fill:#37474f,color:#fff,stroke:none
-    classDef t1   fill:#7b1fa2,color:#fff,stroke:none
-    classDef t2   fill:#1565c0,color:#fff,stroke:none
-    classDef t3   fill:#2e7d32,color:#fff,stroke:none
-    classDef t4   fill:#e65100,color:#fff,stroke:none
-    classDef sub  fill:#eceff1,color:#546e7a,stroke:#b0bec5
+    classDef root fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef t1   fill:#7b1fa2,color:#fff,stroke:#000000
+    classDef t2   fill:#1565c0,color:#fff,stroke:#000000
+    classDef t3   fill:#2e7d32,color:#fff,stroke:#000000
+    classDef t4   fill:#e65100,color:#fff,stroke:#000000
+    classDef sub  fill:#eceff1,color:#546e7a,stroke:#000000
 ```
 
 Each thread receives a root-level child — one step below the tree root. Because these nodes are as high as possible, each thread inherits the largest possible share of remaining work.
@@ -70,7 +70,7 @@ flowchart LR
 
     subgraph s2["After correction"]
         direction TB
-        R2(("root\npointer")):::newroot
+        R2(("root\npointer (B)")):::newroot
         R2 --> Ba(" "):::active
         R2 --> Bb(" "):::active
         Ba --> Ba1(" "):::sub2
@@ -80,13 +80,13 @@ flowchart LR
 
     s1 -- "root descends\npast single-child nodes" --> s2
 
-    classDef oldroot fill:#37474f,color:#fff,stroke:none
-    classDef newroot fill:#1565c0,color:#fff,stroke:none
-    classDef done    fill:#bdbdbd,color:#9e9e9e,stroke:none
-    classDef active1 fill:#2e7d32,color:#fff,stroke:none
-    classDef active  fill:#2e7d32,color:#fff,stroke:none
-    classDef sub1    fill:#eceff1,color:#546e7a,stroke:#b0bec5
-    classDef sub2    fill:#eceff1,color:#546e7a,stroke:#b0bec5
+    classDef oldroot fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef newroot fill:#b0bec5,color:#37474f,stroke:#000000
+    classDef done    fill:#bdbdbd,color:#9e9e9e,stroke:#000000
+    classDef active1 fill:#2e7d32,color:#fff,stroke:#000000
+    classDef active  fill:#2e7d32,color:#fff,stroke:#000000
+    classDef sub1    fill:#eceff1,color:#546e7a,stroke:#000000
+    classDef sub2    fill:#eceff1,color:#546e7a,stroke:#000000
 ```
 
 Once A is resolved, keeping the root pointer at the original root adds traversal overhead on every future submission. Correction moves it down to B so the thread stays focused on live work only.
