@@ -10,12 +10,26 @@ Sourced from [CTPL](https://github.com/vit-vit/CTPL) by Vitaliy Vitsentiy (Apach
 
 Used internally by the thread pool. Not intended for direct use in user code.
 
+---
+
 ## Interface
 
 ```cpp
-bool push(const T& value);   // always succeeds; returns true
-bool pop(T& out);            // returns false if empty, otherwise pops front into out
-bool empty();                // returns true if the queue has no elements
+bool push(const T& value);
 ```
+
+Adds `value` to the back of the queue. Always succeeds; returns `true`.
+
+```cpp
+bool pop(T& out);
+```
+
+Removes the front element into `out`. Returns `false` if the queue is empty, leaving `out` unchanged.
+
+```cpp
+bool empty();
+```
+
+Returns `true` if the queue contains no elements.
 
 All three methods lock the internal mutex for their duration.

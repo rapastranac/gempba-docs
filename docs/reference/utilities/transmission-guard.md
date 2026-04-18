@@ -8,10 +8,14 @@
 
 Non-copyable. Movable.
 
+Used internally by the scheduler worker's communication thread. Not intended for direct use in user code.
+
+---
+
+## Constructor
+
 ```cpp
 explicit transmission_guard(std::unique_lock<std::mutex>&& lock);
 ```
 
-The lock is transferred into the guard on construction. When the guard goes out of scope — whether normally or by exception — the lock is released. This guarantees that the mutex protecting an outgoing transmission is always unlocked, even if the send throws.
-
-Used internally by the scheduler worker's communication thread. Not intended for direct use in user code.
+Takes ownership of `lock`. The mutex is released automatically when the guard is destroyed, whether by normal scope exit or exception. This guarantees that the mutex protecting an outgoing transmission is always unlocked, even if the send throws.

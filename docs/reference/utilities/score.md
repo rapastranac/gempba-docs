@@ -4,15 +4,17 @@
 #include <gempba/utils/score.hpp>  // included automatically via gempba.hpp
 ```
 
-`score` is a fixed-size, type-erased numeric value. It holds exactly one value of a supported numeric type in a 16-byte payload (plus a 1-byte type tag), making it trivially copyable and safe for IPC transmission without serialization overhead.
+`score` is a fixed-size, type-erased numeric value. It holds exactly one value of a supported numeric type in a 16-byte payload plus a 1-byte type tag, making it trivially copyable and safe for IPC transmission without serialization overhead.
 
 It is the currency of the optimization objective: every call to `nm.set_score()`, `nm.try_update_result()`, and `nm.get_score()` works in terms of `score`.
 
 ```cpp
-static_assert(sizeof(score) == 17);              // 1 byte tag + 16 byte payload
+static_assert(sizeof(score) == 17);               // 1 byte tag + 16 byte payload
 static_assert(std::is_trivially_copyable_v<score>);
 static_assert(std::is_standard_layout_v<score>);
 ```
+
+---
 
 ## `score_type`
 
@@ -24,6 +26,8 @@ enum class score_type : std::uint8_t {
 
 Identifies which numeric type a `score` holds. `F128` maps to `long double`.
 
+---
+
 ## Construction
 
 ```cpp
@@ -34,13 +38,15 @@ static constexpr score score::make(T value) noexcept;
 Factory for all supported types. The template parameter is deduced — pass the value directly:
 
 ```cpp
-auto s = gempba::score::make(42);        // score_type::I32
-auto s = gempba::score::make(42u);       // score_type::U_I32
-auto s = gempba::score::make(42LL);      // score_type::I64
-auto s = gempba::score::make(3.14f);     // score_type::F32
-auto s = gempba::score::make(3.14);      // score_type::F64
-auto s = gempba::score::make(3.14L);     // score_type::F128
+auto s = gempba::score::make(42);      // score_type::I32
+auto s = gempba::score::make(42u);     // score_type::U_I32
+auto s = gempba::score::make(42LL);    // score_type::I64
+auto s = gempba::score::make(3.14f);   // score_type::F32
+auto s = gempba::score::make(3.14);    // score_type::F64
+auto s = gempba::score::make(3.14L);   // score_type::F128
 ```
+
+---
 
 ## Accessors
 
@@ -63,7 +69,7 @@ template<typename T>
 [[nodiscard]] T get_loose() const noexcept;
 ```
 
-Returns the stored value converted to `T` regardless of the stored type. No exception; uses `static_cast`. Use when you need the value as a specific type for display or comparison and do not care about the original type.
+Returns the stored value converted to `T` regardless of the stored type, using `static_cast`. Use when you need the value as a specific type for display or comparison and do not care about the original type.
 
 ```cpp
 [[nodiscard]] std::string to_string() const noexcept;
@@ -71,11 +77,18 @@ Returns the stored value converted to `T` regardless of the stored type. No exce
 
 Formats the stored value as a string using full precision for floating-point types.
 
+---
+
 ## Comparison
 
-`score` supports full `<=>` ordering and `==`. Comparison is done by converting both operands to `long double`, so values of different types compare naturally:
+```cpp
+bool operator==(const score&) const;
+auto operator<=>(const score&) const;
+```
+
+Full ordering. Comparison is done by converting both operands to `long double`, so values of different types compare naturally:
 
 ```cpp
-gempba::score::make(10) < gempba::score::make(20.5)  // true
-gempba::score::make(3)  == gempba::score::make(3.0f) // true
+gempba::score::make(10) < gempba::score::make(20.5)   // true
+gempba::score::make(3)  == gempba::score::make(3.0f)  // true
 ```
