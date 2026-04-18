@@ -6,16 +6,47 @@
 
 The built-in [`stats`](../../interfaces/stats.md) implementation for the MPI schedulers. An instance is owned by each worker process during a run. After `synchronize_stats()`, the center collects one instance from every rank.
 
+---
+
 ## Fields
 
-| Field | Type | Description |
-|---|---|---|
-| `received_task_count` | `std::size_t` | Tasks received from other processes |
-| `sent_task_count` | `std::size_t` | Tasks sent to other processes |
-| `total_requested_tasks` | `std::size_t` | Total tasks requested from the load balancer |
-| `total_thread_requests` | `std::size_t` | Total times worker threads requested work |
-| `idle_time` | `double` | Cumulative wall-clock time (ms) threads spent idle |
-| `elapsed_time` | `double` | Total wall-clock time (ms) of the run |
+```cpp
+std::size_t received_task_count;
+```
+
+Tasks received from other processes during the run.
+
+```cpp
+std::size_t sent_task_count;
+```
+
+Tasks sent to other processes during the run.
+
+```cpp
+std::size_t total_requested_tasks;
+```
+
+Total tasks requested from the load balancer over the course of the run.
+
+```cpp
+std::size_t total_thread_requests;
+```
+
+Total number of times worker threads requested work from the load balancer.
+
+```cpp
+double idle_time;
+```
+
+Cumulative wall-clock time in milliseconds that threads spent idle waiting for work.
+
+```cpp
+double elapsed_time;
+```
+
+Total wall-clock time in milliseconds of the run.
+
+---
 
 ## Reading the stats
 
