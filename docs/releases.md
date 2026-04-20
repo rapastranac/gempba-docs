@@ -2,6 +2,38 @@
 
 ---
 
+## v3.1.0 <small>— April 19, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.0)</small>
+
+macOS support, lint enforcement, code coverage, packaging, and portability fixes.
+
+**Added**
+
+- macOS CI pipeline (macOS 26) with OpenMPI
+- Lint workflow: clang-format-21 check and clang-tidy-18 static analysis on every push and PR
+- `scripts/lint.sh` — local lint helper with `--format-only`, `--tidy-only`, `--fix`, and `--jobs` flags
+- Code coverage instrumentation and upload to Codecov
+- CMake install rules, pkg-config file, CPack DEB packaging, and a GPG-signed APT repository
+- MSYS2 PKGBUILD for Windows packaging
+- CI publish jobs for both Ubuntu (`.deb`) and Windows (`.pkg.tar.zst`) on version tags
+
+**Changed**
+
+- Windows CI runner upgraded from 2022 to 2025
+- `Queue` renamed to `queue` and wrapped in the `gempba` namespace
+- Bundled spdlog replaced with system-installed spdlog
+- CPM.cmake download hardened against silent corruption
+
+**Fixed**
+
+- Bug in `mpi_centralized_scheduler`
+- Portability: removed `<bits/stdc++.h>`, gated `<stacktrace>` on `__has_include`, fixed `score` type-dispatch across platforms, dropped `-fconcepts`, gated `-rdynamic` and `stdc++exp` for non-Linux targets
+
+**Removed**
+
+- Private `node_manager` method that always returned zero
+
+---
+
 ## v3.0.0 <small>— December 8, 2025 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.0.0)</small>
 
 Ground-up architectural rewrite. Single-header facade, template-free nodes, fully pluggable subsystems.
