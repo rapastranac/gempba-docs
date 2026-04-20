@@ -31,6 +31,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Background: background.md
   - Why GemPBA: why-gempba.md
   - Getting Started:
       - Overview: getting-started/index.md
