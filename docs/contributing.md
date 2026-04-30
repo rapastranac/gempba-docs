@@ -8,7 +8,8 @@ and what you actually observed, and a minimal reproducible example where possibl
 
 ## Submitting changes
 
-Fork the repository, create a branch, make your changes, and open a pull request against `main`.
+Pull the latest `main` before creating a branch. Fork the repository, create a branch, make your changes, and open a
+pull request against `main`.
 
 ### Branch naming
 
@@ -25,34 +26,73 @@ For example, an issue numbered 8 titled *"Reformat interface reference pages"* b
 8-reformat-interface-reference-pages
 ```
 
-If multiple iterations of work are needed on the same issue, append a short description of what that branch specifically
-addresses:
+If multiple iterations of work are needed on the same issue, append a double dash followed by a short description of
+what that iteration specifically addresses:
 
 ```
-8-reformat-interface-reference-pages-fix-anchors
+8-reformat-interface-reference-pages--fix-anchors
 ```
 
 Create the issue first if one does not exist, then open the branch with its number as the prefix.
 
 ### Commits
 
-Keep commits atomic and buildable; each one should leave the project in a working state. Reference the issue number at
-the start of the commit message:
+Keep commits atomic — one logical unit per commit, never bundling unrelated changes. Every commit must leave the project
+in a working state. Reference the issue number at the start of the commit message:
 
 ```
 #8 Reformat node_traits reference to table-driven style
 ```
 
+For multi-change commits, add a blank line after the title and describe each change as a bullet:
+
+```
+#8 Reformat node_traits reference to table-driven style
+
+- Replace prose description with a two-column table
+- Add anchor for each trait entry
+```
+
+Skip the body entirely for single-change commits.
+
+If a bug is introduced in the current unmerged branch, fold the fix back into the commit that introduced it — do not add
+a follow-up "fix" commit.
+
 Add tests for new functionality and update the documentation where relevant.
 
 ### Pull request
 
-Open the PR against `main`. The title should describe what the change does. CI runs automatically on every push to the
-branch and when the PR is opened; all checks must pass before merging.
+Open the PR against `main`. The PR title must match the issue title verbatim. If the branch covers a specific iteration,
+append an em-dash and a short iteration summary:
+
+```
+Reformat interface reference pages — fix anchors
+```
+
+CI runs automatically on every push to the branch and when the PR is opened; all checks must pass before merging. The
+default merge strategy is a merge commit — do not squash or rebase.
+
+Use the following structure for the PR description (omit **Tests** if there are none):
+
+```
+**Problem**
+- What was broken or missing.
+
+**Fix / Solution**
+- What was changed and why (at the decision level, not line-by-line).
+
+**Tests**
+- What was tested and how.
+```
 
 ## Coding style
 
-Code style is enforced by **clang-format** and **clang-tidy**, both configured at the repository root.
+Avoid code comments by default. A comment is only justified when the *why* cannot be inferred from the code itself: a
+hidden constraint, a platform quirk, a non-obvious invariant, or a deliberate workaround. Never narrate what the code
+does — well-named identifiers already do that. Rationale for workarounds or platform-specific decisions belongs in the
+commit body or PR description.
+
+Code style is also enforced by **clang-format** and **clang-tidy**, both configured at the repository root.
 
 ### Formatting (`.clang-format`)
 
