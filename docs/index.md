@@ -1,9 +1,9 @@
 # GemPBA
 
-[![C/C++ CI (Ubuntu 24.04)](https://github.com/rapastranac/gempba/actions/workflows/c-cpp-ubuntu.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/c-cpp-ubuntu.yml)
-[![C/C++ CI (Windows 2025)](https://github.com/rapastranac/gempba/actions/workflows/c-cpp-windows.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/c-cpp-windows.yml)
-[![C/C++ CI (macOS 26)](https://github.com/rapastranac/gempba/actions/workflows/c-cpp-macos.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/c-cpp-macos.yml)
-[![Lint](https://github.com/rapastranac/gempba/actions/workflows/lint.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/lint.yml)
+[![C/C++ CI (Ubuntu 24.04)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-ubuntu.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-ubuntu.yml)
+[![C/C++ CI (Windows 2025)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-windows.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-windows.yml)
+[![C/C++ CI (macOS 26)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-macos.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-macos.yml)
+[![Lint](https://github.com/rapastranac/gempba/actions/workflows/ci-lint.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/ci-lint.yml)
 [![codecov](https://codecov.io/gh/rapastranac/gempba/branch/main/graph/badge.svg)](https://codecov.io/gh/rapastranac/gempba)
 ![GitHub License](https://img.shields.io/github/license/rapastranac/gempba)
 ![GitHub Release](https://img.shields.io/github/v/release/rapastranac/gempba)
@@ -25,22 +25,38 @@ For the full performance analysis and formal description, see:
 - [MSc. Thesis](http://hdl.handle.net/11143/18687)
 - [Paper in Parallel Computing](https://doi.org/10.1016/j.parco.2023.103024)
 
+## Flavors
+
+GemPBA ships in two flavors that install side by side on any platform:
+
+- **Multithreading (`mt`)** — the default; uses all cores of a single machine.
+- **Multiprocessing (`mpi`)** — distributes work across multiple machines/nodes over MPI.
+
+You pick which one a program uses at build time. See [Installation](getting-started/installation.md) for APT / MSYS2 / Homebrew instructions and the flavor-selection API.
+
+!!! tip "Using Java?"
+    GemPBA ships as a Maven dependency too (from `v4.1.0`) — `import io.gempba.*` and call the same scheduler from the JVM. See the **[Java section](java/index.md)**.
+
 ## Platforms
 
-- Linux
-- Windows
-- macOS
+Pre-built packages and the Java fat JAR target one architecture per OS; other architectures work via source build.
+
+| OS | Architecture |
+|---|---|
+| Linux | `x86_64` |
+| Windows | `x86_64` |
+| macOS | `aarch64` (Apple Silicon) |
 
 ## Requirements
 
 | Dependency | Version | Notes |
 |---|---|---|
-| C++ compiler | C++23 | GCC 13+, Clang 17+, MSVC 19.38+ |
+| C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
 | CMake | ≥ 3.28 | |
-| OpenMPI | ≥ 4.0 | Only for multiprocessing support |
-| spdlog | any recent | |
-| fmt | any recent | |
-| Boost | any recent | Optional — examples and tests only |
+| hwloc | any recent | Hardware-topology probe (telemetry) |
+| OpenMPI | ≥ 4.0 | Only for the multiprocessing flavor |
+| spdlog / fmt | any recent | System-provided |
+| Boost | any recent | Optional — tests only |
 | GoogleTest | any recent | Optional — running tests only |
 
 
