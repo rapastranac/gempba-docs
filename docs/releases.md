@@ -1,6 +1,223 @@
 # Releases
 
-???+ note "v3.1.0"
+???+ note "v4.1.1"
+
+    <small>May 30, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.1)</small>
+
+    A pure install-fixes release. v4.1.0 shipped the packages, but several of the documented install paths didn't actually work on a clean machine — the Homebrew build failed in the sandbox, the apt repo's signing key was never published, the MSYS2 download link pointed at a filename that doesn't exist. v4.1.1 makes every install command in the README work end-to-end, on all three platforms.
+
+    No library or API changes. If v4.1.0 already installed and built for you, nothing here affects your code — upgrade only if you hit one of the install problems below.
+
+    **Fixed**
+
+    - **`brew install` now works.** The v4.1.0 formula died inside Homebrew's build sandbox — CPM/FetchContent tried to fetch `BS_thread_pool` over the network at build time, which the sandbox blocks. Those build deps are now vendored into the formula, so it builds offline (#288)
+    - **`apt install` no longer fails signature verification.** The signed APT repo never exposed its public key, so `apt update` rejected it with `NO_PUBKEY 7C5B392E…`. The release now publishes the signing key (`gempba-archive-keyring.gpg`) alongside the index, so the documented `signed-by=` setup resolves (#286)
+    - Dropped an unused OpenMP dependency the macOS formula pulled in for nothing (#289)
+
+    **Docs**
+
+    - Rewrote the README's pre-built-package install instructions — every platform's block was broken or misleading (#286):
+        - **APT** — added the one-time key-trust + repo-registration steps before `apt install`.
+        - **MSYS2** — the old `releases/latest/download/<fixed-name>` link 404'd (release asset names carry the version); now points at the Releases page + `pacman -U`.
+        - **Homebrew** — fixed the literal `<owner>` placeholder, and clarified that both flavors install side by side (only one is *linked* at a time; each project points at `$(brew --prefix gempba)` / `gempba-mpi`).
+        - Named the two flavors (`mt` / `mpi` / `mp-mpi`) up front so the section's recurring terms map to just two things.
+
+    **Build / CI**
+
+    - The Homebrew formula is now built and `brew test`-ed on a real macOS runner on every PR and release, so a non-installable formula blocks the release instead of shipping (#292)
+    - `prepare-release` bumps the Homebrew formula templates in lockstep with the other manifests — and actually stages them, so the bump lands on the prep branch (#297)
+    - Hardened the macOS formula-verify job: pinned Homebrew off mid-run auto-update (which broke its ephemeral tap) and serialized the two-flavor matrix so they stop colliding on the shared prefix (#303)
+
+??? note "v4.1.0"
+
+    <small>May 28, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.0)</small>
+
+    **Java.** That's the headline.
+
+    gempba is now a Maven dependency. Drop it into a `pom.xml`, write `import io.gempba.*`, and call the same scheduler family, load balancer, and node manager you would from C++ — just from Java this time. One fat JAR per flavor (`mt`, `mp-mpi`) carries the native binaries for Linux, Windows, and macOS inside the artifact, so there is no per-platform build dance, no classifier juggling, no "first set `LD_LIBRARY_PATH`" footnote. You add the dependency, you build, you run.
+
+    That this is shippable at all is because of the second piece of `v4.1.0`: a stable C ABI underneath. The Java binding is the first consumer of it, but the same headers are what any future Python / Rust / .NET binding will sit on. If you have a JVM pipeline, a Spark job, an Airflow operator, an enterprise application — anywhere C++ was the wrong language but you still wanted gempba's scheduler — that bridge now exists.
+
+    Everything else in `v4.1.0` is the surrounding work: the publish pipeline, the README the new Java audience needs, a couple of bug fixes. No public C++ API changes — additive on top of `v4.0.0`.
+
+    **Added**
+
+    - Stable C ABI (`<gempba/cabi/gempba.h>`) — extern-C surface covering the full runtime: scheduler family, load balancer, node manager, factories, runnables, MP / MT entry points, per-node result retrieval. The same headers any non-C++ binding will reuse going forward (#185)
+    - Java JNI binding (`io.gempba:gempba`) — typed wrappers for `Node`, `LoadBalancer`, `NodeManager`, `RankStats`, `Score` / `ScoreType`, `Goal`, `BalancingPolicy`, the task / serializer / deserializer functional interfaces, the scheduler family (MP-only), and `GemPBA` entry points for both flavors (#186)
+    - Multi-platform fat JAR — each published JAR carries `natives/<os>-<arch>/` for Linux `x86_64`, Windows `x86_64`, and macOS `aarch64`. `NativeLoader` picks the right binary at runtime, so the same JAR runs unchanged on any supported platform. No per-OS classifier, no platform-specific Maven profiles (#274)
+    - Maven publication to GitHub Packages on every `v*` tag, with classifiers `mt` (multithreading) and `mp-mpi` (multiprocessing). Add the repo to your `settings.xml`, declare the dependency with the classifier you want, build (#187)
+    - README "Maven dependency (Java)" subsection — repository + `settings.xml` + dependency snippet, plus a cutoff note that Maven artifacts start at `v4.1.0` (earlier tags predate the publish flow). Platforms section gains a per-OS architecture table (#283)
+
+    **Fixed**
+
+    - `default_mpi_stats_visitor::labels()` was missing the `total_thread_requests` key — values were emitted but the label vector didn't cover them, breaking downstream consumers that zipped labels with values (#262)
+    - `set_thread_pool_size` could race against in-flight construction; the resize now round-trips a no-op task to fence the pool's worker threads before returning (#277)
+
+    **Build**
+
+    - CI workflows split into mutually exclusive triggers: `ci-*.yml` runs on PRs and branch pushes, `release-*.yml` runs on tags. Reusable building blocks factored out so tag-time publish reuses the exact build path CI exercises (#265)
+    - Workflow folder reorganized with `ci-` / `release-` prefixes, a `.github/workflows/README.md`, and shared composite actions extracted (#271)
+    - `prepare-release.yml` now bumps `bindings/java/pom.xml`'s `<version>` alongside the CMake / PKGBUILD bumps so the Java release version stays in lockstep with the C++ release version (#187)
+    - Lint workflow bumped to LLVM 22; the modernizations clang-tidy 22 flagged were applied (#261)
+
+??? note "v4.0.0"
+
+    <small>May 23, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.0.0)</small>
+
+    This is the release where gempba becomes a real distributed library you install instead of clone. Pick your flavor (multithreading or MPI), pick your platform (Linux, macOS, or Windows), and `apt install` / `pacman -S` / `brew install` your way to a working build. Telemetry, which landed in v3.3.0, ships in every flavor, so your production runs are observable out of the box without any wiring.
+
+    ## What's new
+
+    - **Packages on every platform.** `.deb` on Debian/Ubuntu, MSYS2 packages on Windows, and a brand-new Homebrew tap on macOS. Each platform ships two coexisting flavors: a default multithreading build and an MPI build that you install on top when you need it.
+    - **Telemetry is in the box.** The v3.3.0 telemetry hub (worker / node frames, hwloc topology, local + TCP + MPI transports) is built into every published flavor. No extra dependency to add, no extra flag to flip.
+    - **Same call site, both modes.** Public namespaces were reshaped. Consumer code now reads the same whether you build against the multithreading or the MPI flavor: `gempba::create_load_balancer(...)`, `gempba::create_node_manager(...)`. Mode is picked at `find_package` time, not at every call site.
+    - **Examples moved out.** `examples/` left the source tree for a sibling repo, [rapastranac/gempba-examples](https://github.com/rapastranac/gempba-examples), where they consume gempba via `find_package` exactly like you would. Every example PR exercises the public API.
+
+    ## Breaking changes
+
+    - Public namespaces renamed: `gempba::mp` is now `gempba::multiprocessing`, `gempba::mt` is now `gempba::multithreading`.
+    - In a consumer build, exactly one of the two is `inline`, selected by `GEMPBA_MULTIPROCESSING`. Code that hard-codes the explicit qualifier still compiles, but mixing both qualifiers in one consumer build no longer works.
+    - The `gempba::multiprocessing::*` facade (schedulers, MP factories, MP `create_node_manager`, `get_default_mpi_stats_visitor`, `runnables::*`, MP node creators) is gated on `GEMPBA_MULTIPROCESSING=ON`. Code that referenced these in an MT-only build will fail to compile.
+    - `apt install libgempba-dev` previously gave you an MPI-enabled build. It now gives you multithreading only. MPI consumers additionally `apt install libgempba-mpi-dev`.
+    - `pacman -S mingw-w64-x86_64-gempba` previously gave you an MPI-enabled build. Same shape: MPI consumers additionally `pacman -S mingw-w64-x86_64-gempba-mpi`.
+    - The in-tree `examples/` tree is gone. The migrated tree now lives in [rapastranac/gempba-examples](https://github.com/rapastranac/gempba-examples).
+
+    ## Migration
+
+    ```cpp
+    // Before (v3.x)
+    auto* lb = gempba::mp::create_load_balancer(policy, worker);
+    auto& nm = gempba::mp::create_node_manager(lb, worker);
+
+    // After (v4.0): short form, mode picked by GEMPBA_MULTIPROCESSING
+    auto* lb = gempba::create_load_balancer(policy, worker);
+    auto& nm = gempba::create_node_manager(lb, worker);
+    // (or the explicit form: gempba::multiprocessing::create_load_balancer(...))
+    ```
+
+    ```cmake
+    # v4.0 consumer CMake
+    find_package(gempba REQUIRED)                  # default: mt
+    find_package(gempba REQUIRED COMPONENTS mt)    # explicit mt
+    find_package(gempba REQUIRED COMPONENTS mpi)   # mpi (requires libgempba-mpi-dev installed)
+    target_link_libraries(my_app PRIVATE gempba::gempba)
+    ```
+
+    The two flavors are mutually exclusive within a single binary. They share mode-agnostic top-level symbols and would ODR-clash, so `find_package(gempba COMPONENTS mt mpi)` is rejected up front with a clear diagnostic. A project that genuinely needs both (say, an MT debug runner and an MPI cluster runner) splits into two executables, each `find_package`-ing one.
+
+    ## Added
+
+    - Top-level `gempba::create_load_balancer(std::unique_ptr<load_balancer>)`. Mode-agnostic BYO factory that works identically in MT and MP builds.
+    - `gempbaConfig.cmake` is now a COMPONENTS-aware dispatcher. Defaults to `mt`, refuses the `mt`+`mpi` combination, pulls `find_dependency(MPI)` only on the `mpi` branch.
+    - Two `.deb` packages: `libgempba-dev` (mt base, ships headers and `gempbaConfig.cmake`) and `libgempba-mpi-dev` (mpi topping, `Depends:` the base plus `libopenmpi-dev`). Installable side-by-side without conflict.
+    - Two MSYS2 packages: `mingw-w64-x86_64-gempba` and `mingw-w64-x86_64-gempba-mpi`. Same shape, same dependency direction.
+    - macOS Homebrew tap: `brew tap <owner>/gempba && brew install gempba` (or `gempba-mpi`).
+    - [rapastranac/gempba-examples](https://github.com/rapastranac/gempba-examples) sister repo carrying the migrated example tree. Consumes gempba via `find_package(gempba)` exactly as a downstream user would.
+    - README sections "Installing" (apt / pacman / brew per flavor) and "Selecting a flavor" (the `COMPONENTS` API, the mutual-exclusion guard, the two-executables pattern).
+
+    ## Build
+
+    - `find_package(MPI REQUIRED)` and `MPI::MPI_CXX` linkage are conditional on `GEMPBA_MULTIPROCESSING=ON`. MT-only builds no longer require an MPI installation.
+    - Installed library output name is flavor-tagged: `libgempba.a` for mt, `libgempba_mpi.a` for mpi. Both flavors export the same imported target name `gempba::gempba`, so your link line never changes between modes.
+    - Per-flavor `pkg-config` file: `gempba.pc` for mt, `gempba-mpi.pc` for mpi.
+
+??? note "v3.3.0"
+
+    <small>May 21, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.3.0)</small>
+
+    Runtime telemetry: process-wide hub with local / TCP / MPI transports, hwloc-backed topology probe, and a small set of read-only runtime accessors. Telemetry ships ON by default; opt out at runtime with `gempba::telemetry::disable()`. No API breaks.
+
+    **Added**
+
+    - `<gempba/telemetry/telemetry_hub.hpp>` — process-wide telemetry hub that publishes worker / node frames and routes control messages. Singleton accessed via `gempba::telemetry::get()`; runtime kill switch via `disable()` / `enable()` / `is_enabled()` (process-local, sticky, must be set symmetrically across MPI ranks)
+    - Local in-process and TCP server transports; TCP binds `127.0.0.1:9000` by default (`configure_port()` to change before the first `create_*` call)
+    - MPI transport on a private communicator (`MPI_Comm_dup`) so telemetry traffic never collides with application traffic; auto-installed inside `mp::create_scheduler` so the collective install runs on every rank
+    - hwloc-backed topology probe: per-socket physical / logical core counts, total memory, CPU brand, cpu-id list; multi-node topology assembled via `MPI_Allgather` of the `worker_identity` POD
+    - JSON serializer for telemetry frames; client-pushed interval-control protocol over the TCP socket so dashboards can throttle publish rate live
+    - Read-only runtime accessors: `gempba::try_get_scheduler` (non-throwing variant of `get_scheduler`), `load_balancer::get_thread_pool_size`, `load_balancer::get_tasks_running_count`, `scheduler::get_pending_request_count`
+    - `scripts/connect_telemetry.sh` — SSH-tunnel helper for inspecting a remote rank's telemetry socket from a local dashboard
+
+    **Changed**
+
+    - Default thread-pool size when no explicit size is set is now `1` (was one-per-core via `BS::thread_pool`'s default). The concrete `quasi_horizontal_load_balancer` and `work_stealing_load_balancer` impls construct `BS::thread_pool<>{1}` explicitly. Users who relied on the implicit default should pass the size explicitly through their scheduler init
+
+    **Fixed**
+
+    - Exported `gempbaConfig.cmake` now re-discovers hwloc behind `GEMPBA_HWLOC`, so downstream `find_package(gempba)` consumers resolve `PkgConfig::HWLOC` at link time instead of failing with `target not found` (latent since hwloc became a PRIVATE link dep on a STATIC library)
+    - `mpi_semi_centralized_scheduler` double-counted `m_sent_task_count` — increments fired on two paths for the same dispatch; consolidated to a single ownership point so the stats visitor and telemetry's `record_send` see consistent values
+
+    **Build**
+
+    - hwloc is a new runtime dependency, gated by the `GEMPBA_HWLOC` CMake option (ON for releases, OFF for dev builds). Discovered via `pkg-config` on all three platforms; `.deb` and MSYS2 packages declare it as a runtime dep
+    - CI installs hwloc on Ubuntu 24.04 / macOS 26 / Windows 2025 (MSYS2) / lint runners
+    - `build_*.sh` scripts forward `GEMPBA_HWLOC` so packagers can disable hwloc cleanly
+    - Windows builds link `psapi` (process-info probe) and `ws2_32` (Winsock for the TCP server)
+
+??? note "v3.2.0"
+
+    <small>May 21, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.2.0)</small>
+
+    CI hardening and release-flow automation. No library API or behavior changes.
+
+    **Fixed**
+
+    - `publish-apt-repo` no longer depends on the GitHub CLI being on the runner image — it consumes the `.deb` from the same workflow's artifact instead of `gh release download`, so self-hosted Linux runners can publish on tag pushes again
+
+    **Build**
+
+    - `BS::thread_pool` pinned to release tag `v5.1.0.1` instead of tracking `master` for reproducible builds
+    - CI `clang-tidy` bumped from 18 to 19; `bugprone-throwing-static-initialization` enabled — `debug_logger_initializer`'s ctor is now `noexcept` with the `spdlog` calls wrapped in `try/catch`, preserving the static-init injection contract while making it honest
+    - `update-pkgbuild.sh` accepts `-r / --remote` to select which git remote's tag to hash against (defaults to `origin`); useful when cutting a release pointed at the public repo
+    - New `Prepare release` workflow (`workflow_dispatch`): branches `prep/v<version>` from the resolved target branch, bumps `CMakeLists.txt` + `packaging/msys2/PKGBUILD`, drafts `docs/releases/release-notes-v<version>.md` from `git log`, and opens the prep PR. Auto-detects the target branch (or accepts a `target_branch` input / `vars.RELEASE_TARGET_BRANCH` override) so the same workflow runs on forks with only `main` and on forks with both `main` and `release`
+    - New `Post-tag PKGBUILD sha256 cleanup` workflow (`push tags: v*`): replaces the prep PR's `'SKIP'` placeholder with the real sha of the source tarball; opens a follow-up PR. Auto-resolves the target branch via tag-commit reachability when both `main` and `release` exist
+    - New `set-release-body` job in `c-cpp-ubuntu.yml`: applies the curated `docs/releases/release-notes-v<tag>.md` to the GitHub Release body via `gh release edit --notes-file`; fails loudly if the notes file is missing so no tag ships without curated notes
+    - New `setup-gh-cli` composite action: pinned `gh` on PATH for self-hosted Linux runners; no-op on github-hosted runners where `gh` is pre-installed
+
+??? note "v3.1.1"
+
+    <small>May 2, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.1)</small>
+
+    Post-v3.1.0 hygiene release: packaging metadata, coverage scope, CI workflow polish, a test-coverage push, cross-platform fixes, and toolchain bumps. No public API changes.
+
+    **Changed**
+
+    - `gempba::create_custom_node` now takes a `std::shared_ptr<node_core>` directly (no more wrapping at the call site)
+    - `wall_time` reimplemented on top of `std::chrono` (replaces `gettimeofday`) — same observable values, monotonic clock semantics
+    - `gempba::log_and_throw` marked `[[noreturn]]` so static analyzers and the compiler's flow analysis understand the call never returns
+    - `score`: cleaned up the `kind` / `to_raw` / `from_raw` paths and added explicit `unreachable` markers
+    - `node_core_impl`: lazy-init and result paths consolidated; redundant explicit destructor on `node` removed; excessive debug logging trimmed
+    - Codebase-wide `clang-tidy` identifier-naming pass (private members and locals only — no public API renames)
+
+    **Removed**
+
+    - Dead `prune()` overload in `work_stealing_load_balancer`
+    - Unreachable defensive checks in `get_root_level_pending_node`
+
+    **Fixed**
+
+    - `gempba::utils::get_nb_set_bits` signed-`char` overflow on MinGW
+    - MSYS2/MinGW build: `<windows.h>` is now included before `<psapi.h>` so `psapi.h` sees the types it needs
+    - `centralized_utils.hpp`: `NOMINMAX` redefinition guarded so headers that already define it don't trigger a warning
+    - `node.hpp`: `<stacktrace>` inclusion gated on the `__cpp_lib_stacktrace` feature test, not just `__has_include`
+
+    **Build**
+
+    - MSYS2 `PKGBUILD` `sha256` updated to match the v3.1.0 source tarball
+    - Codecov reporting now excludes `examples/`, `tests/`, and `external/` so coverage numbers reflect only library code
+    - New `clang-tidy` and `clang-format` identifier-naming and configuration rules so future changes can't reintroduce the patterns just cleaned up
+    - Ubuntu CI bumped to GCC 14; `<stacktrace>` and `stdc++exp` linkage gated accordingly so older toolchains still build the library
+    - macOS CI defaults to the `macos-26` runner image
+    - Self-hosted runners are now matched by label *set* (multiple labels combined) rather than a single label
+    - MS-MPI runtime installed on the Windows CI runner so the multiprocessing test set actually runs
+    - `clang-format` diagnostics surfaced with the colored summary; `lint.sh` diagnostics made readable on the terminal
+    - Skip the `publish-test-results` job when the upstream build was cancelled
+    - `runs-on` injected from `vars.RUNNER_*` repository variables so runner targets can change without editing each workflow
+    - New full-coverage tests for the `gempba` facade, `node_manager`, `quasi_horizontal_load_balancer`, `work_stealing_load_balancer`, `node_core_impl`, `centralized_utils`, plus branch coverage for `queue`, `utils`, `score`, and `node`
+    - Thread pool readiness ordering tightened in throw/discard tests so the `send()` race no longer deflakes them
+    - Dropped flaky peak-vs-current RSS comparisons from the memory-usage tests
+    - `-Wunused` warnings silenced on header-only helpers
+
+??? note "v3.1.0"
 
     <small>April 19, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.0)</small>
 

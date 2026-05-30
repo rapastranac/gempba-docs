@@ -41,6 +41,12 @@ nav:
       - Installation: getting-started/installation.md
       - Building: getting-started/building.md
       - Quick Start: quick-start.md
+  - Java:
+      - Overview: java/index.md
+      - Installation: java/installation.md
+      - Quick Start: java/quick-start.md
+      - Examples: java/examples.md
+      - How it works: java/how-it-works.md
   - Reference:
       - Architecture: architecture.md
       - API Reference:

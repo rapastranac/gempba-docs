@@ -178,7 +178,7 @@ automatically. You can also pin them explicitly:
 | `BUILD_DIR`      | `<repo>/.build-lint`           | CMake build directory for `compile_commands.json` |
 
 ```bash
-CLANG_FORMAT=clang-format-21 CLANG_TIDY=clang-tidy-18 bash scripts/lint.sh
+CLANG_FORMAT=clang-format-22 CLANG_TIDY=clang-tidy-22 bash scripts/lint.sh
 ```
 
 The first time the tidy step runs it configures CMake in `.build-lint/` to produce `compile_commands.json`. Subsequent
@@ -186,28 +186,34 @@ runs reuse that directory, so the configuration step is skipped unless you delet
 
 ## Continuous integration
 
-CI runs on every push to `main` and to branches matching the `{NUMBER}-*` pattern, and on every pull request. The
-following pipelines run in parallel:
+Workflows are split by trigger: `ci-*.yml` runs on pull requests and on pushes to `main` / branches matching the
+`{NUMBER}-*` pattern, while `release-*.yml` runs on version tags (`v*`). Reusable building blocks (`_build-*.yml`) are
+shared so the tag-time publish reuses the exact build path CI exercises. The CI pipelines run in parallel:
 
 | Pipeline     | Runner         |
 |--------------|----------------|
 | Ubuntu 24.04 | `ubuntu-24.04` |
 | Windows 2025 | `windows-2025` |
 | macOS 26     | `macos-26`     |
+| Java         | `ubuntu-24.04` |
 | Lint         | `ubuntu-24.04` |
 
-The build pipelines install dependencies (Boost, spdlog, fmt, GoogleTest/GMock, and the platform MPI — OpenMPI on Linux
-and macOS, MS-MPI via MSYS2 on Windows), build with CMake and Make, then run the full test suite via CTest. Flaky
-tests (prefixed `FLAKY_`) are retried up to three times. A JUnit XML report is published as a workflow artifact after
-each run.
+The C++ build pipelines install dependencies (hwloc, Boost, spdlog, fmt, GoogleTest/GMock, and the platform MPI —
+OpenMPI on Linux and macOS, MS-MPI via MSYS2 on Windows), build with CMake across the `multiprocessing: [ON, OFF]`
+matrix, then run the full test suite via CTest. Each PR also builds the [gempba-examples](https://github.com/rapastranac/gempba-examples)
+tree against the freshly built library, so the install / `gempbaConfig.cmake` / exported-headers chain is exercised on
+every change. Flaky tests (prefixed `FLAKY_`) are retried up to three times. A JUnit XML report is published as a
+workflow artifact after each run.
 
-The Lint pipeline runs clang-format-21 (format check) and clang-tidy-18 (static analysis) against all first-party
+The Lint pipeline runs clang-format-22 (format check) and clang-tidy-22 (static analysis) against all first-party
 sources.
 
-On a version tag (`v*`) or a pull request, an additional job builds and packages the library:
+On a version tag (`v*`), the `release-*.yml` workflows build and publish packages for every flavor and platform:
 
-- **Ubuntu**: produces a `.deb` and publishes it to a GPG-signed APT repository hosted on GitHub Pages
-- **Windows**: produces an MSYS2 package (`.pkg.tar.zst`)
+- **Ubuntu**: `.deb` packages (`libgempba-dev`, `libgempba-mpi-dev`) published to a GPG-signed APT repository on GitHub Pages
+- **Windows**: MSYS2 packages (`.pkg.tar.zst`) attached to the GitHub Release
+- **macOS**: Homebrew formulae (`gempba`, `gempba-mpi`) pushed to the project's tap — built and `brew test`-ed on a real macOS runner first, so a non-installable formula blocks the release
+- **Java**: fat JARs (`mt`, `mp-mpi` classifiers) published to GitHub Packages
 
 ## Project structure
 
@@ -219,6 +225,9 @@ See the [File Index](reference/file-index.md) for the full source layout. The to
 | `private/impl/`   | Built-in implementations, not part of the public API                |
 | `src/`            | Translation units                                                   |
 | `tests/`          | Unit tests (GoogleTest)                                             |
-| `examples/`       | Usage examples for multithreaded and multiprocessing configurations |
-| `data/`           | Graph instance files used by the examples and benchmarks            |
-| `scripts/`        | Run and benchmark helper scripts for Linux and Windows              |
+| `bindings/`       | Non-C++ bindings — the stable C ABI (`jni/`) and the Java JNI layer (`java/`) |
+| `packaging/`      | Packaging manifests (MSYS2 `PKGBUILD`, Homebrew formulae, `.deb` control) |
+| `scripts/`        | Build, lint, telemetry, and JAR-build helper scripts                |
+
+Runnable examples and their graph instance data now live in the sibling
+[gempba-examples](https://github.com/rapastranac/gempba-examples) repository, not in this tree.
