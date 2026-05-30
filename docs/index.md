@@ -7,6 +7,7 @@
 [![codecov](https://codecov.io/gh/rapastranac/gempba/branch/main/graph/badge.svg)](https://codecov.io/gh/rapastranac/gempba)
 ![GitHub License](https://img.shields.io/github/license/rapastranac/gempba)
 ![GitHub Release](https://img.shields.io/github/v/release/rapastranac/gempba)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rapastranac/gempba)
 
 **GemPBA** is a hybrid parallelization framework for branching algorithms. It supports:
 
@@ -24,6 +25,9 @@ For the full performance analysis and formal description, see:
 
 - [MSc. Thesis](http://hdl.handle.net/11143/18687)
 - [Paper in Parallel Computing](https://doi.org/10.1016/j.parco.2023.103024)
+
+!!! tip "Explore the internals"
+    For a navigable, AI-assisted deep-dive into GemPBA's architecture and source, browse the **[GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba)** — auto-generated and refreshed periodically.
 
 ## Flavors
 
