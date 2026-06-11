@@ -61,7 +61,7 @@ Per-host sample, emitted by one **sentinel** worker per host on the node cadence
 Captured once at startup and included in every broadcast. It is the map from the numeric `worker_id`s in the frames back to hosts and hardware.
 
 - `nodes[]`, per host: `hostname`, the `worker_ids` it owns, its `sentinel_worker_id`, `sockets[]` (id, name, physical/logical cores, cpu-id list), and host totals.
-- `identities[]`, per worker: `hostname`, `pid`, `primary_socket`, and the `allowed_cpu_mask` (CPU-affinity bitmap).
+- `identities[]`, per worker: `hostname`, `pid`, `primary_socket`, and `allowed_cpu_ids` (the CPU-affinity set, emitted as an array of logical CPU indices; the C++ struct field is the `m_allowed_cpu_mask` bitmap, which the serializer unpacks).
 
 Hardware fields require an hwloc-enabled build; without it, core/socket counts are `0` and the rest of the frame is unaffected.
 
