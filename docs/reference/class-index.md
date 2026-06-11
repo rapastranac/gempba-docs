@@ -31,6 +31,12 @@ pure-virtual interfaces.
     </tr>
 
     <tr>
+      <td><a href="../interfaces/scheduler/#scheduler_traits-shared-base"><code>scheduler_traits</code></a>
+        <span class="abstract-badge">abstract</span></td>
+      <td>Shared base for <code>scheduler</code> and its role views: state, counters, world layout</td>
+    </tr>
+
+    <tr>
       <td><a href="../interfaces/scheduler/"><code>scheduler</code></a>
         <span class="abstract-badge">abstract</span></td>
       <td>Process-level IPC coordination — transport-agnostic contract</td>
@@ -50,6 +56,12 @@ pure-virtual interfaces.
       <td><a href="../interfaces/serial-runnable/"><code>serial_runnable</code></a>
         <span class="abstract-badge">abstract</span></td>
       <td>Type erasure for functions that cross process boundaries</td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/core/serializable.hpp"><code>serializable</code></a>
+        <span class="abstract-badge">abstract</span></td>
+      <td>Contract for objects that round-trip through a <code>task_packet</code>: <code>serialize()</code> / <code>deserialize()</code></td>
     </tr>
 
     <tr>
@@ -110,11 +122,32 @@ pure-virtual interfaces.
       <td>All tasks route through the center — benchmarking only</td>
     </tr>
 
+    <!-- ── Telemetry ──────────────────────────────── -->
+    <tr class="category"><td colspan="2">Telemetry (see the <a href="../../telemetry/">Telemetry section</a>)</td></tr>
+
+    <tr>
+      <td><a href="../../telemetry/"><code>telemetry::telemetry_hub</code></a></td>
+      <td>Process-wide telemetry hub: counters, probes, transport, and the dashboard server (center role)</td>
+    </tr>
+
+    <tr>
+      <td><a href="../../telemetry/data-model/"><code>telemetry::worker_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
+      <td>The frame structs behind the live stream: per-worker counters, per-host stats, and the startup topology</td>
+    </tr>
+
+    <!-- ── C ABI ──────────────────────────────────── -->
+    <tr class="category"><td colspan="2">C ABI</td></tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba.h"><code>gempba/cabi/gempba.h</code></a></td>
+      <td>Stable <code>extern "C"</code> surface over the full runtime: opaque handles, status codes, callbacks. The <a href="../../java/how-it-works/">Java binding</a> is its first consumer</td>
+    </tr>
+
     <!-- ── Utilities ──────────────────────────────── -->
     <tr class="category"><td colspan="2">Utilities</td></tr>
 
     <tr>
-      <td><a href="../utilities/queue/"><code>Queue&lt;T&gt;</code></a></td>
+      <td><a href="../utilities/queue/"><code>queue&lt;T&gt;</code></a></td>
       <td>Thread-safe FIFO queue used internally by load balancers</td>
     </tr>
 

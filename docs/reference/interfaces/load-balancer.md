@@ -57,14 +57,18 @@ Submit an arbitrary callable to the thread pool and return a future. Internal us
 ### Monitoring
 
 ```cpp
-[[nodiscard]] virtual double      get_idle_time()            const = 0;
-[[nodiscard]] virtual bool        is_done()                  const = 0;
-[[nodiscard]] virtual std::size_t get_thread_request_count() const = 0;
+[[nodiscard]] virtual double       get_idle_time()            const = 0;
+[[nodiscard]] virtual bool         is_done()                  const = 0;
+[[nodiscard]] virtual std::size_t  get_thread_request_count() const = 0;
+[[nodiscard]] virtual unsigned int get_thread_pool_size()     const = 0;
+[[nodiscard]] virtual std::size_t  get_tasks_running_count()  const = 0;
 ```
 
-`get_idle_time()` — cumulative wall-clock milliseconds threads spent waiting for work.  
-`is_done()` — `true` when queue is empty and all threads are idle.  
-`get_thread_request_count()` — total tasks submitted since startup.
+`get_idle_time()`: cumulative wall-clock seconds the pool spent waiting for work, averaged per thread.  
+`is_done()`: `true` when queue is empty and all threads are idle.  
+`get_thread_request_count()`: total tasks submitted since startup.  
+`get_thread_pool_size()`: current worker-thread count in the pool.  
+`get_tasks_running_count()`: tasks executing on the pool right now. Together with `get_thread_pool_size()` this is what [telemetry](../../telemetry/index.md) samples for the live worker frames.
 
 ---
 
@@ -111,7 +115,9 @@ class MyLoadBalancer : public gempba::load_balancer {
     // implement all pure virtuals above
 };
 
-auto* lb = gempba::mt::create_load_balancer(std::make_unique<MyLoadBalancer>());
+auto* lb = gempba::create_load_balancer(std::make_unique<MyLoadBalancer>());
 ```
+
+The BYO overload is mode-agnostic and lives at the top level of the `gempba` namespace; it behaves identically in MT and MP builds.
 
 Study `quasi_horizontal_load_balancer` in `private/impl/load_balancing/` for the expected semantics of every tree navigation call before writing from scratch.

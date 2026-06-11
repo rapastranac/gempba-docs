@@ -6,7 +6,7 @@ These requirements apply when **building GemPBA from source**. If you install a 
 |---|---|---|
 | C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
 | CMake | ≥ 3.28 | |
-| hwloc | any recent | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON for releases) |
+| hwloc | any recent | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON by default when gempba is the root project) |
 | OpenMPI | ≥ 4.0 | Only for the multiprocessing (`mpi`) flavor |
 | spdlog | any recent | Must be provided by the system since v3.1.0 |
 | fmt | any recent | Pulled in alongside spdlog |

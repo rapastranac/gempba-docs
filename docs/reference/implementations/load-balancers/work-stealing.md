@@ -1,7 +1,7 @@
 # Work-Stealing
 
 ```cpp
-auto* lb = gempba::mt::create_load_balancer(gempba::balancing_policy::WORK_STEALING);
+auto* lb = gempba::multithreading::create_load_balancer(gempba::balancing_policy::WORK_STEALING);
 ```
 
 Implements [`load_balancer`](../../interfaces/load-balancer.md). A deliberately simple strategy: tasks are pushed to the thread pool queue as they arrive, idle threads pick them up in order. No tree structure is inspected, no root pointer is maintained.

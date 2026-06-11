@@ -1,10 +1,10 @@
 # MPI Semi-Centralized
 
 ```cpp
-auto* s = gempba::mp::create_scheduler(gempba::mp::scheduler_topology::SEMI_CENTRALIZED);
+auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
 ```
 
-Implements [`scheduler`](../../interfaces/scheduler.md). The recommended multiprocessing scheduler. Uses OpenMPI as the IPC transport.
+Implements [`scheduler`](../../interfaces/scheduler.md). The recommended multiprocessing scheduler. Uses MPI as the IPC transport (OpenMPI on Linux/macOS, MS-MPI on Windows).
 
 The center (rank 0) maintains a lightweight state table — process statuses, process assignments, global best value — and pushes assignment signals proactively. It never holds or routes tasks. Workers exchange tasks directly with each other, point-to-point, after the center has confirmed the destination is idle. This eliminates the bounce-back problem without making the center a bottleneck.
 

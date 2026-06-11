@@ -37,9 +37,17 @@ The kill switch is a process-local, sticky flag. Set it **before** the first `no
 
 The center role binds a loopback-only TCP server for the dashboard channel, at `127.0.0.1:9000` by default. Change it before the hub is installed:
 
-```cpp
-gempba::telemetry::configure_port(9100);   // must be called before the first node_manager / scheduler
-```
+=== "C++"
+
+    ```cpp
+    gempba::telemetry::configure_port(9100);   // must be called before the first node_manager / scheduler
+    ```
+
+=== "Java"
+
+    ```java
+    GemPBA.configureTelemetryPort(9100);       // available from v4.1.3, both flavors
+    ```
 
 The server binds **loopback only** by design; it is never exposed on a public interface. To reach it from another machine, tunnel over SSH (see [Connecting](connecting.md)).
 

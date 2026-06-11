@@ -11,7 +11,7 @@ Abstract interface contract for all node types. Templated on `T` — the handle 
 | `node_traits<node>` | user-facing `node` handle |
 | `node_traits<shared_ptr<node_core>>` | implementation layer |
 
-Extends [`serializable`](#serializable). Load balancers and the scheduler program against `node_traits<node>` only.
+Extends [`serializable`](#serializable-inherited). Load balancers and the scheduler program against `node_traits<node>` only.
 
 ---
 

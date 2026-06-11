@@ -17,16 +17,16 @@ Because `node` is just a shared pointer wrapper, copying it is cheap and safe. T
 You do not construct nodes directly. Use the factory functions from `gempba.hpp`.
 
 ```cpp
-auto left = gempba::mt::create_explicit_node<void>(
-    lb, parent, &my_func, std::make_tuple(args...)
+auto left = gempba::multithreading::create_explicit_node<void>(
+    *lb, parent, &my_func, std::make_tuple(args...)
 );
 ```
 
 Create a child node inside your recursive function. Arguments are captured eagerly.
 
 ```cpp
-auto child = gempba::mt::create_lazy_node<void>(
-    lb, parent, &my_func, args_initializer_fn
+auto child = gempba::multithreading::create_lazy_node<void>(
+    *lb, parent, &my_func, args_initializer_fn
 );
 ```
 

@@ -28,7 +28,7 @@ Deserialize arguments from `task`, call the wrapped function, return serialized 
 ### Void function
 
 ```cpp
-auto runnable = gempba::mp::runnables::return_none::create<Arg1, Arg2, ...>(
+auto runnable = gempba::multiprocessing::runnables::return_none::create<Arg1, Arg2, ...>(
     FUNCTION_ID,
     &my_func,
     deserializer   // std::function<std::tuple<Arg1, Arg2, ...>(task_packet)>
@@ -38,7 +38,7 @@ auto runnable = gempba::mp::runnables::return_none::create<Arg1, Arg2, ...>(
 ### Non-void function
 
 ```cpp
-auto runnable = gempba::mp::runnables::return_value::create<ReturnType, Arg1, Arg2, ...>(
+auto runnable = gempba::multiprocessing::runnables::return_value::create<ReturnType, Arg1, Arg2, ...>(
     FUNCTION_ID,
     &my_func,
     deserializer,  // std::function<std::tuple<Arg1, Arg2, ...>(task_packet)>

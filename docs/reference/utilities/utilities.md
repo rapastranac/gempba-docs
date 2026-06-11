@@ -10,4 +10,4 @@ Supporting types used throughout GemPBA. Most of these appear in serializer and 
 | [`result`](result.md) | A found solution: pairs a `score` with a serialized `task_packet` |
 | [`transmission_guard`](transmission-guard.md) | RAII lock held for the duration of an IPC send |
 | [`tree`](tree.md) | Index-based tree used internally by the scheduler startup phase |
-| [`Queue`](queue.md) | Thread-safe FIFO queue used internally by the thread pool |
+| [`queue`](queue.md) | Thread-safe FIFO queue used internally by the thread pool |

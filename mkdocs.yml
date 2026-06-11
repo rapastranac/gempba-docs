@@ -47,6 +47,8 @@ nav:
       - Quick Start: java/quick-start.md
       - Examples: java/examples.md
       - How it works: java/how-it-works.md
+      - Class Index: java/class-index.md
+      - File Index: java/file-index.md
   - Telemetry:
       - Overview: telemetry/index.md
       - Configuration: telemetry/configuration.md
@@ -94,7 +96,7 @@ nav:
               - result: reference/utilities/result.md
               - transmission_guard: reference/utilities/transmission-guard.md
               - tree: reference/utilities/tree.md
-              - Queue: reference/utilities/queue.md
+              - queue: reference/utilities/queue.md
       - Examples: examples.md
   - Development:
       - Contributing: contributing.md
