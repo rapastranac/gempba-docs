@@ -227,7 +227,7 @@
 
 ## v3.1.1
 
-??? note "May 2, 2026"
+??? note "May 19, 2026"
 
     <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.1)</small>
 
@@ -318,7 +318,7 @@
 
 ## v3.0.0
 
-??? note "April 19, 2026"
+??? note "December 7, 2025"
 
     <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.0.0)</small>
 
@@ -520,7 +520,7 @@
 
 ## v1.0.2
 
-??? note "June 8, 2025"
+??? note "June 7, 2025"
 
     <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.2)</small>
 
@@ -627,7 +627,7 @@
 
 ## v1.0.0
 
-??? note "April 9, 2024"
+??? note "April 8, 2024"
 
     <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.0)</small>
 
