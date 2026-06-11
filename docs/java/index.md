@@ -29,6 +29,8 @@ The fat JAR bundles one architecture per OS:
 
 ## The `io.gempba` API at a glance
 
+For the complete catalog, see the [Class Index](class-index.md) and [File Index](file-index.md).
+
 | Package | Key types |
 |---|---|
 | `io.gempba` | `GemPBA` — factories and entry points (`createLoadBalancer`, `createNodeManager`, `createSeedNode`, `shutdown`, …) |
@@ -44,3 +46,4 @@ The fat JAR bundles one architecture per OS:
 - **[Quick Start](quick-start.md)** — a complete multithreading program, walked through end to end.
 - **[Examples](examples.md)** — the runnable `gempba-java-examples` catalog.
 - **[How it works](how-it-works.md)** — how the binding leverages `task_packet` to bridge the JVM and the native runtime.
+- **[Class Index](class-index.md)** / **[File Index](file-index.md)**: every public `io.gempba` type, and where it lives in the source tree.
