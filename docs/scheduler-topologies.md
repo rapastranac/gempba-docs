@@ -5,10 +5,10 @@ recommendation is `SEMI_CENTRALIZED`.
 
 ```cpp
 // Semi-centralized (recommended)
-auto* s = gempba::mp::create_scheduler(gempba::mp::scheduler_topology::SEMI_CENTRALIZED);
+auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
 
 // Centralized (for comparison)
-auto* s = gempba::mp::create_scheduler(gempba::mp::scheduler_topology::CENTRALIZED);
+auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::CENTRALIZED);
 ```
 
 ---
