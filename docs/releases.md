@@ -1,8 +1,10 @@
 # Releases
 
-???+ note "v4.1.3"
+## v4.1.3
 
-    <small>June 2, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.3)</small>
+???+ note "June 2, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.3)</small>
 
     A telemetry-reachability release. Two fixes, both about getting at telemetry from outside the C++ runtime: C++ consumers can reach it through the umbrella header again, and the `configure_port` control is finally callable from the C ABI and Java. No runtime or scheduler API changes.
 
@@ -14,9 +16,11 @@
 
     - **`configure_port` across the bindings.** The telemetry kill switch (`enable` / `disable` / `is_enabled`) was already mirrored in the C ABI, JNI, and Java, but `configure_port` — the call that moves the telemetry TCP port off the default `127.0.0.1:9000` — had been left behind. It is now exposed as `gempba_telemetry_configure_port` (C ABI) and `GemPBA.configureTelemetryPort(int)` (Java, both flavors, with a `0..65535` range check). As in C++, call it before the first `create_*`: the hub captures the port once, when it installs (#315)
 
-??? note "v4.1.2"
+## v4.1.2
 
-    <small>May 31, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.2)</small>
+??? note "May 31, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.2)</small>
 
     A targeted bugfix release: multiprocessing now runs on macOS. MP-mode binaries aborted at startup on macOS — and only macOS — with `mutex lock failed: Invalid argument`, while the same build ran fine on Linux and Windows. If you only use MT mode, or don't run on macOS, nothing here affects you. No library or API changes.
 
@@ -38,9 +42,11 @@
     - Extracted the duplicated gempba-examples branch resolver into a shared composite action, deduping the three C/C++ CI workflows (#311)
     - Bumped the PKGBUILD `sha256` for the v4.1.1 packaging artifact
 
-??? note "v4.1.1"
+## v4.1.1
 
-    <small>May 30, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.1)</small>
+??? note "May 30, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.1)</small>
 
     A pure install-fixes release. v4.1.0 shipped the packages, but several of the documented install paths didn't actually work on a clean machine — the Homebrew build failed in the sandbox, the apt repo's signing key was never published, the MSYS2 download link pointed at a filename that doesn't exist. v4.1.1 makes every install command in the README work end-to-end, on all three platforms.
 
@@ -66,9 +72,11 @@
     - `prepare-release` bumps the Homebrew formula templates in lockstep with the other manifests — and actually stages them, so the bump lands on the prep branch (#297)
     - Hardened the macOS formula-verify job: pinned Homebrew off mid-run auto-update (which broke its ephemeral tap) and serialized the two-flavor matrix so they stop colliding on the shared prefix (#303)
 
-??? note "v4.1.0"
+## v4.1.0
 
-    <small>May 28, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.0)</small>
+??? note "May 28, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.1.0)</small>
 
     **Java.** That's the headline.
 
@@ -98,20 +106,22 @@
     - `prepare-release.yml` now bumps `bindings/java/pom.xml`'s `<version>` alongside the CMake / PKGBUILD bumps so the Java release version stays in lockstep with the C++ release version (#187)
     - Lint workflow bumped to LLVM 22; the modernizations clang-tidy 22 flagged were applied (#261)
 
-??? note "v4.0.0"
+## v4.0.0
 
-    <small>May 23, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.0.0)</small>
+??? note "May 23, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v4.0.0)</small>
 
     This is the release where gempba becomes a real distributed library you install instead of clone. Pick your flavor (multithreading or MPI), pick your platform (Linux, macOS, or Windows), and `apt install` / `pacman -S` / `brew install` your way to a working build. Telemetry, which landed in v3.3.0, ships in every flavor, so your production runs are observable out of the box without any wiring.
 
-    ## What's new
+    **What's new**
 
     - **Packages on every platform.** `.deb` on Debian/Ubuntu, MSYS2 packages on Windows, and a brand-new Homebrew tap on macOS. Each platform ships two coexisting flavors: a default multithreading build and an MPI build that you install on top when you need it.
     - **Telemetry is in the box.** The v3.3.0 telemetry hub (worker / node frames, hwloc topology, local + TCP + MPI transports) is built into every published flavor. No extra dependency to add, no extra flag to flip.
     - **Same call site, both modes.** Public namespaces were reshaped. Consumer code now reads the same whether you build against the multithreading or the MPI flavor: `gempba::create_load_balancer(...)`, `gempba::create_node_manager(...)`. Mode is picked at `find_package` time, not at every call site.
     - **Examples moved out.** `examples/` left the source tree for a sibling repo, [rapastranac/gempba-examples](https://github.com/rapastranac/gempba-examples), where they consume gempba via `find_package` exactly like you would. Every example PR exercises the public API.
 
-    ## Breaking changes
+    **Breaking changes**
 
     - Public namespaces renamed: `gempba::mp` is now `gempba::multiprocessing`, `gempba::mt` is now `gempba::multithreading`.
     - In a consumer build, exactly one of the two is `inline`, selected by `GEMPBA_MULTIPROCESSING`. Code that hard-codes the explicit qualifier still compiles, but mixing both qualifiers in one consumer build no longer works.
@@ -120,7 +130,7 @@
     - `pacman -S mingw-w64-x86_64-gempba` previously gave you an MPI-enabled build. Same shape: MPI consumers additionally `pacman -S mingw-w64-x86_64-gempba-mpi`.
     - The in-tree `examples/` tree is gone. The migrated tree now lives in [rapastranac/gempba-examples](https://github.com/rapastranac/gempba-examples).
 
-    ## Migration
+    **Migration**
 
     ```cpp
     // Before (v3.x)
@@ -143,7 +153,7 @@
 
     The two flavors are mutually exclusive within a single binary. They share mode-agnostic top-level symbols and would ODR-clash, so `find_package(gempba COMPONENTS mt mpi)` is rejected up front with a clear diagnostic. A project that genuinely needs both (say, an MT debug runner and an MPI cluster runner) splits into two executables, each `find_package`-ing one.
 
-    ## Added
+    **Added**
 
     - Top-level `gempba::create_load_balancer(std::unique_ptr<load_balancer>)`. Mode-agnostic BYO factory that works identically in MT and MP builds.
     - `gempbaConfig.cmake` is now a COMPONENTS-aware dispatcher. Defaults to `mt`, refuses the `mt`+`mpi` combination, pulls `find_dependency(MPI)` only on the `mpi` branch.
@@ -153,15 +163,17 @@
     - [rapastranac/gempba-examples](https://github.com/rapastranac/gempba-examples) sister repo carrying the migrated example tree. Consumes gempba via `find_package(gempba)` exactly as a downstream user would.
     - README sections "Installing" (apt / pacman / brew per flavor) and "Selecting a flavor" (the `COMPONENTS` API, the mutual-exclusion guard, the two-executables pattern).
 
-    ## Build
+    **Build**
 
     - `find_package(MPI REQUIRED)` and `MPI::MPI_CXX` linkage are conditional on `GEMPBA_MULTIPROCESSING=ON`. MT-only builds no longer require an MPI installation.
     - Installed library output name is flavor-tagged: `libgempba.a` for mt, `libgempba_mpi.a` for mpi. Both flavors export the same imported target name `gempba::gempba`, so your link line never changes between modes.
     - Per-flavor `pkg-config` file: `gempba.pc` for mt, `gempba-mpi.pc` for mpi.
 
-??? note "v3.3.0"
+## v3.3.0
 
-    <small>May 21, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.3.0)</small>
+??? note "May 21, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.3.0)</small>
 
     Runtime telemetry: process-wide hub with local / TCP / MPI transports, hwloc-backed topology probe, and a small set of read-only runtime accessors. Telemetry ships ON by default; opt out at runtime with `gempba::telemetry::disable()`. No API breaks.
 
@@ -191,9 +203,11 @@
     - `build_*.sh` scripts forward `GEMPBA_HWLOC` so packagers can disable hwloc cleanly
     - Windows builds link `psapi` (process-info probe) and `ws2_32` (Winsock for the TCP server)
 
-??? note "v3.2.0"
+## v3.2.0
 
-    <small>May 21, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.2.0)</small>
+??? note "May 21, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.2.0)</small>
 
     CI hardening and release-flow automation. No library API or behavior changes.
 
@@ -211,9 +225,11 @@
     - New `set-release-body` job in `c-cpp-ubuntu.yml`: applies the curated `docs/releases/release-notes-v<tag>.md` to the GitHub Release body via `gh release edit --notes-file`; fails loudly if the notes file is missing so no tag ships without curated notes
     - New `setup-gh-cli` composite action: pinned `gh` on PATH for self-hosted Linux runners; no-op on github-hosted runners where `gh` is pre-installed
 
-??? note "v3.1.1"
+## v3.1.1
 
-    <small>May 2, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.1)</small>
+??? note "May 2, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.1)</small>
 
     Post-v3.1.0 hygiene release: packaging metadata, coverage scope, CI workflow polish, a test-coverage push, cross-platform fixes, and toolchain bumps. No public API changes.
 
@@ -255,9 +271,11 @@
     - Dropped flaky peak-vs-current RSS comparisons from the memory-usage tests
     - `-Wunused` warnings silenced on header-only helpers
 
-??? note "v3.1.0"
+## v3.1.0
 
-    <small>April 19, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.0)</small>
+??? note "April 19, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.1.0)</small>
 
     macOS support, system packaging (`.deb`, MSYS2, signed APT repo), and cross-platform portability fixes.
 
@@ -298,9 +316,11 @@
 
     - Private `node_manager` method that always returned zero (worker view returns zero directly)
 
-??? note "v3.0.0"
+## v3.0.0
 
-    <small>April 19, 2026 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.0.0)</small>
+??? note "April 19, 2026"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v3.0.0)</small>
 
     The largest release in the project's history: a ground-up redesign that replaces the heavy template-driven API with a single-header `gempba::` facade. `branch_handler` becomes `node_manager`, the entire pre-v3 surface (`result_holder`, `dynamic_load_balancer_handler`, `Pool`, `args_handler`, all `*2`-suffixed members) is removed, and the public surface is reorganized under `include/gempba/`.
 
@@ -371,9 +391,11 @@
     - Per-test discovery in CTest (`gtest_discover_tests`) and a separate test-artifact publish job in CI; `FLAKY_` test-name convention for flaky cases
     - Dropped redundant `git install` step from CI
 
-??? note "v2.1.1"
+## v2.1.1
 
-    <small>September 1, 2025 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v2.1.1)</small>
+??? note "September 1, 2025"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v2.1.1)</small>
 
     Single-fix patch release for the centralized MPI scheduler.
 
@@ -381,9 +403,11 @@
 
     - `mpi_centralized_scheduler` worker `probe_reference_value_comm()` was probing `REFVAL_PROPOSAL_TAG` (the worker-to-center tag) instead of `REFVAL_UPDATE_TAG`, so global reference-value updates broadcast by the center were never picked up by workers — leaving them with stale bounds and exploring branches that should have been pruned ([#55](https://github.com/rapastranac/gempba/pull/55))
 
-??? note "v2.1.0"
+## v2.1.0
 
-    <small>August 23, 2025 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v2.1.0)</small>
+??? note "August 23, 2025"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v2.1.0)</small>
 
     Source-level Windows support, alongside a dedicated Windows CI pipeline.
 
@@ -408,9 +432,11 @@
 
     - Test executable renamed from `all_tests.out` to `all_tests` (drops the Linux-style suffix so the same target name works on Windows)
 
-??? note "v2.0.0"
+## v2.0.0
 
-    <small>August 17, 2025 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v2.0.0)</small>
+??? note "August 17, 2025"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v2.0.0)</small>
 
     Major release: new `gempba::score`, `gempba::task_packet`, and `gempba::result` public types replace string-based transport and the `int` reference value, alongside a sweeping `clang-tidy` rename of the public API (`BranchHandler` → `branch_handler`, `MPI_Scheduler` → `mpi_scheduler`, `SchedulerParent` → `scheduler_parent`, etc.).
 
@@ -459,9 +485,11 @@
     - `CMakeLists.txt` project version bumped to `2.0.0`
     - `examples/CMakeLists.txt`: defines `GEMPBA_MULTIPROCESSING=1` for `mp_*` examples and `GEMPBA_MULTIPROCESSING=0` for the rest (previously only the `mp_*` side was defined)
 
-??? note "v1.1.0"
+## v1.1.0
 
-    <small>August 4, 2025 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v.1.1.0)</small>
+??? note "August 4, 2025"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v.1.1.0)</small>
 
     Citation metadata, a refreshed README, and dependency-management changes that consumers need to mirror.
 
@@ -490,9 +518,11 @@
     - `argparse` CPM entry rewritten in long form (`NAME argparse / GITHUB_REPOSITORY p-ranav/argparse / VERSION 3.0`); `external_libs` now also exports `spdlog`
     - `examples/CMakeLists.txt` sets `Boost_USE_STATIC_LIBS ON` so Boost is linked statically into the example binaries
 
-??? note "v1.0.2"
+## v1.0.2
 
-    <small>June 8, 2025 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.2)</small>
+??? note "June 8, 2025"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.2)</small>
 
     Easier external integration: GemPBA is now a consumable CMake library with a `gempba::gempba` target, a hook to inject a custom initial process topology, and CPM-based dependency fetch.
 
@@ -538,9 +568,11 @@
     - `clang-tidy` and `clang-format` configurations added at the repo root
     - `.vs/` and `CMakeSettings.json` added to `.gitignore`
 
-??? note "v1.0.1"
+## v1.0.1
 
-    <small>October 30, 2024 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.1)</small>
+??? note "October 30, 2024"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.1)</small>
 
     Restructured layout, C++23 build, typed strategy enums, and a scheduler base class so the semicentralized and centralized schedulers can coexist.
 
@@ -593,8 +625,10 @@
     - spdlog fetch / link wiring corrected
     - Several macro-guarded code paths that broke when `MPI_ENABLED` was off
 
-??? note "v1.0.0"
+## v1.0.0
 
-    <small>April 9, 2024 · [GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.0)</small>
+??? note "April 9, 2024"
+
+    <small>[GitHub ↗](https://github.com/rapastranac/gempba/releases/tag/v1.0.0)</small>
 
     Initial stable release of GemPBA — a generic message-passing branch-and-bound framework for distributed C++ workloads.
