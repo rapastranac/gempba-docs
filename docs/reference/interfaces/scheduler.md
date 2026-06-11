@@ -4,17 +4,17 @@
 #include <gempba/core/scheduler.hpp>  // included automatically via gempba.hpp
 ```
 
-Abstract interface for process-level coordination. Defines the IPC contract without coupling to any specific transport (MPI, UPC++, etc.). Extends [`scheduler_traits`](#scheduler_traits), which is also the base of the two inner role classes `center` and `worker`.
+Abstract interface for process-level coordination. Defines the IPC contract without coupling to any specific transport (MPI, UPC++, etc.). Extends [`scheduler_traits`](#scheduler_traits-shared-base), which is also the base of the two inner role classes `center` and `worker`.
 
-Built-in implementations use OpenMPI. For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
+Built-in implementations use MPI (OpenMPI on Linux/macOS, MS-MPI on Windows). For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
 
 ---
 
 ## Factory
 
 ```cpp
-auto* s = gempba::mp::create_scheduler(gempba::mp::scheduler_topology::SEMI_CENTRALIZED);
-auto* s = gempba::mp::create_scheduler(std::make_unique<MyScheduler>());
+auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
+auto* s = gempba::multiprocessing::create_scheduler(std::make_unique<MyScheduler>());
 ```
 
 | `scheduler_topology` | Description |
@@ -91,7 +91,16 @@ One `stats` entry per rank. Index 0 (center) is empty. Call only on rank 0 after
 ```cpp
 [[nodiscard]] virtual double elapsed_time() const = 0;
 ```
-Wall-clock time (ms) from `worker_view().run()` call to return.
+Wall-clock seconds from run start to termination, with the termination-detection timeout subtracted (so it reflects actual computation, not the idle wait that confirms completion).
+
+---
+
+### Monitoring
+
+```cpp
+[[nodiscard]] virtual std::size_t get_pending_request_count() const = 0;
+```
+Outstanding requests in the scheduler queue. Sampled by [telemetry](../../telemetry/index.md) for the worker frames.
 
 ---
 
@@ -155,5 +164,5 @@ private:
     MyWorker worker_;
 };
 
-auto* s = gempba::mp::create_scheduler(std::make_unique<MyScheduler>());
+auto* s = gempba::multiprocessing::create_scheduler(std::make_unique<MyScheduler>());
 ```
