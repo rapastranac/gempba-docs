@@ -94,7 +94,7 @@ nav:
               - result: reference/utilities/result.md
               - transmission_guard: reference/utilities/transmission-guard.md
               - tree: reference/utilities/tree.md
-              - Queue: reference/utilities/queue.md
+              - queue: reference/utilities/queue.md
       - Examples: examples.md
   - Development:
       - Contributing: contributing.md

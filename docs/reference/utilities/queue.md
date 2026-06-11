@@ -1,10 +1,10 @@
-# `Queue`
+# `queue`
 
 ```cpp
-#include <gempba/utils/Queue.hpp>  // included automatically via gempba.hpp
+#include <gempba/utils/queue.hpp>  // included automatically via gempba.hpp
 ```
 
-`Queue<T>` is a thread-safe FIFO queue. It wraps `std::queue<T>` with a `std::mutex`, making push, pop, and empty-check safe to call from multiple threads concurrently without external synchronization.
+`queue<T>` is a thread-safe FIFO queue. It wraps `std::queue<T>` with a `std::mutex`, making push, pop, and empty-check safe to call from multiple threads concurrently without external synchronization.
 
 Sourced from [CTPL](https://github.com/vit-vit/CTPL) by Vitaliy Vitsentiy (Apache 2.0).
 
