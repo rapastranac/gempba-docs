@@ -16,7 +16,7 @@ Telemetry lives in the C++ runtime, beneath the public API, not in any one front
 ## What it gives you
 
 - **Per-worker frames**: cumulative task counters (local / sent / received), tasks currently running, scheduler pending count, average pool idle time, process CPU %, RSS, thread count, and a per-destination **traffic matrix** (`edges_out[dst]`) for visualizing how work flows between workers.
-- **Per-host frames**, emitted by one "sentinel" worker per host: per-socket CPU and memory, total/available memory, and aggregate network and disk counters.
+- **Per-host frames**, emitted by one "sentinel" worker per host: per-socket CPU and memory, total/available memory, the job's own memory usage and limit (from its enforcing cgroup, so a shared node shows gempba's allocation rather than the whole machine), and aggregate network and disk counters.
 - **Topology snapshot**, captured once at startup: every host, the workers it owns, per-socket physical/logical core counts, CPU names, and CPU-id lists. Frames carry numeric `worker_id`s; the topology maps them back to host and hardware.
 - **Live control**: a connected client can retune the worker and host emission cadence, and promote a host sentinel, on the fly, so a dashboard can dial detail up while you watch and back down for long unattended runs.
 

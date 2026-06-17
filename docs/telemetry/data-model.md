@@ -53,6 +53,7 @@ Per-host sample, emitted by one **sentinel** worker per host on the node cadence
 | `socket_count`, `logical_cores` | Host CPU layout |
 | `sockets[]` | Per-socket `cpu_pct`, `mem_total_bytes`, `mem_used_bytes` |
 | `mem_total_bytes`, `mem_avail_bytes` | Host memory |
+| `cgroup_mem_used_bytes`, `cgroup_mem_limit_bytes` | The job's own memory usage and limit, read from the enforcing memory cgroup (v1 or v2). On a shared node this is gempba's footprint against its allocation rather than the whole machine. Both `0` when the process is unconstrained, so a consumer falls back to the host `mem_*` fields. |
 | `net_aggregate` | `bytes_in/out`, `packets_in/out` (delta-able) |
 | `disk_aggregate` | `read_bytes`, `write_bytes` (delta-able) |
 
