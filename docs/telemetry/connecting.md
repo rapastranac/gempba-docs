@@ -26,6 +26,9 @@ You get one formatted line per broadcast: time, elapsed, local/remote task count
 
 ## Remote run (SSH tunnel)
 
+!!! tip "Prefer a GUI?"
+    The [GemPBA Dashboard](dashboard.md) does all of this for you, including the jump-host hop and MFA, with no scripts. The `telemetry_tunnel` / `telemetry_view` helpers below are the headless path, for a terminal tail or a custom consumer.
+
 Because the socket is loopback-only, you reach a remote rank by forwarding the port over SSH. `telemetry_tunnel` wraps the whole open-tunnel, wait, tail flow into one command and hands off to `telemetry_view`.
 
 **Direct host** (a LAN box or anything you can `ssh` into):

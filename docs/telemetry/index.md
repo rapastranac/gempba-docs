@@ -46,4 +46,4 @@ flowchart LR
 - **[Configuration](configuration.md)**: the runtime kill switch (C++ and Java), the TCP port, and emission cadence and live control.
 - **[Connecting](connecting.md)**: live-tail a local run, or tunnel into a remote rank with the bundled helper scripts.
 - **[Data model](data-model.md)**: the frame structs and the JSON broadcast shape a consumer reads.
-- **[Dashboard](dashboard.md)**: the planned web dashboard, and how to consume the stream today.
+- **[Dashboard](dashboard.md)**: the GemPBA Dashboard desktop app, a live cluster grid and per-node detail for any run, with built-in SSH for remote and jump-host connections.
