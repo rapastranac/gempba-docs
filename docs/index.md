@@ -29,6 +29,21 @@ For the full performance analysis and formal description, see:
 !!! tip "Explore the internals"
     For a navigable, AI-assisted deep-dive into GemPBA's architecture and source, browse the **[GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba)** — auto-generated and refreshed periodically.
 
+## GemPBA Dashboard
+
+A desktop app that connects to a running GemPBA program and shows the whole run live: every node and worker, CPU and memory as they move, and the task traffic between processes.
+
+<figure markdown="span">
+  ![The GemPBA Dashboard node-detail view: per-worker CPU, affinity, and task flow](assets/images/dashboard/node-detail.png)
+</figure>
+
+- See every node at a glance: one live tile each, CPU and memory.
+- Drill into any node for per-worker CPU, affinity, task flow, and peer traffic.
+- Connect locally, or straight to an HPC compute node through an MFA login node, with no manual tunnel.
+
+[See the dashboard](telemetry/dashboard.md){ .md-button .md-button--primary }
+[Download](https://github.com/rapastranac/gempba-dashboard/releases/latest){ .md-button }
+
 ## Flavors
 
 GemPBA ships in two flavors that install side by side on any platform:
