@@ -49,7 +49,7 @@ Pick a mode in the toolbar. The dashboard's SSH client is built in, so reaching 
 gempba is running on this machine. Point the dashboard at the telemetry port (9000 by default) and connect. This is the view at the top of this page.
 
 <figure>
-  <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/2rU9Tkp7RHY" title="GemPBA Dashboard: connecting to a local run" loading="lazy" allowfullscreen></iframe></div>
+  <div class="video-embed"><iframe src="https://www.youtube.com/embed/2rU9Tkp7RHY?si=T_BIpYuaagzREpnf" title="GemPBA Dashboard: connecting to a local run" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
   <figcaption>Connecting to a local run.</figcaption>
 </figure>
 
@@ -63,7 +63,7 @@ gempba is on a remote machine or an HPC compute node. The dashboard opens the SS
 </figure>
 
 <figure>
-  <div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/Ko1T0aUqoXY" title="GemPBA Dashboard: connecting through an MFA jump host" loading="lazy" allowfullscreen></iframe></div>
+  <div class="video-embed"><iframe src="https://www.youtube.com/embed/Ko1T0aUqoXY?si=rdwQuJkc2QAo6kOB" title="GemPBA Dashboard: connecting through an MFA jump host" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
   <figcaption>Connecting to a compute node through an MFA login node.</figcaption>
 </figure>
 
