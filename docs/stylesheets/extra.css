@@ -147,6 +147,12 @@
 }
 
 /* ── Responsive 16:9 video embed (YouTube etc.) */
+/* Material makes <figure> width:fit-content, which collapses around a
+   sizeless iframe; force the video figure to span the content width. */
+.md-typeset figure:has(> .video-embed) {
+  width: 100%;
+}
+
 .md-typeset .video-embed {
   position: relative;
   width: 100%;
