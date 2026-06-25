@@ -1,0 +1,4175 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://rapastranac.github.io/gempba-docs/releases/">
+      
+      
+        <link rel="prev" href="../contributing/">
+      
+      
+        <link rel="next" href="../citing/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Releases - GemPBA</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#releases" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="GemPBA" class="md-header__button md-logo" aria-label="GemPBA" data-md-component="logo">
+      
+  <img src="../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            GemPBA
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Releases
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/rapastranac/gempba" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    rapastranac/gempba
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../background/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Background
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../why-gempba/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Why GemPBA
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../getting-started/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../java/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Java
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../telemetry/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Telemetry
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../architecture/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../contributing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Releases
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../citing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Citing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../sponsor/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Sponsor
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="GemPBA" class="md-nav__button md-logo" aria-label="GemPBA" data-md-component="logo">
+      
+  <img src="../assets/logo.svg" alt="logo">
+
+    </a>
+    GemPBA
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/rapastranac/gempba" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    rapastranac/gempba
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../background/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Background
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why-gempba/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why GemPBA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../getting-started/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/requirements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../java/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Java
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Java
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/class-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../java/file-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../telemetry/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Telemetry
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Telemetry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry/connecting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connecting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry/data-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../telemetry/dashboard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/class-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Class Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/file-index/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    File Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_4" id="__nav_7_2_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Defaults
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Defaults
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/defaults/gempba-hpp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    gempba
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/defaults/node-manager/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    node_manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/defaults/node/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    node
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_5" id="__nav_7_2_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interfaces
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Interfaces
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/interfaces/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/node-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    node_core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/node-traits/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    node_traits
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/load-balancer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    load_balancer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/scheduler/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    scheduler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/serial-runnable/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    serial_runnable
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stats
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/interfaces/stats-visitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    stats_visitor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_6" id="__nav_7_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementations
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Implementations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/implementations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_6_2" id="__nav_7_2_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Load Balancers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Load Balancers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/load-balancers/quasi-horizontal/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quasi-Horizontal
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/load-balancers/work-stealing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Work-Stealing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_6_3" id="__nav_7_2_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedulers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Schedulers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/schedulers/semi-centralized/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPI Semi-Centralized
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/schedulers/centralized/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MPI Centralized
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_6_4" id="__nav_7_2_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stats
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Stats
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/stats/default-mpi-stats/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Default MPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_6_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_6_5" id="__nav_7_2_6_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stats Visitors
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_7_2_6_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_6_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Stats Visitors
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/implementations/stats-visitors/default-mpi-stats-visitor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Default MPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_7" id="__nav_7_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IPC Topologies
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    IPC Topologies
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scheduler-topologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scheduler
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_2_8" id="__nav_7_2_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Utilities
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/task-packet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    task_packet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/task-bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    task_bundle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/score/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    score
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/result/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    result
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/transmission-guard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    transmission_guard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    tree
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/utilities/queue/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    queue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Releases
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Releases
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#v420" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.2.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v413" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v412" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v411" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v410" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v400" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v330" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.3.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v320" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.2.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v311" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.1.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v310" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v300" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v211" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2.1.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v210" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v110" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.0.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.0.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v100" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../citing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Citing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sponsor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sponsor
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#v420" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.2.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v413" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.3
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v412" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v411" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v410" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v400" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v4.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v330" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.3.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v320" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.2.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v311" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.1.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v310" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v300" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v3.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v211" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2.1.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v210" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v200" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v110" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v102" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.0.2
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v101" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.0.1
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v100" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v1.0.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="releases">Releases</h1>
+<h2 id="v420">v4.2.0</h2>
+<details class="note" open="open">
+<summary>June 16, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v4.2.0">GitHub ↗</a></small></p>
+<p>A telemetry-on-real-clusters release. Watching a gempba run on an HPC compute node needs two things to be true at once: the per-node numbers have to be right, and you have to be able to reach them from your own machine. v4.2.0 delivers both — node telemetry now reports correct socket topology, CPU placement, and per-job memory on large multi-socket nodes, and the operator scripts can tunnel to a compute node through an MFA login node. The telemetry wire format only grows (additive cgroup-memory fields; schema version unchanged) and there are no public C++ API changes — additive on top of <code>v4.1.3</code>.</p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><strong>Every node reports its real socket topology, not just the center.</strong> Per-host topology is now gathered with a variable-length collective — each host's sentinel serializes its own layout, exchanged via <code>MPI_Allgatherv</code> and merged by hostname — so all nodes report their sockets, cores, and full per-socket CPU lists (including wide sockets such as 96-core EPYC), instead of only rank 0's (#327)</li>
+<li><strong>Workers land on their real socket, and CPUs past index 64 are no longer dropped.</strong> The per-worker affinity bitmap grew from a single 64-bit word to a <code>MAX_LOGICAL_CPUS</code>-wide array, and each rank's primary socket is derived from its first allowed CPU through hwloc instead of being hardcoded to 0. On nodes with more than 64 logical CPUs this fixes the flat-zero per-allocation CPU% and the collapse of every rank onto socket 0 (#327)</li>
+<li><strong>Memory reflects the job, not the host.</strong> The node frame now carries the process's memory-cgroup usage and limit, resolved at the cgroup that actually enforces the allocation (scheduler-agnostic, cgroup v1 and v2), so a shared node shows gempba's own footprint against its allocation instead of the whole machine's memory. Falls back to host totals when the process is unconstrained (#327)</li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li><strong>Reach telemetry on a compute node through an MFA login node.</strong> <code>telemetry_tunnel --jump-host</code> nests the tunnel instead of using SSH <code>ProxyJump</code>: it forwards your machine to the login node, then runs the final hop <em>on</em> the login node so it rides the cluster's intra-cluster trust — one Duo prompt at the login node, no compute-node password, and gempba stays loopback-only. <code>accept-new</code> auto-trusts the per-job compute-node host key, and the readiness probe waits for a real byte rather than just a TCP accept. The mechanics are written up in <code>docs/remote-connection.md</code> (#325)</li>
+<li><strong>Bash ports of the operator scripts.</strong> <code>scripts/telemetry_tunnel.sh</code> and <code>scripts/telemetry_view.sh</code> join the PowerShell versions, so the tunnel and live-watch workflows run the same from Linux and macOS shells (#325)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li><strong>The telemetry operator scripts were renamed and simplified.</strong> The helpers were renamed for clarity and the SLURM job-resolution path was dropped — pass the compute node directly (<code>--ssh-host</code> / <code>--jump-host</code>) instead of <code>--job &lt;slurm-id&gt;</code>. Update any wrappers that called the old names or relied on <code>squeue</code> resolution (#319)</li>
+</ul>
+<p><strong>Docs</strong></p>
+<ul>
+<li>Corrected the release dates in the per-version release notes (#323)</li>
+</ul>
+</details>
+<h2 id="v413">v4.1.3</h2>
+<details class="note">
+<summary>June 2, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v4.1.3">GitHub ↗</a></small></p>
+<p>A telemetry-reachability release. Two fixes, both about getting at telemetry from outside the C++ runtime: C++ consumers can reach it through the umbrella header again, and the <code>configure_port</code> control is finally callable from the C ABI and Java. No runtime or scheduler API changes.</p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><strong><code>gempba::telemetry::*</code> is reachable through <code>&lt;gempba/gempba.hpp&gt;</code> again.</strong> The umbrella header didn't surface telemetry, so consumer code that included only <code>&lt;gempba/gempba.hpp&gt;</code> failed to compile <code>gempba::telemetry::enable()</code> with <code>no member named 'telemetry' in namespace 'gempba'</code> — and IDEs "fixed" it by inserting a deep, machine-specific include into the telemetry subheader. The umbrella now includes it, so the full public telemetry surface compiles from the one header consumers already use (#314)</li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li><strong><code>configure_port</code> across the bindings.</strong> The telemetry kill switch (<code>enable</code> / <code>disable</code> / <code>is_enabled</code>) was already mirrored in the C ABI, JNI, and Java, but <code>configure_port</code> — the call that moves the telemetry TCP port off the default <code>127.0.0.1:9000</code> — had been left behind. It is now exposed as <code>gempba_telemetry_configure_port</code> (C ABI) and <code>GemPBA.configureTelemetryPort(int)</code> (Java, both flavors, with a <code>0..65535</code> range check). As in C++, call it before the first <code>create_*</code>: the hub captures the port once, when it installs (#315)</li>
+</ul>
+</details>
+<h2 id="v412">v4.1.2</h2>
+<details class="note">
+<summary>May 31, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v4.1.2">GitHub ↗</a></small></p>
+<p>A targeted bugfix release: multiprocessing now runs on macOS. MP-mode binaries aborted at startup on macOS — and only macOS — with <code>mutex lock failed: Invalid argument</code>, while the same build ran fine on Linux and Windows. If you only use MT mode, or don't run on macOS, nothing here affects you. No library or API changes.</p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><strong>macOS MP no longer aborts at startup.</strong> Both MPI schedulers passed a 128-byte buffer to <code>MPI_Get_processor_name</code>, which OpenMPI requires to be <code>MPI_MAX_PROCESSOR_NAME</code> (256) — it fills the full field, overflowing the buffer and zeroing an adjacent <code>std::mutex</code>. A zeroed mutex is a valid <code>PTHREAD_MUTEX_INITIALIZER</code> on Linux/glibc, so the corruption stayed invisible there; macOS rejects it with <code>EINVAL</code>, so the first lock threw <code>std::system_error</code>. The buffer is now sized <code>MPI_MAX_PROCESSOR_NAME</code> in both the semi-centralized and centralized schedulers (#310)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li>Dropped an unused <code>m_processor_name</code> field from <code>node_manager</code> — declared but never read or written, and carrying the same undersized buffer (#310)</li>
+</ul>
+<p><strong>Docs</strong></p>
+<ul>
+<li>Added a DeepWiki badge and callout to the README (#308)</li>
+</ul>
+<p><strong>Build / CI</strong></p>
+<ul>
+<li>Split the Java binding workflow's native build from its tests, so a flaky Java test re-runs on its own without rebuilding the JNI library — the build job hands the native lib to the test job as a per-run artifact (#311)</li>
+<li>Extracted the duplicated gempba-examples branch resolver into a shared composite action, deduping the three C/C++ CI workflows (#311)</li>
+<li>Bumped the PKGBUILD <code>sha256</code> for the v4.1.1 packaging artifact</li>
+</ul>
+</details>
+<h2 id="v411">v4.1.1</h2>
+<details class="note">
+<summary>May 30, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v4.1.1">GitHub ↗</a></small></p>
+<p>A pure install-fixes release. v4.1.0 shipped the packages, but several of the documented install paths didn't actually work on a clean machine — the Homebrew build failed in the sandbox, the apt repo's signing key was never published, the MSYS2 download link pointed at a filename that doesn't exist. v4.1.1 makes every install command in the README work end-to-end, on all three platforms.</p>
+<p>No library or API changes. If v4.1.0 already installed and built for you, nothing here affects your code — upgrade only if you hit one of the install problems below.</p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><strong><code>brew install</code> now works.</strong> The v4.1.0 formula died inside Homebrew's build sandbox — CPM/FetchContent tried to fetch <code>BS_thread_pool</code> over the network at build time, which the sandbox blocks. Those build deps are now vendored into the formula, so it builds offline (#288)</li>
+<li><strong><code>apt install</code> no longer fails signature verification.</strong> The signed APT repo never exposed its public key, so <code>apt update</code> rejected it with <code>NO_PUBKEY 7C5B392E…</code>. The release now publishes the signing key (<code>gempba-archive-keyring.gpg</code>) alongside the index, so the documented <code>signed-by=</code> setup resolves (#286)</li>
+<li>Dropped an unused OpenMP dependency the macOS formula pulled in for nothing (#289)</li>
+</ul>
+<p><strong>Docs</strong></p>
+<ul>
+<li>Rewrote the README's pre-built-package install instructions — every platform's block was broken or misleading (#286):<ul>
+<li><strong>APT</strong> — added the one-time key-trust + repo-registration steps before <code>apt install</code>.</li>
+<li><strong>MSYS2</strong> — the old <code>releases/latest/download/&lt;fixed-name&gt;</code> link 404'd (release asset names carry the version); now points at the Releases page + <code>pacman -U</code>.</li>
+<li><strong>Homebrew</strong> — fixed the literal <code>&lt;owner&gt;</code> placeholder, and clarified that both flavors install side by side (only one is <em>linked</em> at a time; each project points at <code>$(brew --prefix gempba)</code> / <code>gempba-mpi</code>).</li>
+<li>Named the two flavors (<code>mt</code> / <code>mpi</code> / <code>mp-mpi</code>) up front so the section's recurring terms map to just two things.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Build / CI</strong></p>
+<ul>
+<li>The Homebrew formula is now built and <code>brew test</code>-ed on a real macOS runner on every PR and release, so a non-installable formula blocks the release instead of shipping (#292)</li>
+<li><code>prepare-release</code> bumps the Homebrew formula templates in lockstep with the other manifests — and actually stages them, so the bump lands on the prep branch (#297)</li>
+<li>Hardened the macOS formula-verify job: pinned Homebrew off mid-run auto-update (which broke its ephemeral tap) and serialized the two-flavor matrix so they stop colliding on the shared prefix (#303)</li>
+</ul>
+</details>
+<h2 id="v410">v4.1.0</h2>
+<details class="note">
+<summary>May 28, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v4.1.0">GitHub ↗</a></small></p>
+<p><strong>Java.</strong> That's the headline.</p>
+<p>gempba is now a Maven dependency. Drop it into a <code>pom.xml</code>, write <code>import io.gempba.*</code>, and call the same scheduler family, load balancer, and node manager you would from C++ — just from Java this time. One fat JAR per flavor (<code>mt</code>, <code>mp-mpi</code>) carries the native binaries for Linux, Windows, and macOS inside the artifact, so there is no per-platform build dance, no classifier juggling, no "first set <code>LD_LIBRARY_PATH</code>" footnote. You add the dependency, you build, you run.</p>
+<p>That this is shippable at all is because of the second piece of <code>v4.1.0</code>: a stable C ABI underneath. The Java binding is the first consumer of it, but the same headers are what any future Python / Rust / .NET binding will sit on. If you have a JVM pipeline, a Spark job, an Airflow operator, an enterprise application — anywhere C++ was the wrong language but you still wanted gempba's scheduler — that bridge now exists.</p>
+<p>Everything else in <code>v4.1.0</code> is the surrounding work: the publish pipeline, the README the new Java audience needs, a couple of bug fixes. No public C++ API changes — additive on top of <code>v4.0.0</code>.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Stable C ABI (<code>&lt;gempba/cabi/gempba.h&gt;</code>) — extern-C surface covering the full runtime: scheduler family, load balancer, node manager, factories, runnables, MP / MT entry points, per-node result retrieval. The same headers any non-C++ binding will reuse going forward (#185)</li>
+<li>Java JNI binding (<code>io.gempba:gempba</code>) — typed wrappers for <code>Node</code>, <code>LoadBalancer</code>, <code>NodeManager</code>, <code>RankStats</code>, <code>Score</code> / <code>ScoreType</code>, <code>Goal</code>, <code>BalancingPolicy</code>, the task / serializer / deserializer functional interfaces, the scheduler family (MP-only), and <code>GemPBA</code> entry points for both flavors (#186)</li>
+<li>Multi-platform fat JAR — each published JAR carries <code>natives/&lt;os&gt;-&lt;arch&gt;/</code> for Linux <code>x86_64</code>, Windows <code>x86_64</code>, and macOS <code>aarch64</code>. <code>NativeLoader</code> picks the right binary at runtime, so the same JAR runs unchanged on any supported platform. No per-OS classifier, no platform-specific Maven profiles (#274)</li>
+<li>Maven publication to GitHub Packages on every <code>v*</code> tag, with classifiers <code>mt</code> (multithreading) and <code>mp-mpi</code> (multiprocessing). Add the repo to your <code>settings.xml</code>, declare the dependency with the classifier you want, build (#187)</li>
+<li>README "Maven dependency (Java)" subsection — repository + <code>settings.xml</code> + dependency snippet, plus a cutoff note that Maven artifacts start at <code>v4.1.0</code> (earlier tags predate the publish flow). Platforms section gains a per-OS architecture table (#283)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><code>default_mpi_stats_visitor::labels()</code> was missing the <code>total_thread_requests</code> key — values were emitted but the label vector didn't cover them, breaking downstream consumers that zipped labels with values (#262)</li>
+<li><code>set_thread_pool_size</code> could race against in-flight construction; the resize now round-trips a no-op task to fence the pool's worker threads before returning (#277)</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>CI workflows split into mutually exclusive triggers: <code>ci-*.yml</code> runs on PRs and branch pushes, <code>release-*.yml</code> runs on tags. Reusable building blocks factored out so tag-time publish reuses the exact build path CI exercises (#265)</li>
+<li>Workflow folder reorganized with <code>ci-</code> / <code>release-</code> prefixes, a <code>.github/workflows/README.md</code>, and shared composite actions extracted (#271)</li>
+<li><code>prepare-release.yml</code> now bumps <code>bindings/java/pom.xml</code>'s <code>&lt;version&gt;</code> alongside the CMake / PKGBUILD bumps so the Java release version stays in lockstep with the C++ release version (#187)</li>
+<li>Lint workflow bumped to LLVM 22; the modernizations clang-tidy 22 flagged were applied (#261)</li>
+</ul>
+</details>
+<h2 id="v400">v4.0.0</h2>
+<details class="note">
+<summary>May 23, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v4.0.0">GitHub ↗</a></small></p>
+<p>This is the release where gempba becomes a real distributed library you install instead of clone. Pick your flavor (multithreading or MPI), pick your platform (Linux, macOS, or Windows), and <code>apt install</code> / <code>pacman -S</code> / <code>brew install</code> your way to a working build. Telemetry, which landed in v3.3.0, ships in every flavor, so your production runs are observable out of the box without any wiring.</p>
+<p><strong>What's new</strong></p>
+<ul>
+<li><strong>Packages on every platform.</strong> <code>.deb</code> on Debian/Ubuntu, MSYS2 packages on Windows, and a brand-new Homebrew tap on macOS. Each platform ships two coexisting flavors: a default multithreading build and an MPI build that you install on top when you need it.</li>
+<li><strong>Telemetry is in the box.</strong> The v3.3.0 telemetry hub (worker / node frames, hwloc topology, local + TCP + MPI transports) is built into every published flavor. No extra dependency to add, no extra flag to flip.</li>
+<li><strong>Same call site, both modes.</strong> Public namespaces were reshaped. Consumer code now reads the same whether you build against the multithreading or the MPI flavor: <code>gempba::create_load_balancer(...)</code>, <code>gempba::create_node_manager(...)</code>. Mode is picked at <code>find_package</code> time, not at every call site.</li>
+<li><strong>Examples moved out.</strong> <code>examples/</code> left the source tree for a sibling repo, <a href="https://github.com/rapastranac/gempba-examples">rapastranac/gempba-examples</a>, where they consume gempba via <code>find_package</code> exactly like you would. Every example PR exercises the public API.</li>
+</ul>
+<p><strong>Breaking changes</strong></p>
+<ul>
+<li>Public namespaces renamed: <code>gempba::mp</code> is now <code>gempba::multiprocessing</code>, <code>gempba::mt</code> is now <code>gempba::multithreading</code>.</li>
+<li>In a consumer build, exactly one of the two is <code>inline</code>, selected by <code>GEMPBA_MULTIPROCESSING</code>. Code that hard-codes the explicit qualifier still compiles, but mixing both qualifiers in one consumer build no longer works.</li>
+<li>The <code>gempba::multiprocessing::*</code> facade (schedulers, MP factories, MP <code>create_node_manager</code>, <code>get_default_mpi_stats_visitor</code>, <code>runnables::*</code>, MP node creators) is gated on <code>GEMPBA_MULTIPROCESSING=ON</code>. Code that referenced these in an MT-only build will fail to compile.</li>
+<li><code>apt install libgempba-dev</code> previously gave you an MPI-enabled build. It now gives you multithreading only. MPI consumers additionally <code>apt install libgempba-mpi-dev</code>.</li>
+<li><code>pacman -S mingw-w64-x86_64-gempba</code> previously gave you an MPI-enabled build. Same shape: MPI consumers additionally <code>pacman -S mingw-w64-x86_64-gempba-mpi</code>.</li>
+<li>The in-tree <code>examples/</code> tree is gone. The migrated tree now lives in <a href="https://github.com/rapastranac/gempba-examples">rapastranac/gempba-examples</a>.</li>
+</ul>
+<p><strong>Migration</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Before (v3.x)</span>
+<span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">lb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gempba</span><span class="o">::</span><span class="n">mp</span><span class="o">::</span><span class="n">create_load_balancer</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">);</span>
+<span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">nm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gempba</span><span class="o">::</span><span class="n">mp</span><span class="o">::</span><span class="n">create_node_manager</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">);</span>
+
+<span class="c1">// After (v4.0): short form, mode picked by GEMPBA_MULTIPROCESSING</span>
+<span class="k">auto</span><span class="o">*</span><span class="w"> </span><span class="n">lb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gempba</span><span class="o">::</span><span class="n">create_load_balancer</span><span class="p">(</span><span class="n">policy</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">);</span>
+<span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">nm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gempba</span><span class="o">::</span><span class="n">create_node_manager</span><span class="p">(</span><span class="n">lb</span><span class="p">,</span><span class="w"> </span><span class="n">worker</span><span class="p">);</span>
+<span class="c1">// (or the explicit form: gempba::multiprocessing::create_load_balancer(...))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c"># v4.0 consumer CMake</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">gempba</span><span class="w"> </span><span class="s">REQUIRED</span><span class="p">)</span><span class="w">                  </span><span class="c"># default: mt</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">gempba</span><span class="w"> </span><span class="s">REQUIRED</span><span class="w"> </span><span class="s">COMPONENTS</span><span class="w"> </span><span class="s">mt</span><span class="p">)</span><span class="w">    </span><span class="c"># explicit mt</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">gempba</span><span class="w"> </span><span class="s">REQUIRED</span><span class="w"> </span><span class="s">COMPONENTS</span><span class="w"> </span><span class="s">mpi</span><span class="p">)</span><span class="w">   </span><span class="c"># mpi (requires libgempba-mpi-dev installed)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">my_app</span><span class="w"> </span><span class="s">PRIVATE</span><span class="w"> </span><span class="s">gempba::gempba</span><span class="p">)</span>
+</code></pre></div>
+<p>The two flavors are mutually exclusive within a single binary. They share mode-agnostic top-level symbols and would ODR-clash, so <code>find_package(gempba COMPONENTS mt mpi)</code> is rejected up front with a clear diagnostic. A project that genuinely needs both (say, an MT debug runner and an MPI cluster runner) splits into two executables, each <code>find_package</code>-ing one.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Top-level <code>gempba::create_load_balancer(std::unique_ptr&lt;load_balancer&gt;)</code>. Mode-agnostic BYO factory that works identically in MT and MP builds.</li>
+<li><code>gempbaConfig.cmake</code> is now a COMPONENTS-aware dispatcher. Defaults to <code>mt</code>, refuses the <code>mt</code>+<code>mpi</code> combination, pulls <code>find_dependency(MPI)</code> only on the <code>mpi</code> branch.</li>
+<li>Two <code>.deb</code> packages: <code>libgempba-dev</code> (mt base, ships headers and <code>gempbaConfig.cmake</code>) and <code>libgempba-mpi-dev</code> (mpi topping, <code>Depends:</code> the base plus <code>libopenmpi-dev</code>). Installable side-by-side without conflict.</li>
+<li>Two MSYS2 packages: <code>mingw-w64-x86_64-gempba</code> and <code>mingw-w64-x86_64-gempba-mpi</code>. Same shape, same dependency direction.</li>
+<li>macOS Homebrew tap: <code>brew tap &lt;owner&gt;/gempba &amp;&amp; brew install gempba</code> (or <code>gempba-mpi</code>).</li>
+<li><a href="https://github.com/rapastranac/gempba-examples">rapastranac/gempba-examples</a> sister repo carrying the migrated example tree. Consumes gempba via <code>find_package(gempba)</code> exactly as a downstream user would.</li>
+<li>README sections "Installing" (apt / pacman / brew per flavor) and "Selecting a flavor" (the <code>COMPONENTS</code> API, the mutual-exclusion guard, the two-executables pattern).</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li><code>find_package(MPI REQUIRED)</code> and <code>MPI::MPI_CXX</code> linkage are conditional on <code>GEMPBA_MULTIPROCESSING=ON</code>. MT-only builds no longer require an MPI installation.</li>
+<li>Installed library output name is flavor-tagged: <code>libgempba.a</code> for mt, <code>libgempba_mpi.a</code> for mpi. Both flavors export the same imported target name <code>gempba::gempba</code>, so your link line never changes between modes.</li>
+<li>Per-flavor <code>pkg-config</code> file: <code>gempba.pc</code> for mt, <code>gempba-mpi.pc</code> for mpi.</li>
+</ul>
+</details>
+<h2 id="v330">v3.3.0</h2>
+<details class="note">
+<summary>May 21, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v3.3.0">GitHub ↗</a></small></p>
+<p>Runtime telemetry: process-wide hub with local / TCP / MPI transports, hwloc-backed topology probe, and a small set of read-only runtime accessors. Telemetry ships ON by default; opt out at runtime with <code>gempba::telemetry::disable()</code>. No API breaks.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li><code>&lt;gempba/telemetry/telemetry_hub.hpp&gt;</code> — process-wide telemetry hub that publishes worker / node frames and routes control messages. Singleton accessed via <code>gempba::telemetry::get()</code>; runtime kill switch via <code>disable()</code> / <code>enable()</code> / <code>is_enabled()</code> (process-local, sticky, must be set symmetrically across MPI ranks)</li>
+<li>Local in-process and TCP server transports; TCP binds <code>127.0.0.1:9000</code> by default (<code>configure_port()</code> to change before the first <code>create_*</code> call)</li>
+<li>MPI transport on a private communicator (<code>MPI_Comm_dup</code>) so telemetry traffic never collides with application traffic; auto-installed inside <code>mp::create_scheduler</code> so the collective install runs on every rank</li>
+<li>hwloc-backed topology probe: per-socket physical / logical core counts, total memory, CPU brand, cpu-id list; multi-node topology assembled via <code>MPI_Allgather</code> of the <code>worker_identity</code> POD</li>
+<li>JSON serializer for telemetry frames; client-pushed interval-control protocol over the TCP socket so dashboards can throttle publish rate live</li>
+<li>Read-only runtime accessors: <code>gempba::try_get_scheduler</code> (non-throwing variant of <code>get_scheduler</code>), <code>load_balancer::get_thread_pool_size</code>, <code>load_balancer::get_tasks_running_count</code>, <code>scheduler::get_pending_request_count</code></li>
+<li><code>scripts/connect_telemetry.sh</code> — SSH-tunnel helper for inspecting a remote rank's telemetry socket from a local dashboard</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Default thread-pool size when no explicit size is set is now <code>1</code> (was one-per-core via <code>BS::thread_pool</code>'s default). The concrete <code>quasi_horizontal_load_balancer</code> and <code>work_stealing_load_balancer</code> impls construct <code>BS::thread_pool&lt;&gt;{1}</code> explicitly. Users who relied on the implicit default should pass the size explicitly through their scheduler init</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Exported <code>gempbaConfig.cmake</code> now re-discovers hwloc behind <code>GEMPBA_HWLOC</code>, so downstream <code>find_package(gempba)</code> consumers resolve <code>PkgConfig::HWLOC</code> at link time instead of failing with <code>target not found</code> (latent since hwloc became a PRIVATE link dep on a STATIC library)</li>
+<li><code>mpi_semi_centralized_scheduler</code> double-counted <code>m_sent_task_count</code> — increments fired on two paths for the same dispatch; consolidated to a single ownership point so the stats visitor and telemetry's <code>record_send</code> see consistent values</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>hwloc is a new runtime dependency, gated by the <code>GEMPBA_HWLOC</code> CMake option (ON for releases, OFF for dev builds). Discovered via <code>pkg-config</code> on all three platforms; <code>.deb</code> and MSYS2 packages declare it as a runtime dep</li>
+<li>CI installs hwloc on Ubuntu 24.04 / macOS 26 / Windows 2025 (MSYS2) / lint runners</li>
+<li><code>build_*.sh</code> scripts forward <code>GEMPBA_HWLOC</code> so packagers can disable hwloc cleanly</li>
+<li>Windows builds link <code>psapi</code> (process-info probe) and <code>ws2_32</code> (Winsock for the TCP server)</li>
+</ul>
+</details>
+<h2 id="v320">v3.2.0</h2>
+<details class="note">
+<summary>May 21, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v3.2.0">GitHub ↗</a></small></p>
+<p>CI hardening and release-flow automation. No library API or behavior changes.</p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><code>publish-apt-repo</code> no longer depends on the GitHub CLI being on the runner image — it consumes the <code>.deb</code> from the same workflow's artifact instead of <code>gh release download</code>, so self-hosted Linux runners can publish on tag pushes again</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li><code>BS::thread_pool</code> pinned to release tag <code>v5.1.0.1</code> instead of tracking <code>master</code> for reproducible builds</li>
+<li>CI <code>clang-tidy</code> bumped from 18 to 19; <code>bugprone-throwing-static-initialization</code> enabled — <code>debug_logger_initializer</code>'s ctor is now <code>noexcept</code> with the <code>spdlog</code> calls wrapped in <code>try/catch</code>, preserving the static-init injection contract while making it honest</li>
+<li><code>update-pkgbuild.sh</code> accepts <code>-r / --remote</code> to select which git remote's tag to hash against (defaults to <code>origin</code>); useful when cutting a release pointed at the public repo</li>
+<li>New <code>Prepare release</code> workflow (<code>workflow_dispatch</code>): branches <code>prep/v&lt;version&gt;</code> from the resolved target branch, bumps <code>CMakeLists.txt</code> + <code>packaging/msys2/PKGBUILD</code>, drafts <code>docs/releases/release-notes-v&lt;version&gt;.md</code> from <code>git log</code>, and opens the prep PR. Auto-detects the target branch (or accepts a <code>target_branch</code> input / <code>vars.RELEASE_TARGET_BRANCH</code> override) so the same workflow runs on forks with only <code>main</code> and on forks with both <code>main</code> and <code>release</code></li>
+<li>New <code>Post-tag PKGBUILD sha256 cleanup</code> workflow (<code>push tags: v*</code>): replaces the prep PR's <code>'SKIP'</code> placeholder with the real sha of the source tarball; opens a follow-up PR. Auto-resolves the target branch via tag-commit reachability when both <code>main</code> and <code>release</code> exist</li>
+<li>New <code>set-release-body</code> job in <code>c-cpp-ubuntu.yml</code>: applies the curated <code>docs/releases/release-notes-v&lt;tag&gt;.md</code> to the GitHub Release body via <code>gh release edit --notes-file</code>; fails loudly if the notes file is missing so no tag ships without curated notes</li>
+<li>New <code>setup-gh-cli</code> composite action: pinned <code>gh</code> on PATH for self-hosted Linux runners; no-op on github-hosted runners where <code>gh</code> is pre-installed</li>
+</ul>
+</details>
+<h2 id="v311">v3.1.1</h2>
+<details class="note">
+<summary>May 19, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v3.1.1">GitHub ↗</a></small></p>
+<p>Post-v3.1.0 hygiene release: packaging metadata, coverage scope, CI workflow polish, a test-coverage push, cross-platform fixes, and toolchain bumps. No public API changes.</p>
+<p><strong>Changed</strong></p>
+<ul>
+<li><code>gempba::create_custom_node</code> now takes a <code>std::shared_ptr&lt;node_core&gt;</code> directly (no more wrapping at the call site)</li>
+<li><code>wall_time</code> reimplemented on top of <code>std::chrono</code> (replaces <code>gettimeofday</code>) — same observable values, monotonic clock semantics</li>
+<li><code>gempba::log_and_throw</code> marked <code>[[noreturn]]</code> so static analyzers and the compiler's flow analysis understand the call never returns</li>
+<li><code>score</code>: cleaned up the <code>kind</code> / <code>to_raw</code> / <code>from_raw</code> paths and added explicit <code>unreachable</code> markers</li>
+<li><code>node_core_impl</code>: lazy-init and result paths consolidated; redundant explicit destructor on <code>node</code> removed; excessive debug logging trimmed</li>
+<li>Codebase-wide <code>clang-tidy</code> identifier-naming pass (private members and locals only — no public API renames)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li>Dead <code>prune()</code> overload in <code>work_stealing_load_balancer</code></li>
+<li>Unreachable defensive checks in <code>get_root_level_pending_node</code></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><code>gempba::utils::get_nb_set_bits</code> signed-<code>char</code> overflow on MinGW</li>
+<li>MSYS2/MinGW build: <code>&lt;windows.h&gt;</code> is now included before <code>&lt;psapi.h&gt;</code> so <code>psapi.h</code> sees the types it needs</li>
+<li><code>centralized_utils.hpp</code>: <code>NOMINMAX</code> redefinition guarded so headers that already define it don't trigger a warning</li>
+<li><code>node.hpp</code>: <code>&lt;stacktrace&gt;</code> inclusion gated on the <code>__cpp_lib_stacktrace</code> feature test, not just <code>__has_include</code></li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>MSYS2 <code>PKGBUILD</code> <code>sha256</code> updated to match the v3.1.0 source tarball</li>
+<li>Codecov reporting now excludes <code>examples/</code>, <code>tests/</code>, and <code>external/</code> so coverage numbers reflect only library code</li>
+<li>New <code>clang-tidy</code> and <code>clang-format</code> identifier-naming and configuration rules so future changes can't reintroduce the patterns just cleaned up</li>
+<li>Ubuntu CI bumped to GCC 14; <code>&lt;stacktrace&gt;</code> and <code>stdc++exp</code> linkage gated accordingly so older toolchains still build the library</li>
+<li>macOS CI defaults to the <code>macos-26</code> runner image</li>
+<li>Self-hosted runners are now matched by label <em>set</em> (multiple labels combined) rather than a single label</li>
+<li>MS-MPI runtime installed on the Windows CI runner so the multiprocessing test set actually runs</li>
+<li><code>clang-format</code> diagnostics surfaced with the colored summary; <code>lint.sh</code> diagnostics made readable on the terminal</li>
+<li>Skip the <code>publish-test-results</code> job when the upstream build was cancelled</li>
+<li><code>runs-on</code> injected from <code>vars.RUNNER_*</code> repository variables so runner targets can change without editing each workflow</li>
+<li>New full-coverage tests for the <code>gempba</code> facade, <code>node_manager</code>, <code>quasi_horizontal_load_balancer</code>, <code>work_stealing_load_balancer</code>, <code>node_core_impl</code>, <code>centralized_utils</code>, plus branch coverage for <code>queue</code>, <code>utils</code>, <code>score</code>, and <code>node</code></li>
+<li>Thread pool readiness ordering tightened in throw/discard tests so the <code>send()</code> race no longer deflakes them</li>
+<li>Dropped flaky peak-vs-current RSS comparisons from the memory-usage tests</li>
+<li><code>-Wunused</code> warnings silenced on header-only helpers</li>
+</ul>
+</details>
+<h2 id="v310">v3.1.0</h2>
+<details class="note">
+<summary>April 19, 2026</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v3.1.0">GitHub ↗</a></small></p>
+<p>macOS support, system packaging (<code>.deb</code>, MSYS2, signed APT repo), and cross-platform portability fixes.</p>
+<p><strong>Breaking changes</strong></p>
+<ul>
+<li><code>gempba::Queue</code> renamed to <code>gempba::queue</code> (header moved to <code>include/gempba/utils/queue.hpp</code>) — update any direct uses</li>
+<li>Bundled <code>spdlog</code> removed; consumers must now provide a system-installed <code>spdlog</code> (and <code>fmt</code>) via <code>find_package</code></li>
+<li><code>GEMPBA_*</code> build options (<code>GEMPBA_MULTIPROCESSING</code>, <code>GEMPBA_BUILD_TESTS</code>, <code>GEMPBA_BUILD_EXAMPLES</code>, <code>GEMPBA_DEBUG_COMMENTS</code>, <code>GEMPBA_DEV_MODE</code>) now honor <code>-D</code> overrides when used as a subproject — previously hard-coded values shadowed user input</li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>macOS officially supported (Apple Silicon, AppleClang/libc++, Homebrew Boost 1.90)</li>
+<li>Debian/Ubuntu <code>.deb</code> packages (<code>libgempba-dev</code>) published on tagged releases</li>
+<li>Signed APT repository at <code>apt-repo/</code> with <code>pubkey.gpg</code> for <code>apt-get install libgempba-dev</code></li>
+<li>MSYS2 <code>PKGBUILD</code> at <code>packaging/msys2/</code> for <code>mingw64</code> / <code>ucrt64</code> / <code>clang64</code> builds, with a Windows CI publish job producing <code>.pkg.tar.zst</code> artifacts</li>
+<li>CMake install rules and <code>gempbaConfig.cmake</code> — consumers can now <code>find_package(gempba 3.1.0 REQUIRED)</code> and link <code>gempba::gempba</code></li>
+<li>pkg-config file (<code>gempba.pc</code>) for non-CMake build systems</li>
+<li><code>scripts/update-pkgbuild.sh</code> to regenerate <code>pkgver</code> and <code>sha256</code> for MSYS2 packagers</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>README rewritten and trimmed; full reference moved to the <a href="https://rapastranac.github.io/gempba-docs/">docs site</a></li>
+<li>Build/run scripts relocated under <code>scripts/</code> (<code>build_linux.sh</code>, <code>build_windows.sh</code>, <code>run.sh</code>, etc.); old top-level <code>linux_build.sh</code> / <code>win_build.sh</code> removed</li>
+<li><code>-rdynamic</code> is now applied only on Linux Debug builds (no longer leaks into Release or non-Linux targets)</li>
+<li>CPM.cmake download hardened against silent corruption</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><code>mpi_centralized_scheduler</code>: misplaced parenthesis in the <code>MPI_Wtime</code>/<code>diff_time</code> comparison broke the rate-limit on "center queue full" notifications, causing repeated worker contacts every loop iteration instead of at most once per second</li>
+<li><code>&lt;bits/stdc++.h&gt;</code> removed from <code>node_manager.hpp</code> — header now compiles on libc++ / AppleClang / MSVC</li>
+<li>C++23 <code>&lt;stacktrace&gt;</code> gated on <code>__has_include</code> so libc++ targets without it still build</li>
+<li><code>gempba::score</code> type-dispatch, comparison, and <code>to_string</code> made portable across <code>long double</code> ABIs</li>
+<li>Dropped <code>-fconcepts</code> (legacy GCC flag) and gated <code>stdc++exp</code> for non-Linux toolchains</li>
+<li><code>BS_thread_pool</code> include directory now propagated so private headers compile against installed packages</li>
+<li><code>&lt;gempba/config.h&gt;</code> resolves correctly in all build layouts (now generated into <code>build/gempba/</code>)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li>Private <code>node_manager</code> method that always returned zero (worker view returns zero directly)</li>
+</ul>
+</details>
+<h2 id="v300">v3.0.0</h2>
+<details class="note">
+<summary>December 7, 2025</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v3.0.0">GitHub ↗</a></small></p>
+<p>The largest release in the project's history: a ground-up redesign that replaces the heavy template-driven API with a single-header <code>gempba::</code> facade. <code>branch_handler</code> becomes <code>node_manager</code>, the entire pre-v3 surface (<code>result_holder</code>, <code>dynamic_load_balancer_handler</code>, <code>Pool</code>, <code>args_handler</code>, all <code>*2</code>-suffixed members) is removed, and the public surface is reorganized under <code>include/gempba/</code>.</p>
+<p><strong>Breaking changes</strong></p>
+<ul>
+<li><code>gempba::branch_handler</code> renamed to <code>gempba::node_manager</code> (class and header) — the main user-facing class</li>
+<li><code>gempba::ResultHolder</code> / <code>gempba::result_holder</code> removed entirely; use <code>gempba::node</code> instead — function signatures no longer take a holder template</li>
+<li><code>gempba::DLB_Handler</code> / <code>gempba::dynamic_load_balancer_handler</code> removed; use <code>gempba::load_balancer</code> (interface) and the new <code>create_load_balancer</code> factories</li>
+<li><code>gempba::Pool</code> and <code>gempba::args_handler</code> removed</li>
+<li>All <code>*2</code>-suffixed members removed: <code>is_done2</code>, <code>wait2</code>, <code>get_balancing_policy2</code>, plus <code>*2</code> variants in MPI schedulers</li>
+<li><code>node_manager::lock()</code> / <code>unlock()</code> removed</li>
+<li><code>node_manager</code> member renames: <code>try_push_mp</code> → <code>try_remote_submit</code>, <code>try_push_mt</code> → <code>try_local_submit</code>, <code>force_push</code> → <code>force_local_submit</code>, <code>push_multiprocess</code> / <code>push_multithreading</code> → <code>send</code>, <code>WTime</code> → <code>get_wall_time</code>, <code>try_top_holder</code> → <code>try_push_root_level_holder_remotely</code>, <code>pass_mpi_scheduler</code> → <code>pass_scheduler</code></li>
+<li>Identifier renames on the public surface: <code>load_balancing_strategy</code> → <code>balancing_policy</code>, <code>print_mpi_debug_comments</code> → <code>print_ipc_debug_comments</code>, <code>FUNCTION_ARGS</code> → <code>TASK</code>, <code>gbitset</code> → <code>G_BITSET</code>, "reference value" → <code>score</code> throughout MPI schedulers</li>
+<li><code>mpi_scheduler</code> renamed to <code>mpi_semi_centralized_scheduler</code></li>
+<li><code>scheduler</code> members supplanted by <code>scheduler::worker</code> / <code>scheduler::center</code> views: <code>fetch_solution</code>, <code>fetch_result_vector</code>, <code>next_process</code>, <code>push</code>, <code>run_node</code>, <code>run_center</code>, <code>try_open_transmission_channel</code>, <code>close_transmission_channel</code></li>
+<li><code>scheduler::get_total_requests</code> removed (now sourced from the new stats interface)</li>
+<li>C++23 enforced in CMake (<code>CMAKE_CXX_STANDARD 23</code>, <code>CMAKE_CXX_STANDARD_REQUIRED ON</code>, extensions off); C++20 compilers are no longer supported</li>
+<li><code>BS::thread_pool</code> is now an external dependency; consumers using CPM mirror it automatically, manual integrations must add it</li>
+<li><code>GEMPBA_*</code> compile definitions on the <code>gempba</code> target are now <code>PRIVATE</code> instead of <code>PUBLIC</code></li>
+<li>Public headers reorganized under <code>include/gempba/</code> (<code>core/</code>, <code>utils/</code>, <code>stats/</code>, <code>defaults/</code>, <code>detail/</code>); legacy <code>include/utils/...</code> paths are gone</li>
+<li>Legacy <code>.csv</code> / <code>.dat</code> raw printing removed from examples; CSV log is now opt-in and off by default</li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Single-header facade <code>#include &lt;gempba/gempba.hpp&gt;</code> exposing <code>gempba::</code> factories</li>
+<li><code>gempba::node</code> — lightweight, copyable, template-free node handle (replaces <code>result_holder</code>)</li>
+<li><code>gempba::shutdown()</code> for explicit, controlled global cleanup</li>
+<li><code>gempba::node_manager</code> factories: <code>multithreading::create_node_manager(load_balancer*)</code> and <code>multiprocessing::create_node_manager(load_balancer*, scheduler::worker*)</code></li>
+<li><code>gempba::load_balancer</code> public interface with two stock implementations: <code>quasi_horizontal_load_balancer</code> (recommended) and <code>work_stealing_load_balancer</code></li>
+<li><code>multithreading::create_load_balancer(balancing_policy)</code> and <code>multiprocessing::create_load_balancer(balancing_policy, scheduler::worker*)</code> factories, plus a BYO-implementation overload</li>
+<li><code>gempba::scheduler</code> public interface with <code>scheduler::worker</code> and <code>scheduler::center</code> views, <code>scheduler_traits</code>, and <code>multiprocessing::create_scheduler(scheduler_topology, timeout)</code> (<code>SEMI_CENTRALIZED</code>, <code>CENTRALIZED</code>)</li>
+<li><code>gempba::node_core</code> extension point (<code>include/gempba/core/node_core.hpp</code>) plus <code>node_traits</code> and the <code>detail/nodes/node_core_impl.hpp</code> template implementation</li>
+<li><code>gempba::stats</code> and <code>gempba::stats_visitor</code> interfaces; <code>default_mpi_stats_visitor</code> for the bundled MPI schedulers (visitor pattern, string-keyed metrics)</li>
+<li><code>gempba::serial_runnable</code> interface with <code>serial_runnable_void</code> / <code>serial_runnable_non_void</code> impls and <code>runnables::return_none::create</code> / <code>runnables::return_value::create</code> helpers for MP task dispatch</li>
+<li><code>gempba::serializable</code> interface to split serialization responsibilities out of node trace</li>
+<li><code>gempba::task_bundle</code> and <code>gempba::transmission_guard</code> utilities under <code>include/gempba/utils/</code></li>
+<li><code>invokable</code> C++23 concept that enforces task signatures of the form <code>Ret(std::thread::id, Args..., node)</code></li>
+<li><code>gempba::score</code> extended with <code>uint32_t</code> and <code>int64_t</code> so it can carry <code>std::size_t</code> and other common types; spaceship <code>operator&lt;=&gt;</code> on <code>task_packet</code></li>
+<li><code>utils::log_and_throw</code> (replaces direct <code>spdlog::throw_spdlog_ex</code>) with C++23 <code>&lt;stacktrace&gt;</code> integration</li>
+<li>Generated <code>gempba/config.h</code> (from <code>config.h.in</code>) so IDEs see the build flags</li>
+<li>Multi-processing and multi-threading benchmark cases</li>
+<li>One-call Windows and Linux build scripts and helpers to run all graphs in a directory</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Module renames swept the codebase to snake_case: <code>BranchHandler</code> → <code>branch_handler</code> (then <code>node_manager</code>), <code>ThreadPool</code> → <code>thread_pool</code>, <code>DLB</code> → <code>dynamic_load_balancer</code>, <code>MPI_Modules</code> → <code>schedulers</code>, <code>Resultholder</code> → <code>result_holder</code> (then removed)</li>
+<li><code>gempba::score</code> now has unsigned 32/64 specializations; <code>score::make(...)</code> accepts <code>std::size_t</code></li>
+<li>Schedulers now receive their timeout at construction (<code>create_scheduler(topology, timeout)</code>)</li>
+<li><code>default_mpi_stats_visitor</code> lives in the <code>defaults</code> module and is exposed via <code>multiprocessing::get_default_mpi_stats_visitor()</code></li>
+<li>Internal <code>spdlog::info</code> calls demoted to <code>spdlog::debug</code></li>
+<li><code>#ifdef GEMPBA_DEBUG_COMMENTS</code> replaced with <code>#if GEMPBA_DEBUG_COMMENTS</code> (matches the new <code>cmakedefine01</code>)</li>
+<li>README rewritten for v3.0 (facade pattern, extensible architecture, updated requirements, Windows added to supported platforms)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Race condition that could let a worker thread throw</li>
+<li>Edge case in node pruning (children weren't cleared on prune)</li>
+<li>Critical guard fix in <code>quasi_horizontal_load_balancer</code></li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>C++23 enforced (<code>CMAKE_CXX_STANDARD_REQUIRED ON</code>, <code>CMAKE_CXX_EXTENSIONS OFF</code>)</li>
+<li>Links <code>stdc++exp</code> on non-MSVC for C++23 <code>&lt;stacktrace&gt;</code> support</li>
+<li>New <code>GEMPBA_DEV_MODE</code> toggle in the root <code>CMakeLists.txt</code> (auto-on when gempba is the root project)</li>
+<li><code>GEMPBA_*</code> target flags scoped to <code>PRIVATE</code> (no longer leaks to consumers)</li>
+<li><code>BS::thread_pool</code> added via CPM (<code>rapastranac/thread-pool</code>); <code>argparse</code> moved to <code>examples/external</code> since it's only used by examples</li>
+<li><code>GIT_SHALLOW TRUE</code> set on CPM external clones</li>
+<li>Per-test discovery in CTest (<code>gtest_discover_tests</code>) and a separate test-artifact publish job in CI; <code>FLAKY_</code> test-name convention for flaky cases</li>
+<li>Dropped redundant <code>git install</code> step from CI</li>
+</ul>
+</details>
+<h2 id="v211">v2.1.1</h2>
+<details class="note">
+<summary>September 1, 2025</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v2.1.1">GitHub ↗</a></small></p>
+<p>Single-fix patch release for the centralized MPI scheduler.</p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><code>mpi_centralized_scheduler</code> worker <code>probe_reference_value_comm()</code> was probing <code>REFVAL_PROPOSAL_TAG</code> (the worker-to-center tag) instead of <code>REFVAL_UPDATE_TAG</code>, so global reference-value updates broadcast by the center were never picked up by workers — leaving them with stale bounds and exploring branches that should have been pruned (<a href="https://github.com/rapastranac/gempba/pull/55">#55</a>)</li>
+</ul>
+</details>
+<h2 id="v210">v2.1.0</h2>
+<details class="note">
+<summary>August 23, 2025</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v2.1.0">GitHub ↗</a></small></p>
+<p>Source-level Windows support, alongside a dedicated Windows CI pipeline.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Windows build support: GemPBA now compiles on Windows with MSVC</li>
+<li><code>run.ps1</code> PowerShell launcher at the repo root for running multiprocessing (<code>mpiexec.exe</code>) and multithreading example binaries on Windows</li>
+<li>Windows CI workflow (<code>.github/workflows/c-cpp-windows.yml</code>) building on Windows Server 2022, with a matching status badge in the README</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li><code>centralized_utils.hpp</code> now defines <code>NOMINMAX</code>, <code>WIN32_LEAN_AND_MEAN</code>, and <code>RPC_NO_WINDOWS_H</code> before including <code>windows.h</code> to avoid <code>std::byte</code> ambiguity and <code>min</code>/<code>max</code> macro clashes against <code>&lt;windows.h&gt;</code></li>
+<li><code>score::make</code> factory dispatches by integral size (<code>int32_t</code>/<code>int64_t</code>) instead of exact type, so scores constructed from <code>long</code> and other platform-dependent integer widths behave the same on Windows and Linux</li>
+<li>Ubuntu workflow renamed from <code>c-cpp.yml</code> to <code>c-cpp-ubuntu.yml</code> (Ubuntu 24.04); README badge updated accordingly</li>
+<li><code>args_handler.hpp</code> switched to angle-bracket includes and replaced <code>std::forward&lt;nullptr_t&gt;(nullptr)</code> with a plain <code>nullptr</code> argument for portability</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Corrected the closing namespace comment in <code>args_handler.hpp</code> (<code>} // namespace gempba</code>)</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>Test executable renamed from <code>all_tests.out</code> to <code>all_tests</code> (drops the Linux-style suffix so the same target name works on Windows)</li>
+</ul>
+</details>
+<h2 id="v200">v2.0.0</h2>
+<details class="note">
+<summary>August 17, 2025</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v2.0.0">GitHub ↗</a></small></p>
+<p>Major release: new <code>gempba::score</code>, <code>gempba::task_packet</code>, and <code>gempba::result</code> public types replace string-based transport and the <code>int</code> reference value, alongside a sweeping <code>clang-tidy</code> rename of the public API (<code>BranchHandler</code> → <code>branch_handler</code>, <code>MPI_Scheduler</code> → <code>mpi_scheduler</code>, <code>SchedulerParent</code> → <code>scheduler_parent</code>, etc.).</p>
+<p><strong>Breaking changes</strong></p>
+<ul>
+<li><code>gempba::BranchHandler</code> → <code>gempba::branch_handler</code>; <code>getInstance()</code> → <code>get_instance()</code>; <code>try_push_MT</code> → <code>try_push_mt</code>; member methods renamed per <code>.clang-tidy</code> (e.g. <code>refValue()</code> is gone — use <code>get_score().get&lt;T&gt;()</code>)</li>
+<li><code>gempba::MPI_Scheduler</code> → <code>gempba::mpi_scheduler</code>; <code>gempba::MPI_SchedulerCentralized</code> → <code>gempba::mpi_centralized_scheduler</code> (header <code>MPI_Scheduler_Centralized.hpp</code> → <code>mpi_centralized_scheduler.hpp</code>)</li>
+<li><code>gempba::SchedulerParent</code> → <code>gempba::scheduler_parent</code>; <code>fetchSolution()</code> → <code>fetch_solution()</code> now returns <code>task_packet</code> instead of <code>std::string</code>; <code>fetchResVec()</code> → <code>fetch_result_vector()</code> returns <code>std::vector&lt;gempba::result&gt;</code> instead of <code>std::vector&lt;std::pair&lt;int, std::string&gt;&gt;</code>; <code>push()</code> now takes a <code>task_packet&amp;&amp;</code> instead of <code>std::string</code></li>
+<li><code>branch_handler::set_score</code> / <code>get_score</code> / <code>set_goal</code> and the <code>gempba::result</code> constructor: <code>int</code> reference value replaced with <code>gempba::score</code>. <code>set_goal</code> now takes a <code>gempba::goal</code> enum plus <code>gempba::score_type</code> (was a <code>bool</code>)</li>
+<li><code>hold_solution</code> removed — replaced by <code>try_update_result(solution, score)</code>: type-safe, parameters reordered, default parameter dropped, returns <code>bool</code> indicating whether the update happened</li>
+<li><code>update_reference_value</code> → <code>try_update_reference_value</code>; further renamed to <code>try_update_reference_value_and_invalidate_result</code> to reflect that it now clears any cached result when the score changes</li>
+<li><code>score::get_loose</code> removed — use <code>score::to_string</code> (logs print the value with its real underlying type) or the typed <code>score::get&lt;T&gt;()</code> accessor</li>
+<li><code>set_ref_val_strategy_lookup</code> → <code>scheduler_parent::set_goal</code>; <code>lookup_strategy</code> parameter → <code>goal</code> enum</li>
+<li><code>EMPTY_RESULT</code> constant removed — use <code>result::EMPTY</code></li>
+<li><code>m_reference_value</code> member of <code>gempba::result</code> renamed to <code>m_score</code>; scheduler members <code>m_ref_value_global</code> → <code>m_global_reference_value</code> (and corresponding communicator member)</li>
+<li>Examples no longer accept the <code>THREADS_PER_TASK</code> argument on the command line</li>
+<li><code>GEMPBA_MULTIPROCESSING</code> is now a value macro (<code>0</code>/<code>1</code>), no longer a bare definition — examples and downstream consumers must use <code>#if GEMPBA_MULTIPROCESSING</code> instead of <code>#ifdef</code></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li><code>gempba::task_packet</code> (<code>include/utils/ipc/task_packet.hpp</code>) — raw-byte transport that replaces serialized <code>std::string</code> in the scheduler API; serializers now return <code>task_packet</code></li>
+<li><code>gempba::result</code> (<code>include/utils/ipc/result.hpp</code>) — bundles a <code>score</code> plus <code>task_packet</code> for shipping solutions between ranks</li>
+<li><code>gempba::score</code> (<code>include/utils/ipc/score.hpp</code>) and <code>gempba::score_type</code> enum (<code>I32</code>, <code>I64</code>, <code>F32</code>, <code>F64</code>, <code>F128</code>) — multi-primitive score support, formerly the integer-only <code>reference_value</code> (suggested by @Manuel-GithubAccount in <a href="https://github.com/rapastranac/gempba/issues/29">#29</a>)</li>
+<li><code>gempba::goal</code> enum to replace the previous boolean min/max strategy flag</li>
+<li><code>score::make</code> factory and <code>score::to_string</code> for type-aware logging</li>
+<li>README "Concepts" section documenting <code>goal</code>, <code>score</code>, and <code>score_type</code></li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Schedulers now exchange raw bytes (<code>task_packet</code>) instead of serialized strings end-to-end through <code>branch_handler</code> and <code>scheduler_parent</code></li>
+<li><code>mpi_scheduler</code> and <code>mpi_centralized_scheduler</code> made structurally parallel: shared <code>should_broadcast</code> logic, <code>utils::diff_time</code> adopted in both, analogous global-reference-value checks</li>
+<li><code>handle_full_messaging</code> → <code>monitor_and_notify_center_status</code></li>
+<li>Most <code>GEMPBA_DEBUG_COMMENTS</code> macro sites replaced with a single utility method</li>
+<li>README updated for all renamed identifiers and the new <code>try_update_result</code> / <code>score</code> usage</li>
+<li><code>batch.sh</code> → <code>run.sh</code></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Communicator probing in <code>mpi_centralized_scheduler</code> (matching the fix already in <code>mpi_scheduler</code>)</li>
+<li><code>openmpi</code> invocation now binds processes to the intended number of cores</li>
+<li>A <code>try_update_result</code> path that wasn't actually updating the stored reference value</li>
+<li><code>GEMPBA_MULTIPROCESSING</code> checks (<a href="https://github.com/rapastranac/gempba/issues/49">#49</a>): switched from <code>#ifdef</code> to <code>#if</code>, and the macro is now injected as an explicit <code>0</code>/<code>1</code> value so non-MP examples see it defined as false rather than undefined</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li><code>CMakeLists.txt</code> project version bumped to <code>2.0.0</code></li>
+<li><code>examples/CMakeLists.txt</code>: defines <code>GEMPBA_MULTIPROCESSING=1</code> for <code>mp_*</code> examples and <code>GEMPBA_MULTIPROCESSING=0</code> for the rest (previously only the <code>mp_*</code> side was defined)</li>
+</ul>
+</details>
+<h2 id="v110">v1.1.0</h2>
+<details class="note">
+<summary>August 4, 2025</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v.1.1.0">GitHub ↗</a></small></p>
+<p>Citation metadata, a refreshed README, and dependency-management changes that consumers need to mirror.</p>
+<blockquote>
+<p>The git tag is <code>v.1.1.0</code> (extra dot — original spelling preserved). Everywhere else the version is referred to as <code>v1.1.0</code>.</p>
+</blockquote>
+<p><strong>Added</strong></p>
+<ul>
+<li><code>CITATION.cff</code> and <code>CITATION.bib</code> at the repo root for academic citation</li>
+<li>README sections for Requirements, Platforms, Dependency Management, Copyright and citing</li>
+<li><code>FUNCTION_ARGS</code> tag for routing serialized function arguments separately from other messages</li>
+<li><code>REFERENCE_VAL_PROPOSAL</code> and <code>REFERENCE_VAL_UPDATE</code> tags (split from the former single reference-value tag)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Inter-process tags in <code>MPI_Modules/MPI_Scheduler.hpp</code> are now an <code>enum tags { ... }</code> (<code>CENTER_NODE</code>, <code>RUNNING_STATE</code>, <code>ASSIGNED_STATE</code>, <code>AVAILABLE_STATE</code>, <code>TERMINATION</code>, <code>REFERENCE_VAL_PROPOSAL</code>, <code>REFERENCE_VAL_UPDATE</code>, <code>NEXT_PROCESS</code>, <code>HAS_RESULT</code>, <code>NO_RESULT</code>, <code>FUNCTION_ARGS</code>) replacing the previous <code>#define</code> macros (<code>STATE_RUNNING</code>, <code>STATE_ASSIGNED</code>, <code>STATE_AVAILABLE</code>, <code>TERMINATION_TAG</code>, <code>REFVAL_UPDATE_TAG</code>, <code>NEXT_PROCESS_TAG</code>, <code>HAS_RESULT_TAG</code>, <code>NO_RESULT_TAG</code>); consumers relying on the old macro names must rename to the enum values</li>
+<li>README installation walkthrough moved above the description; CMake snippet now sets <code>GEMPBA_MULTIPROCESSING</code>, <code>GEMPBA_DEBUG_COMMENTS</code>, <code>GEMPBA_BUILD_EXAMPLES</code>, <code>GEMPBA_BUILD_TESTS</code> cache variables and links <code>gempba::gempba</code></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li><code>examples/include/VertexCover.hpp</code> include switched from <code>fmt/core.h</code> to <code>&lt;format&gt;</code> (matches the C++20 toolchain)</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>CMake project version bumped to <code>1.1.0</code></li>
+<li><code>spdlog</code> removed from core CMake: <code>find_package(spdlog REQUIRED)</code> and <code>spdlog::spdlog</code> link are gone; consumers add it via CPM in <code>external/CMakeLists.txt</code> (pinned to <code>gabime/spdlog@1.15.1</code>, built static)</li>
+<li><code>argparse</code> CPM entry rewritten in long form (<code>NAME argparse / GITHUB_REPOSITORY p-ranav/argparse / VERSION 3.0</code>); <code>external_libs</code> now also exports <code>spdlog</code></li>
+<li><code>examples/CMakeLists.txt</code> sets <code>Boost_USE_STATIC_LIBS ON</code> so Boost is linked statically into the example binaries</li>
+</ul>
+</details>
+<h2 id="v102">v1.0.2</h2>
+<details class="note">
+<summary>June 7, 2025</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v1.0.2">GitHub ↗</a></small></p>
+<p>Easier external integration: GemPBA is now a consumable CMake library with a <code>gempba::gempba</code> target, a hook to inject a custom initial process topology, and CPM-based dependency fetch.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li><code>gempba::gempba</code> ALIAS target so consumers can <code>target_link_libraries(... gempba::gempba)</code></li>
+<li><code>SchedulerParent::set_custom_initial_topology(tree&amp;&amp;)</code> to inject a custom initial process topology</li>
+<li>New CMake options <code>GEMPBA_BUILD_TESTS</code> and <code>GEMPBA_BUILD_EXAMPLES</code> (default <code>OFF</code> when used as a subproject)</li>
+<li>New CMake options <code>GEMPBA_MULTIPROCESSING</code> and <code>GEMPBA_DEBUG_COMMENTS</code> to drive compile-time macros from the build</li>
+<li><code>wall_time</code>, <code>diff_time</code>, <code>shift_left</code> utility functions in <code>utils/utils.hpp</code></li>
+<li><code>build_topology</code> extracted from <code>MPI_Scheduler</code> into <code>utils/utils.hpp</code></li>
+<li>Public <code>tree</code> type at <code>include/utils/tree.hpp</code> (replaces <code>MPI_Modules/Tree.hpp</code>)</li>
+<li>README section documenting CPM-based integration into a downstream project</li>
+<li>Filename is now included in "file not found" exception messages</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>GemPBA now builds as a CMake library; examples and tests are separate subprojects gated by the new options</li>
+<li>Public include roots are <code>${workspace}/include</code> and <code>${workspace}/GemPBA</code>, exported via <code>target_include_directories</code> (<code>BUILD_INTERFACE</code>)</li>
+<li>Macro renames: <code>MULTIPROCESSING_ENABLED</code> → <code>GEMPBA_MULTIPROCESSING</code>; <code>DEBUG_COMMENTS</code> → <code>GEMPBA_DEBUG_COMMENTS</code> (consumers must update guards and <code>target_compile_definitions</code>)</li>
+<li><code>BranchHandler</code> API renamed to snake_case: <code>setLookupStrategy</code> → <code>set_lookup_strategy</code>, <code>setLoadBalancingStrategy</code> → <code>set_load_balancing_strategy</code>, <code>getLoadBalancingStrategy</code> → <code>get_load_balancing_strategy</code></li>
+<li>Enum types renamed: <code>LookupStrategy</code> → <code>lookup_strategy</code>, <code>LoadBalancingStrategy</code> → <code>load_balancing_strategy</code> (enumerator names like <code>MAXIMISE</code>, <code>MINIMISE</code>, <code>QUASI_HORIZONTAL</code> are unchanged)</li>
+<li><code>scheduler_parent.hpp</code> now includes <code>&lt;mpi.h&gt;</code> (was <code>mpi/mpi.h</code>); fixes builds on MPI distributions that don't expose the <code>mpi/</code> prefix</li>
+<li><code>argparse</code> is now fetched via <a href="https://github.com/cpm-cmake/CPM.cmake">CPM</a> instead of <code>FetchContent_Declare</code></li>
+<li>Verbose <code>spdlog::info</code> calls in production code demoted to <code>spdlog::debug</code></li>
+<li>Project version bumped to 1.0.2; release built against C++23 (<code>CMAKE_CXX_STANDARD 23</code>)</li>
+<li>Default build type is <code>Debug</code> when GemPBA is the root project, inherited from the parent otherwise</li>
+<li>README rewritten with shields.io markdown badges; licence and version badges fixed</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li><code>Boost</code> (<code>system</code>, <code>serialization</code>, <code>fiber</code>) is no longer linked or required by the library target; consumers no longer need to provide it</li>
+<li><code>GTest</code> is no longer required to build the library; it is now only needed when <code>GEMPBA_BUILD_TESTS=ON</code></li>
+<li>Legacy headers <code>GemPBA/MPI_Modules/Tree.hpp</code>, <code>GemPBA/utils/Queue.hpp</code>, <code>GemPBA/utils/utils.hpp</code> (replaced by their counterparts under <code>include/utils/</code>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Source-file detection in the root <code>CMakeLists.txt</code></li>
+<li>Hard-coded <code>-O0</code> debug flags and <code>add_definitions(-DDEBUG_COMMENTS)</code> no longer leak into Release builds; flags are now per-configuration via generator expressions</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li><code>clang-tidy</code> and <code>clang-format</code> configurations added at the repo root</li>
+<li><code>.vs/</code> and <code>CMakeSettings.json</code> added to <code>.gitignore</code></li>
+</ul>
+</details>
+<h2 id="v101">v1.0.1</h2>
+<details class="note">
+<summary>October 30, 2024</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v1.0.1">GitHub ↗</a></small></p>
+<p>Restructured layout, C++23 build, typed strategy enums, and a scheduler base class so the semicentralized and centralized schedulers can coexist.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li><code>gempba::SchedulerParent</code> (<code>MPI_Modules/scheduler_parent.hpp</code>) — common abstract base for <code>MPI_Scheduler</code> and the centralized scheduler so both can be instantiated independently</li>
+<li><code>gempba::ResultHolderParent</code> (<code>Resultholder/ResultHolderParent.hpp</code>) — non-template base for <code>ResultHolder</code> so virtual interfaces no longer leak template parameters</li>
+<li><code>gempba::LoadBalancingStrategy</code> enum (<code>QUASI_HORIZONTAL</code>, <code>WORK_STEALING</code>) and <code>gempba::LookupStrategy</code> enum (<code>MAXIMISE</code>, <code>MINIMISE</code>) in <code>utils/gempba_utils.hpp</code></li>
+<li><code>BranchHandler::setLoadBalancingStrategy</code> / <code>getLoadBalancingStrategy</code></li>
+<li><code>BranchHandler::setLookupStrategy(gempba::LookupStrategy)</code> — typed replacement for the string-keyword setter</li>
+<li><code>BranchHandler::getWorldRank</code></li>
+<li><code>DLB_Handler::getRoot(int threadId)</code></li>
+<li><code>THIRD-PARTY-LICENSES</code> file with CPTL credits (Apache 2.0)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>C++ standard bumped to C++23 (<code>CMAKE_CXX_STANDARD 23</code>); minimum CMake bumped to 3.28</li>
+<li>Project layout reorganized: per-example executables under <code>bin/</code>, examples and tests in dedicated trees, headers under <code>GemPBA/utils/</code> (was <code>GemPBA/Utils/</code>)</li>
+<li>Build now produces one executable per file under <code>examples/</code>; sources matching <code>mp_*</code> get <code>-DMULTIPROCESSING_ENABLED</code> automatically</li>
+<li>The library is now built as a CMake target named <code>gempba</code> (was a single <code>a.out</code> executable)</li>
+<li><code>MPI_ENABLED</code> compile macro renamed to <code>MULTIPROCESSING_ENABLED</code></li>
+<li><code>R_SEARCH</code> macro removed; load-balancing strategy is now a runtime enum on <code>BranchHandler</code> (so misuse becomes a compile error rather than a silent macro miss)</li>
+<li>Centralized scheduler class renamed from <code>GemPBA::MPI_Scheduler</code> (in <code>MPI_Scheduler_Centralized.hpp</code>) to <code>gempba::MPI_SchedulerCentralized</code>, allowing both schedulers to be linked into the same binary</li>
+<li>Public namespace renamed from <code>GemPBA</code> to <code>gempba</code> (all classes and free functions moved)</li>
+<li><code>MPI_Scheduler::rank_me</code>, <code>elapsedTime</code>, <code>getWorldSize</code>, <code>tasksRecvd</code>, <code>tasksSent</code>, <code>nextProcess</code> are now <code>const</code>; <code>runNode</code> signature changed to take <code>std::function</code> callbacks (no longer a templated lambda accepting a <code>serializer</code>)</li>
+<li><code>SchedulerParent::getTotalRequests</code> returns <code>size_t</code> (was <code>double</code> on the prior centralized scheduler)</li>
+<li>Input data directory renamed from <code>input/</code> to <code>data/</code></li>
+<li>Logging migrated from <code>fmt</code> to <code>spdlog</code> (which uses fmt internally); debug prints go through <code>utils::print_mpi_debug_comments</code></li>
+<li>README updated for the new namespace, strategy enums, and centralized-scheduler usage</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li><code>BranchHandler::setRefValStrategyLookup(std::string)</code> — replaced by <code>setLookupStrategy(gempba::LookupStrategy)</code></li>
+<li><code>R_SEARCH</code> compile-time flag</li>
+</ul>
+<p><strong>Build</strong></p>
+<ul>
+<li>Root <code>CMakeLists.txt</code> rewritten: <code>find_package(spdlog REQUIRED)</code> and <code>find_package(GTest REQUIRED)</code> added; resources globbed recursively</li>
+<li><code>fmt</code> dropped as a direct FetchContent dependency (pulled in transitively via spdlog)</li>
+<li><code>argparse</code> FetchContent pin bumped from v2.9 to v3.0</li>
+<li>Boost components <code>system</code>, <code>serialization</code>, <code>fiber</code> linked per-target via imported <code>Boost::*</code> targets instead of <code>CMAKE_EXE_LINKER_FLAGS</code></li>
+<li>Tests promoted to a top-level <code>tests/</code> subdirectory with its own CMake project, linking GTest/GMock and Boost; <code>enable_testing()</code> and <code>add_test</code> registered</li>
+<li>New <code>.github/workflows/c-cpp.yml</code> CI pipeline triggered on pushes/merges to <code>main</code></li>
+<li>Executable output directory moved to <code>${CMAKE_SOURCE_DIR}/bin</code></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>CMake resource discovery now recurses into subdirectories</li>
+<li>OpenMP made visible to the test target</li>
+<li>spdlog fetch / link wiring corrected</li>
+<li>Several macro-guarded code paths that broke when <code>MPI_ENABLED</code> was off</li>
+</ul>
+</details>
+<h2 id="v100">v1.0.0</h2>
+<details class="note">
+<summary>April 8, 2024</summary>
+<p><small><a href="https://github.com/rapastranac/gempba/releases/tag/v1.0.0">GitHub ↗</a></small></p>
+<p>Initial stable release of GemPBA — a generic message-passing branch-and-bound framework for distributed C++ workloads.</p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2021&ndash;2026 <a href="https://andrespastrana.com/" target="_blank" rel="noopener">Andres Pastrana</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "search.suggest", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
