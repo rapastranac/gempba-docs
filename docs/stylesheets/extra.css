@@ -168,3 +168,85 @@
   border: 0;
   border-radius: 6px;
 }
+
+/* ── "Let me tell you a story" collapsible card ───────────────────── */
+/* A raw <details class="story"> picks up Material's admonition chrome
+   (icon, chevron, title bar); we override it for a clean story card whose
+   summary is a real teaser: kicker + first paragraph, always visible. */
+.md-typeset details.story {
+  margin: 1.6rem 0;
+  padding: 0;
+  border: 1px solid var(--md-primary-fg-color--light);
+  border-left: 4px solid var(--md-primary-fg-color);
+  border-radius: 8px;
+  background: linear-gradient(180deg,
+              rgba(17, 156, 174, 0.10),
+              rgba(17, 156, 174, 0.03));
+  box-shadow: 0 1px 2px rgba(13, 120, 136, 0.10),
+              0 8px 24px rgba(13, 120, 136, 0.06);
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.md-typeset details.story:hover {
+  border-color: var(--md-primary-fg-color);
+  box-shadow: 0 1px 2px rgba(13, 120, 136, 0.18),
+              0 10px 28px rgba(13, 120, 136, 0.11);
+}
+
+/* Summary = the always-visible teaser. */
+.md-typeset details.story > summary {
+  display: block;
+  cursor: pointer;
+  list-style: none;
+  margin: 0;
+  padding: 1.1rem 1.3rem;
+  background: none;
+  font-weight: 400;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset details.story > summary::before { display: none; }
+.md-typeset details.story > summary::-webkit-details-marker { display: none; }
+
+/* Replace Material's chevron with a text affordance that swaps on open. */
+.md-typeset details.story > summary::after {
+  content: "\25B8  Read the full story";
+  display: block;
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0.85rem 0 0;
+  background: none;
+  -webkit-mask-image: none;
+          mask-image: none;
+  transform: none;
+  font-size: 0.78em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--md-primary-fg-color);
+}
+
+.md-typeset details.story[open] > summary::after {
+  content: "\25BE  Show less";
+}
+
+/* The headline inside the teaser. */
+.md-typeset details.story .story-kicker {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.2em;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--md-primary-fg-color--dark);
+}
+
+/* The revealed body. */
+.md-typeset details.story .story-body {
+  padding: 0 1.3rem 0.5rem;
+}
+
+.md-typeset details.story .story-body > p:first-child {
+  margin-top: 0;
+}

@@ -1,5 +1,32 @@
 # Dashboard
 
+<details class="story" markdown>
+<summary><span class="story-kicker">Let me tell you a story</span>When I was doing my master's, I was building GemPBA and testing it the only way that felt honest: by throwing real branch-and-bound problems at it on a real cluster. That sounds clean. It was not.</summary>
+<div class="story-body" markdown>
+
+Most weeks went one of two ways. Either I was designing the next steps of an algorithm, or I was deep in the library hunting a bug, and the cruel part was that I could rarely tell which one I was actually doing. A run would come back wrong and I would sit there with two suspects and no alibi for either: was my library broken, or was the algorithm I was using to test the library broken? Some days it was one. Some days it was both. Most days I just did not know, and "I do not know" is the most expensive sentence in research.
+
+So I would do what you do. I would write the batch script, set the resources, and submit it to SLURM. And then I would wait. Not minutes. Sometimes days, watching my job sit in the queue behind everyone else's, refreshing the status like it owed me money.
+
+Finally my turn would come. The job would start. Hours would pass. I would go to sleep telling myself that this time the numbers would make sense.
+
+They would not. The run would fail, or it would finish and quietly lie to me. And when I went digging, I would find the thing that still makes my stomach drop to remember: I had fat-fingered a setting, or misused my own library, and out of the hundreds of cores I had reserved, exactly one had done any work. One. A framework whose entire reason to exist is to use all of them, running like a single sad thread, while everything else I had been allocated sat there glowing and idle.
+
+And here is the part nobody warns you about. Those idle cores were not free. They were mine, locked away from every other student and researcher who could have been using them while I was busy being wrong. The scheduler remembers that. Your fair share drops, and the next time you submit you wait even longer. I had paid for nothing, and then I paid for it again.
+
+The worst of it was the blindness. Once a job is running on a cluster, it is a sealed box. You cannot see inside. You cannot tell whether the machine is roaring or asleep. You wait, and you hope, and you find out at the very end whether the last three days of your life meant anything.
+
+So one day I tried to fix the blindness by hand. I spent an entire day, not on my research, on a script: something that would sit on the login node, find every compute node my job had been handed, reach into each one, open `htop`, and throw all of those terminals back onto my screen so I could watch them at once.
+
+It was never a tool you could simply run. I had to be logged into the login node. It was all raw command line, spawning terminal after terminal, and then it was on me to drag them into place, tile them into a wall of little green bars, and sit there reading them like an air traffic controller, trying to judge from across the room whether every node was really working or whether half of them had quietly gone to sleep. It worked, in the way a thing held together with tape works: a full day of effort for a window I had to rebuild and rearrange for every single run, that demanded I keep staring at it, and that went dark the moment I looked away.
+
+I got tired of finding out at the end. And I was done rebuilding that same fragile little window by hand every time I needed to look.
+
+</div>
+</details>
+
+So I built the part I had always been missing: a way to watch the run while it happens.
+
 The GemPBA Dashboard is a desktop app that connects to a running GemPBA program and shows the whole run live: every node, every worker, CPU and memory as they move, and the task traffic between processes. It reads the same [telemetry stream](index.md) the runtime already broadcasts, so any GemPBA program is observable in it with no extra code.
 
 <figure markdown="span">
