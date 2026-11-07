@@ -102,7 +102,7 @@ Once connected, the **Worker rate** and **Node rate** fields set how often each 
 
 ## Headless or scripted?
 
-If you want the stream without a GUI (a terminal tail, a log, a custom consumer), the bundled `telemetry_view` / `telemetry_tunnel` scripts and the raw JSON protocol are documented under [Connecting](connecting.md) and [Data model](data-model.md).
+If you want the stream without a GUI (a terminal tail, a log, a custom consumer), the bundled `telemetry_view` script and the raw JSON protocol are documented under [Connecting](connecting.md) and [Data model](data-model.md).
 
 ## Source and license
 
