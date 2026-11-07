@@ -14,7 +14,7 @@ Synthetic binary tree traversal, no domain logic. Start here if you just want to
 | File | Mode | Scheduler | Notes |
 |---|---|---|---|
 | `multithreading/src/benchmark.cpp` | Multithreading | n/a | Simplest possible setup. No MPI, no serialization. |
-| `multiprocessing/src/benchmark.cpp` | Multiprocessing | Semi-centralized | Same traversal over MPI. Shows the center/worker split and stats collection. |
+| `multiprocessing/src/benchmark.cpp` | Multiprocessing | Semi-centralized | Same traversal over MPI. Shows the coordinator/worker split and stats collection. |
 
 ## Minimum Vertex Cover
 

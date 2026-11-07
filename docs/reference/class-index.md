@@ -119,7 +119,7 @@ pure-virtual interfaces.
 
     <tr>
       <td><a href="../implementations/schedulers/centralized/"><code>mpi_centralized_scheduler</code></a></td>
-      <td>All tasks route through the center — benchmarking only</td>
+      <td>All tasks route through the coordinator — benchmarking only</td>
     </tr>
 
     <!-- ── Telemetry ──────────────────────────────── -->
@@ -127,7 +127,7 @@ pure-virtual interfaces.
 
     <tr>
       <td><a href="../../telemetry/"><code>telemetry::telemetry_hub</code></a></td>
-      <td>Process-wide telemetry hub: counters, probes, transport, and the dashboard server (center role)</td>
+      <td>Process-wide telemetry hub: counters, probes, transport, and the dashboard server (the aggregator, rank 0)</td>
     </tr>
 
     <tr>

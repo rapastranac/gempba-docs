@@ -6,7 +6,7 @@
 
 `result` pairs a [`score`](score.md) with a [`task_packet`](task-packet.md). It represents a candidate solution found during the search: the quality of the solution and its serialized form ready for retrieval or transmission.
 
-`node_manager` stores the best `result` seen so far and returns it after the run completes. In multiprocessing mode, the worker that found the best solution reports it to the center as a `result`; the center selects the overall best when collecting final answers.
+`node_manager` stores the best `result` seen so far and returns it after the run completes. In multiprocessing mode, the worker that found the best solution reports it to the coordinator as a `result`; the coordinator selects the overall best when collecting final answers.
 
 ---
 

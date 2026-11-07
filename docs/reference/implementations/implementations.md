@@ -14,8 +14,8 @@ be replaced by passing a custom implementation to the corresponding factory func
 
 | Implementation                                         | Interface   | Transport | Notes                                                             |
 |--------------------------------------------------------|-------------|-----------|-------------------------------------------------------------------|
-| [MPI Semi-Centralized](schedulers/semi-centralized.md) | `scheduler` | OpenMPI   | Recommended. Center assigns workers; tasks travel point-to-point. |
-| [MPI Centralized](schedulers/centralized.md)           | `scheduler` | OpenMPI   | Benchmarking only. All tasks route through the center.            |
+| [MPI Semi-Centralized](schedulers/semi-centralized.md) | `scheduler` | OpenMPI   | Recommended. The coordinator assigns workers; tasks travel point-to-point. |
+| [MPI Centralized](schedulers/centralized.md)           | `scheduler` | OpenMPI   | Benchmarking only. All tasks route through the coordinator.            |
 
 ## Stats
 
