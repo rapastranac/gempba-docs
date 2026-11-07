@@ -50,6 +50,11 @@ The GemPBA Dashboard is a desktop app that connects to a running GemPBA program 
   <figcaption>Cards: the node, socket and rank tree beside a selected rank's live panel and its charts.</figcaption>
 </figure>
 
+<figure>
+  <div class="video-embed video-embed--clip"><iframe src="https://www.youtube.com/embed/BP4vqEeGBn8?rel=0" title="GemPBA Dashboard 2.0: Drill Down with Cards and Charts" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <figcaption>From a Grid tile into Cards, then arranging a rank's charts and checking its busiest peers.</figcaption>
+</figure>
+
 **Data that stops still makes sense.** When a run pauses, ends, or the connection drops, the views keep what they last showed, fully usable and dimmed a little, under a bar that says why and since when: `Paused`, `Run ended`, `Reconnecting…`, or `Not live` with its cause. Nothing clears until you press **Clear** or listen again.
 
 <figure markdown="span">
@@ -103,12 +108,15 @@ Jump-host mode nests the hop rather than using SSH `ProxyJump`, so it works even
   <figcaption>Why jump-host mode nests the hop instead of using <code>ProxyJump</code>.</figcaption>
 </figure>
 
-<!-- HD walkthrough videos go here when recorded. For each one, drop a YouTube id into a block like:
 <figure>
-  <div class="video-embed"><iframe src="https://www.youtube.com/embed/VIDEO_ID?si=SI" title="GemPBA Dashboard: connecting to a local run" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
-  <figcaption>Connecting to a local run.</figcaption>
+  <div class="video-embed video-embed--clip"><iframe src="https://www.youtube.com/embed/rmOG4-sAKmI?rel=0" title="GemPBA Dashboard 2.0: Watch a Local Run Live" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <figcaption>Listening to a local run, then folding the Connection view away to give the run the whole window.</figcaption>
 </figure>
--->
+
+<figure>
+  <div class="video-embed video-embed--clip"><iframe src="https://www.youtube.com/embed/14cJ46KL7iE?rel=0" title="GemPBA Dashboard 2.0: Connect Through a Jump Host with MFA" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <figcaption>Through a jump host: trust the login node once, answer the MFA prompt, and listen on the compute node.</figcaption>
+</figure>
 
 The gempba port must match the one the run bound (see [Configuration](configuration.md#the-dashboard-port)). To find which host runs rank 0, see [Connecting](connecting.md).
 
@@ -119,6 +127,16 @@ The gempba port must match the one the run bound (see [Configuration](configurat
 - **The status bar** sums the stream up, such as `4 nodes · 26.6k tasks/s · 500 ms`, and clicking it exposes the live controls. Every command is also in the palette (F1) as `GemPBA: …`, and **Settings** (the gear) lists GemPBA's options, including the built-in GemPBA Light and Dark themes.
 
 **Change the cadence without touching the run.** One refresh rate drives every frame, and the dashboard pushes it to the running job over the open connection. gempba is compiled into your application, so a job already on a cluster is a fixed binary, yet you can dial detail up while you watch and back down when you step away, with no recompile, restart, or resubmit. This is the client side of the runtime's [live cadence control](configuration.md#emission-cadence-and-live-control).
+
+<figure>
+  <div class="video-embed video-embed--clip"><iframe src="https://www.youtube.com/embed/Mm1QgvWEcK0?rel=0" title="GemPBA Dashboard 2.0: Pause, Snapshot and Mark a Live Run" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <figcaption>Changing the refresh rate, pausing, taking a snapshot and marking a moment, then stopping from the status bar.</figcaption>
+</figure>
+
+<figure>
+  <div class="video-embed video-embed--clip"><iframe src="https://www.youtube.com/embed/O0HnMEysWAk?rel=0" title="GemPBA Dashboard 2.0: Switch Themes" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <figcaption>Previewing the built-in themes live, then switching to GemPBA Dark and back to GemPBA Light.</figcaption>
+</figure>
 
 ## The data path
 
