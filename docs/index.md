@@ -31,15 +31,15 @@ For the full performance analysis and formal description, see:
 
 ## GemPBA Dashboard
 
-A desktop app that connects to a running GemPBA program and shows the whole run live: every node and worker, CPU and memory as they move, and the task traffic between processes.
+A desktop app that connects to a running GemPBA program and shows the whole run live: every node and rank, the cores working, the tasks moving between them, idle time and memory as they change.
 
 <figure markdown="span">
-  ![The GemPBA Dashboard node-detail view: per-worker CPU, affinity, and task flow](assets/images/dashboard/node-detail.png)
+  ![The GemPBA Dashboard Grid: a run summary above one live tile per node](assets/images/dashboard/grid.png)
 </figure>
 
-- See every node at a glance: one live tile each, CPU and memory.
-- Drill into any node for per-worker CPU, affinity, task flow, and peer traffic.
-- Connect locally, or straight to an HPC compute node through an MFA login node, with no manual tunnel.
+- See the whole run at a glance: a summary on top, one live tile per node below.
+- Drill into any node, socket or rank for its CPU, tasks, idle time, memory and busiest peers.
+- Connect locally, to a host over SSH, or straight to an HPC compute node through an MFA login node, with no manual tunnel.
 
 [See the dashboard](telemetry/dashboard.md){ .md-button .md-button--primary }
 [Download](https://github.com/rapastranac/gempba-dashboard/releases/latest){ .md-button }
