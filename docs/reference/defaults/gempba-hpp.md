@@ -101,7 +101,7 @@ Lazy variant. Arguments are computed on demand, which is useful when preparing t
 
 ## Multiprocessing: `gempba::multiprocessing`
 
-Each process runs the setup code and branches on its role (center or worker).
+Each process runs the setup code and branches on its role (coordinator or worker).
 
 ```cpp
 auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);

@@ -169,6 +169,12 @@
   border-radius: 6px;
 }
 
+/* The dashboard 2.0 walkthroughs are recorded at the maximized app's 2560x1380, not 16:9; matching that shape keeps the
+   player free of black bars. */
+.md-typeset .video-embed--clip {
+  aspect-ratio: 2560 / 1380;
+}
+
 /* ── "Let me tell you a story" collapsible card ───────────────────── */
 /* A raw <details class="story"> picks up Material's admonition chrome
    (icon, chevron, title bar); we override it for a clean story card whose

@@ -23,12 +23,12 @@ That asymmetry is the whole cost model: on one machine you pay the serialization
 
 ## The price in practice
 
-So what does the serialization tax actually cost? Below is the same synthetic benchmark — a binary tree of depth 25 (**33,554,432** leaves) with identical per-node work — run in C++ and in Java on one 24-core machine (no SMT). The multithreading runs use a single 24-thread pool; the multiprocessing runs use 7 MPI ranks (6 workers × 4 threads + 1 center, semi-centralized) so both modes field the same 24 worker threads.
+So what does the serialization tax actually cost? Below is the same synthetic benchmark — a binary tree of depth 25 (**33,554,432** leaves) with identical per-node work — run in C++ and in Java on one 24-core machine (no SMT). The multithreading runs use a single 24-thread pool; the multiprocessing runs use 7 MPI ranks (6 workers × 4 threads + 1 coordinator, semi-centralized) so both modes field the same 24 worker threads.
 
 | Mode | Layout | C++ | Java | Java vs C++ |
 |---|---|---|---|---|
 | Multithreading | 1 process × 24 threads | 142.07 s | 141.47 s | −0.4 % (par) |
-| Multiprocessing | 6 × 4 workers + 1 center | 201.76 s | 214.29 s | +6.2 % |
+| Multiprocessing | 6 × 4 workers + 1 coordinator | 201.76 s | 214.29 s | +6.2 % |
 
 All four runs returned the identical result — a leaf count of **33,554,432** — so each walked exactly the same tree. The time difference is binding overhead and nothing else.
 

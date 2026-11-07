@@ -1,82 +1,35 @@
 # Data model
 
-Telemetry is exposed two ways: as C++ frame structs (`<gempba/telemetry/frames.hpp>`, `topology.hpp`) for in-process consumers, and as a line-delimited **JSON broadcast** on the dashboard socket for everything else. Both carry the same information; this page describes what's in a frame so you can build a consumer.
+Telemetry is exposed two ways, and both carry the same information:
 
-Every frame is stamped with `TELEMETRY_SCHEMA_VERSION` (currently `1`), bumped on any layout change, so a consumer can guard against drift.
+- **In process**, as C++ frame structs (`<gempba/telemetry/frames.hpp>`, `topology.hpp`) for a consumer compiled into the same binary, such as a custom `telemetry_transport`.
+- **Over the socket**, as a line-delimited **JSON broadcast** on the dashboard channel, for everything else.
 
-## The broadcast envelope
+This page is a map of what a broadcast line carries. The authoritative, field-by-field reference, with each key's unit and the release that added it, every control line, the compatibility rules and every schema version, lives in gempba's [`docs/telemetry/wire-format.md`](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md). This page links there rather than keeping a second copy in sync.
 
-The center emits one JSON object per line per tick. Each line is a self-contained snapshot: the static topology plus the latest frame from every worker and host sentinel. Representative shape:
+## Schema 2
 
-```json
-{
-  "ts": 1717180000123,
-  "elapsed_seconds": 142,
-  "topology": { "nodes": [ ... ], "identities": [ ... ] },
-  "workers": [ { "worker_id": 0, "tasks_local_total": 8123, ... } ],
-  "nodes":   [ { "sentinel_worker_id": 0, "logical_cores": 24, ... } ]
-}
-```
+gempba v4.3.0 sends **schema 2**: every line carries `"version": 2`. A consumer written against an older release reads that release's schema, which stays valid for it. wire-format.md lists [every schema version](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#schema-versions), newest first, and the compatibility rules: a consumer ignores keys it does not know, and a renamed, removed or redefined key bumps `version`.
 
-- `ts`: wall-clock milliseconds since the Unix epoch at emit time.
-- `elapsed_seconds`: seconds since the run's telemetry came up.
-- `topology`: the static snapshot (below); lets a consumer place numeric `worker_id`s onto hosts and hardware.
-- `workers` / `nodes`: the latest per-worker and per-host samples.
+## What a line carries
 
-JSON keys mirror the struct fields below (without the `m_` prefix).
+The aggregator (rank 0) emits one JSON object per line, every telemetry interval. A full line is self-contained, so a client that connects late misses nothing but history:
 
-## Worker frame
+- an **envelope**: `version`, `run_id`, `ts`, `elapsed_seconds`, `paused` and `final`;
+- the **topology**: each host, each rank's identity with its `role` (`coordinator` or `worker`), and a `run` object holding the run's setup, its annotations and its markers;
+- **`ranks`**: the latest frame from every rank, whatever its role: task counters, where its pool threads' idle time went (starved versus imbalanced), scheduler timing, the cost of moving tasks, and an `edges_out` list of the ranks it sent tasks to;
+- **`nodes`**: the latest per-host frame from each host's sentinel rank: CPU, memory, and the job's own memory within its cgroup.
 
-Per-worker sample, emitted on the worker cadence (default 500 ms). Counters are **cumulative since worker startup**, so a consumer computes deltas for rates.
+While the run is paused, a line carries only the envelope header with `"paused": true`. The line sent at shutdown carries the run's totals and `"final": true`, and is the last before the aggregator closes the connection. See [the full worked example and every field](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#example).
 
-| Field | Meaning |
-|---|---|
-| `worker_id`, `seq_no`, `worker_local_ms` | Identity, sequence number, and the worker's local clock at emit |
-| `tasks_local_total` | Tasks dispatched to this worker's local thread pool |
-| `tasks_sent_total` | Tasks sent to a remote worker (mutually exclusive with local) |
-| `tasks_recv_total` | Tasks received from a remote worker |
-| `tasks_running` | Tasks executing on the thread pool right now |
-| `scheduler_pending_count` | Outstanding requests in the scheduler queue |
-| `idle_microseconds_per_worker` | Cumulative pool idle time ÷ pool size |
-| `process_cpu_pct`, `process_rss_bytes`, `process_threads` | Per-process CPU %, resident memory, thread count |
-| `edges_out[dst]` | **Traffic matrix**: bytes and count sent to each destination `worker_id` |
+## Controlling the stream
 
-The `edges_out` array is the raw material for a node-link graph of work flow between workers.
+The socket is bidirectional: a client writes control lines back, one JSON object per line, to set the telemetry interval or to pause, resume, snapshot or mark the run. [Configuration](configuration.md#emission-cadence-and-live-control) covers them from the runtime side; wire-format.md gives [the exact lines a client sends](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#control-lines).
 
-## Node (host) frame
+## JSON keys versus C++ struct fields
 
-Per-host sample, emitted by one **sentinel** worker per host on the node cadence (default 1000 ms): the host-wide signals that are not meaningful per-worker.
+The JSON keys and the C++ struct fields describe the same data but **do not always share a name**. Since gempba's one-vocabulary change the wire says `rank` where the C++ struct still says worker, and the old struct names stay until v5.0.0 removes them: the line's `rank` is the struct's `m_worker_id`, the line's `idle_microseconds_per_thread` is `m_idle_microseconds_per_worker`, and so on. Read the wire names from wire-format.md and the struct names from the gempba headers; do not derive one from the other by stripping an `m_` prefix.
 
-| Field | Meaning |
-|---|---|
-| `sentinel_worker_id`, `hostname`, `sentinel_local_ms` | Which worker speaks for the host, and when |
-| `socket_count`, `logical_cores` | Host CPU layout |
-| `sockets[]` | Per-socket `cpu_pct`, `mem_total_bytes`, `mem_used_bytes` |
-| `mem_total_bytes`, `mem_avail_bytes` | Host memory |
-| `cgroup_mem_used_bytes`, `cgroup_mem_limit_bytes` | The job's own memory usage and limit, read from the enforcing memory cgroup (v1 or v2). On a shared node this is gempba's footprint against its allocation rather than the whole machine. Both `0` when the process is unconstrained, so a consumer falls back to the host `mem_*` fields. |
-| `net_aggregate` | `bytes_in/out`, `packets_in/out` (delta-able) |
-| `disk_aggregate` | `read_bytes`, `write_bytes` (delta-able) |
+## Feeding telemetry from your own scheduler
 
-## Topology snapshot
-
-Captured once at startup and included in every broadcast. It is the map from the numeric `worker_id`s in the frames back to hosts and hardware.
-
-- `nodes[]`, per host: `hostname`, the `worker_ids` it owns, its `sentinel_worker_id`, `sockets[]` (id, name, physical/logical cores, cpu-id list), and host totals.
-- `identities[]`, per worker: `hostname`, `pid`, `primary_socket`, and `allowed_cpu_ids` (the CPU-affinity set, emitted as an array of logical CPU indices; the C++ struct field is the `m_allowed_cpu_mask` bitmap, which the serializer unpacks).
-
-Hardware fields require an hwloc-enabled build; without it, core/socket counts are `0` and the rest of the frame is unaffected.
-
-## Control messages (client → center)
-
-The dashboard channel is bidirectional: a client can push control messages back to throttle the stream or reshape it live. See [Configuration](configuration.md#emission-cadence-and-live-control).
-
-| `control_kind` | `value` |
-|---|---|
-| `SET_WORKER_INTERVAL_MS` | new worker cadence (ms) |
-| `SET_NODE_INTERVAL_MS` | new node cadence (ms) |
-| `BE_NODE_SENTINEL` | no value; promotes the target worker to host sentinel |
-
-## Limits
-
-- `MAX_WORKERS = 1024` sizes the worker-fanout and `edges_out` arrays.
-- `MAX_SOCKETS = 8` is the per-host socket cap in a node frame.
+A custom scheduler reaches this same stream through gempba's `record_*()` calls. gempba's [`docs/telemetry/custom-schedulers.md`](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/custom-schedulers.md) says what a custom scheduler must do for its runs to show up, and which call fills which key.

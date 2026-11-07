@@ -19,8 +19,8 @@ auto* s = gempba::multiprocessing::create_scheduler(std::make_unique<MyScheduler
 
 | `scheduler_topology` | Description |
 |---|---|
-| `SEMI_CENTRALIZED` | Center assigns workers; tasks travel point-to-point. Recommended. |
-| `CENTRALIZED` | All tasks route through the center. Benchmarking only. |
+| `SEMI_CENTRALIZED` | The coordinator assigns workers; tasks travel point-to-point. Recommended. |
+| `CENTRALIZED` | All tasks route through the coordinator. Benchmarking only. |
 
 ---
 
@@ -37,12 +37,12 @@ Global synchronization point — blocks until all processes reach this call.
 [[nodiscard]] virtual int rank_me()    const = 0;
 [[nodiscard]] virtual int world_size() const = 0;
 ```
-Process identity within the communicator. Rank 0 is the center.
+Process identity within the communicator. Rank 0 is the coordinator.
 
 ```cpp
 [[nodiscard]] virtual std::unique_ptr<stats> get_stats() const = 0;
 ```
-This process's runtime metrics. Workers hold compute stats; the center's stats are empty.
+This process's runtime metrics. Workers hold compute stats; the coordinator's stats are empty.
 
 ---
 
@@ -82,7 +82,7 @@ Gather stats from all workers. Must be called by **all** processes after `run()`
 ```cpp
 [[nodiscard]] virtual std::vector<std::unique_ptr<stats>> get_stats_vector() const = 0;
 ```
-One `stats` entry per rank. Index 0 (center) is empty. Call only on rank 0 after `synchronize_stats()`.
+One `stats` entry per rank. Index 0 (the coordinator) is empty. Call only on rank 0 after `synchronize_stats()`.
 
 ---
 
@@ -118,7 +118,7 @@ virtual task_packet         get_result()      = 0;
 virtual std::vector<result> get_all_results() = 0;
 ```
 `get_result()` — single best result found across all workers.  
-`get_all_results()` — one `result` per rank; index 0 (center) holds an empty `result`.
+`get_all_results()` — one `result` per rank; index 0 (the coordinator) holds an empty `result`.
 
 ---
 
@@ -130,7 +130,7 @@ Role for all non-zero ranks.
 virtual void run(node_manager& nm,
                  std::map<int, std::shared_ptr<serial_runnable>> runnables) = 0;
 ```
-Block until center signals termination. Dispatch incoming `task_packet`s to matching [`serial_runnable`](serial-runnable.md)s by ID.
+Block until the coordinator signals termination. Dispatch incoming `task_packet`s to matching [`serial_runnable`](serial-runnable.md)s by ID.
 
 ```cpp
 virtual unsigned int force_push(task_packet&& task, int function_id) = 0;
