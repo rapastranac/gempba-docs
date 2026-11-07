@@ -15,26 +15,26 @@ auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::sch
 
 ## Semi-Centralized (recommended)
 
-### What the center does, and does not do
+### What the coordinator does, and does not do
 
-The center (rank 0) has a single responsibility: **knowing who is idle and assigning
+The coordinator (rank 0) has a single responsibility: **knowing who is idle and assigning
 available workers to busy ones**. It never holds tasks, never routes tasks, and never
 participates in computation.
 
-When a worker becomes idle it notifies the center. The center finds a working node that
+When a worker becomes idle it notifies the coordinator. The coordinator finds a working node that
 has excess work and sends it a message, `send_work(r)`, where `r` is the idle worker.
 The busy worker's communication thread receives this message and adds `r` to its list of
 **waiting processes**. The next time the busy worker has a pending subtask, it sends it
 directly to `r`.
 
-The critical consequence: tasks only travel to workers that the center has confirmed are
+The critical consequence: tasks only travel to workers that the coordinator has confirmed are
 idle. This eliminates the bounce-back problem that plagues decentralized strategies, where
 a task sent to a peer may arrive after that peer has already received work from somewhere
 else and must reject it, wasting a full round-trip.
 
 ### Communication model
 
-The center never waits for a worker to query it; it **pushes** messages proactively the
+The coordinator never waits for a worker to query it; it **pushes** messages proactively the
 moment a relevant state change occurs (a new best value, a worker assignment). Workers
 know in real time whether they have a waiting process assigned to them; no polling
 required.
@@ -43,7 +43,7 @@ required.
 
 ```mermaid
 flowchart TB
-    subgraph CENTER["Center (rank 0), coordinator only"]
+    subgraph CENTER["Coordinator (rank 0)"]
         direction LR
         PS[/"process statuses"/]:::state
         PA[/"process assignments"/]:::state
@@ -80,7 +80,7 @@ flowchart TB
 ```mermaid
 sequenceDiagram
     autonumber
-    participant C  as Center
+    participant C  as Coordinator
     participant W1 as Worker 1
     participant W2 as Worker 2
     participant WN as Worker N
@@ -115,23 +115,23 @@ sequenceDiagram
 
 Steps 2–4 are the heart of the strategy:
 
-1. W1 notifies the center it is running (`started_running`, step 2). The center finds W2
+1. W1 notifies the coordinator it is running (`started_running`, step 2). The coordinator finds W2
    available, records `status[W2] = ASSIGNED`, and signals W1 with `send_work(W2)` (step 3)
-   (**a lightweight signal only; no task payload crosses the center**).
+   (**a lightweight signal only; no task payload crosses the coordinator**).
 2. W1 has a pending subtask and W2 in its assigned list: it sends the task directly to W2
-   (step 4); **the center is not involved in the actual data transfer**.
-3. This cascades: W2 starts (step 5), the center assigns WN to W2 (step 6), and W2 later
+   (step 4); **the coordinator is not involved in the actual data transfer**.
+3. This cascades: W2 starts (step 5), the coordinator assigns WN to W2 (step 6), and W2 later
    sends a task to WN (step 7).
 
-Because the center's status table is the single source of truth and W2 was confirmed
+Because the coordinator's status table is the single source of truth and W2 was confirmed
 available before step 3, the task W1 sends is guaranteed to be accepted. No bounce-back.
 
 ---
 
 ## Centralized
 
-The center is an active participant: it usually maintains a **bounded task queue**. Workers push
-their excess subtasks into it, and idle workers pull from it; the center selects which
+The coordinator is an active participant: it usually maintains a **bounded task queue**. Workers push
+their excess subtasks into it, and idle workers pull from it; the coordinator selects which
 task to dispatch according to a priority function (e.g. largest subtree, most promising
 bound).
 
@@ -142,7 +142,7 @@ the priority-based selection that is the approach's main advantage.
 
 ```mermaid
 sequenceDiagram
-    participant C  as Center
+    participant C  as Coordinator
     participant W1 as Worker 1
     participant W2 as Worker 2
     participant WN as Worker N
@@ -173,8 +173,8 @@ sequenceDiagram
 **Dashed arrows**: lightweight request signals; no task payload.
 
 At small process counts the centralized topology performs comparably to semi-centralized.
-At scale, the center becomes the bottleneck: every task handoff, regardless of which
-two workers are involved, must traverse the center twice (inbound + outbound). This is
+At scale, the coordinator becomes the bottleneck: every task handoff, regardless of which
+two workers are involved, must traverse the coordinator twice (inbound + outbound). This is
 the behavior the semi-centralized design was built to avoid.
 
 The centralized scheduler is kept in the library for reproducing the paper's comparison
@@ -245,8 +245,8 @@ the failed-request / stale-view problems of the decentralized approach:
 
 | | Centralized | Decentralized | Semi-centralized |
 |---|---|---|---|
-| Center bottleneck | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
-| Tasks traverse center | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
+| Coordinator bottleneck | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
+| Tasks traverse coordinator | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
 | Global best value | <span style="color:#388e3c">Yes</span> | <span style="color:#f57c00">Partial</span> | <span style="color:#388e3c">Yes</span> |
 | Task bounce-back | <span style="color:#d32f2f">Yes (queue full)</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
 | Request failures | <span style="color:#388e3c">No</span> | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> |
@@ -258,10 +258,10 @@ the failed-request / stale-view problems of the decentralized approach:
 
 | | Semi-Centralized | Centralized |
 |---|---|---|
-| Center role | Assigns idle workers to busy ones | Active task router |
-| Task path | Worker → Worker (direct) | Worker → Center → Worker |
-| Center sends | Lightweight assignment signals | Full task payloads |
+| Coordinator role | Assigns idle workers to busy ones | Active task router |
+| Task path | Worker → Worker (direct) | Worker → Coordinator → Worker |
+| Coordinator sends | Lightweight assignment signals | Full task payloads |
 | Communication model | Push-based | On-demand |
 | Bounce-back | Eliminated | Possible |
-| Center bottleneck | No | Yes, at scale |
+| Coordinator bottleneck | No | Yes, at scale |
 | Recommended for | Production | Benchmarking |

@@ -57,7 +57,7 @@ scheduler->synchronize_stats();
 auto stats_vec = scheduler->get_stats_vector();  // one entry per rank
 
 for (std::size_t rank = 0; rank < stats_vec.size(); ++rank) {
-    if (!stats_vec[rank]) continue;  // rank 0 (center) has no compute stats
+    if (!stats_vec[rank]) continue;  // rank 0 (coordinator) has no compute stats
 
     gempba::default_mpi_stats_visitor v;
     stats_vec[rank]->visit(&v);

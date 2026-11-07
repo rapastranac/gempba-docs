@@ -4,7 +4,7 @@
 #include <gempba/defaults/default_mpi_stats.hpp>  // included automatically via gempba.hpp
 ```
 
-The built-in [`stats`](../../interfaces/stats.md) implementation for the MPI schedulers. An instance is owned by each worker process during a run. After `synchronize_stats()`, the center collects one instance from every rank.
+The built-in [`stats`](../../interfaces/stats.md) implementation for the MPI schedulers. An instance is owned by each worker process during a run. After `synchronize_stats()`, the coordinator collects one instance from every rank.
 
 ---
 

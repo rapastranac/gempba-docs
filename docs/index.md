@@ -19,7 +19,7 @@ There are two main research contributions baked into the framework.
 
 The first is the **Quasi-Horizontal Load Balancing** strategy. Standard work-stealing treats all pending tasks equally. Quasi-horizontal balancing understands the shape of your recursion tree and selects work near the root, where each task will spawn the most downstream work. For branching algorithms where subtree sizes vary dramatically, this makes a significant difference in CPU utilization.
 
-The second is the **Semi-Centralized Scheduler**. Distributing work across processes sounds straightforward until you hit the rejected task problem: a worker receives a task, but by the time it arrives the worker is already busy and has to bounce it back to the sender. Do this naively and you spend more time rerouting work than doing it. The semi-centralized design avoids this by keeping a lightweight center that never holds tasks itself but maintains global priority awareness. The center always knows which worker is idle and routes tasks directly there, eliminating the bounce-back problem without becoming a bottleneck.
+The second is the **Semi-Centralized Scheduler**. Distributing work across processes sounds straightforward until you hit the rejected task problem: a worker receives a task, but by the time it arrives the worker is already busy and has to bounce it back to the sender. Do this naively and you spend more time rerouting work than doing it. The semi-centralized design avoids this by keeping a lightweight coordinator that never holds tasks itself but maintains global priority awareness. The coordinator always knows which worker is idle and routes tasks directly there, eliminating the bounce-back problem without becoming a bottleneck.
 
 For the full performance analysis and formal description, see:
 
@@ -31,15 +31,15 @@ For the full performance analysis and formal description, see:
 
 ## GemPBA Dashboard
 
-A desktop app that connects to a running GemPBA program and shows the whole run live: every node and worker, CPU and memory as they move, and the task traffic between processes.
+A desktop app that connects to a running GemPBA program and shows the whole run live: every node and rank, the cores working, the tasks moving between them, idle time and memory as they change.
 
 <figure markdown="span">
-  ![The GemPBA Dashboard node-detail view: per-worker CPU, affinity, and task flow](assets/images/dashboard/node-detail.png)
+  ![The GemPBA Dashboard Grid: a run summary above one live tile per node](assets/images/dashboard/grid.png)
 </figure>
 
-- See every node at a glance: one live tile each, CPU and memory.
-- Drill into any node for per-worker CPU, affinity, task flow, and peer traffic.
-- Connect locally, or straight to an HPC compute node through an MFA login node, with no manual tunnel.
+- See the whole run at a glance: a summary on top, one live tile per node below.
+- Drill into any node, socket or rank for its CPU, tasks, idle time, memory and busiest peers.
+- Connect locally, to a host over SSH, or straight to an HPC compute node through an MFA login node, with no manual tunnel.
 
 [See the dashboard](telemetry/dashboard.md){ .md-button .md-button--primary }
 [Download](https://github.com/rapastranac/gempba-dashboard/releases/latest){ .md-button }
