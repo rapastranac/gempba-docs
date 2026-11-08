@@ -12,9 +12,9 @@ Both flavors can be installed side by side on **any** platform. You pick which o
 
 ---
 
-## Ubuntu / Debian (APT)
+## Ubuntu 24.04 (APT)
 
-The `.deb` packages live in a signed APT repository hosted at `https://rapastranac.github.io/gempba`. Register the repository and its signing key once per machine, then install:
+The `.deb` packages are built for Ubuntu 24.04 (noble) and live in a signed APT repository hosted at `https://rapastranac.github.io/gempba`. The repository serves the latest release; older `.deb`s stay attached to each [GitHub Release](https://github.com/rapastranac/gempba/releases). Register the repository and its signing key once per machine, then install:
 
 ```bash
 # 1. Trust the GemPBA signing key (one-time)
@@ -23,7 +23,7 @@ curl -fsSL https://rapastranac.github.io/gempba/gempba-archive-keyring.gpg \
   | sudo tee /etc/apt/keyrings/gempba.gpg > /dev/null
 
 # 2. Register the repository (one-time)
-echo "deb [signed-by=/etc/apt/keyrings/gempba.gpg] https://rapastranac.github.io/gempba stable main" \
+echo "deb [signed-by=/etc/apt/keyrings/gempba.gpg] https://rapastranac.github.io/gempba noble main" \
   | sudo tee /etc/apt/sources.list.d/gempba.list > /dev/null
 sudo apt update
 
