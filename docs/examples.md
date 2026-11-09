@@ -18,7 +18,7 @@ Synthetic binary tree traversal, no domain logic. Start here if you just want to
 
 ## Minimum Vertex Cover
 
-A real combinatorial optimization problem on graphs, with pruning and result tracking. Use these as templates for your own branch-and-bound algorithm.
+A real combinatorial optimization problem on graphs, with pruning and result tracking. Use these as templates for your own branching algorithm.
 
 | File | Mode | Scheduler | Encoding | Notes |
 |---|---|---|---|---|
