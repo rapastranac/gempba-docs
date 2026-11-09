@@ -50,28 +50,28 @@ sudo cmake -S . -B build
 sudo cmake --build build --target install
 ```
 
-### Windows (MSYS2 / MinGW64)
+### Windows (MSYS2 / UCRT64)
 
-Open an MSYS2 MinGW64 shell and run:
+Open an MSYS2 UCRT64 shell and run:
 
 ```bash
 pacman -Syu
 pacman -S base-devel
-pacman -S mingw-w64-x86_64-toolchain
-pacman -S mingw-w64-x86_64-cmake
-pacman -S mingw-w64-x86_64-make
-pacman -S mingw-w64-x86_64-hwloc
-pacman -S mingw-w64-x86_64-pkgconf
-pacman -S mingw-w64-x86_64-msmpi    # multiprocessing flavor only
-pacman -S mingw-w64-x86_64-spdlog
-pacman -S mingw-w64-x86_64-fmt
+pacman -S mingw-w64-ucrt-x86_64-toolchain
+pacman -S mingw-w64-ucrt-x86_64-cmake
+pacman -S mingw-w64-ucrt-x86_64-ninja
+pacman -S mingw-w64-ucrt-x86_64-hwloc
+pacman -S mingw-w64-ucrt-x86_64-pkgconf
+pacman -S mingw-w64-ucrt-x86_64-msmpi    # multiprocessing flavor only
+pacman -S mingw-w64-ucrt-x86_64-spdlog
+pacman -S mingw-w64-ucrt-x86_64-fmt
 ```
 
 If you plan to run the tests:
 
 ```bash
-pacman -S mingw-w64-x86_64-boost
-pacman -S mingw-w64-x86_64-gtest
+pacman -S mingw-w64-ucrt-x86_64-boost
+pacman -S mingw-w64-ucrt-x86_64-gtest
 ```
 
 ### macOS (Homebrew)
