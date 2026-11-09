@@ -14,14 +14,14 @@ cmake --build build --parallel
 sudo cmake --install build                   # optional: install system-wide
 ```
 
-## Windows (MSYS2 / MinGW64)
+## Windows (MSYS2 / UCRT64)
 
-Open an MSYS2 MinGW64 shell, then:
+Open an MSYS2 UCRT64 shell, then:
 
 ```bash
 git clone https://github.com/rapastranac/gempba.git
 cd gempba
-cmake -B build -G "MSYS Makefiles" -DGEMPBA_MULTIPROCESSING=ON
+cmake -B build -G Ninja -DGEMPBA_MULTIPROCESSING=ON
 cmake --build build --parallel
 ```
 

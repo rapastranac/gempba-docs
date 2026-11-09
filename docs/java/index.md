@@ -25,7 +25,7 @@ The fat JAR bundles one architecture per OS:
 |---|---|
 | Linux | `x86_64` |
 | Windows | `x86_64` |
-| macOS | `aarch64` (Apple Silicon) |
+| macOS | `x86_64` (Intel) |
 
 ## The `io.gempba` API at a glance
 

@@ -7,6 +7,7 @@ These requirements apply when **building GemPBA from source**. If you install a 
 | C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
 | CMake | ≥ 3.28 | |
 | hwloc | any recent | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON by default when gempba is the root project) |
+| pkg-config | any recent | Finds hwloc, in the build and in `find_package(gempba)` |
 | OpenMPI | ≥ 4.0 | Only for the multiprocessing (`mpi`) flavor |
 | spdlog | any recent | Must be provided by the system since v3.1.0 |
 | fmt | any recent | Pulled in alongside spdlog |
@@ -27,6 +28,7 @@ sudo apt update
 sudo apt install -y build-essential
 sudo apt install -y cmake
 sudo apt install -y libhwloc-dev
+sudo apt install -y pkgconf
 sudo apt install -y libopenmpi-dev   # multiprocessing flavor only
 sudo apt install -y libspdlog-dev
 sudo apt install -y libfmt-dev
@@ -48,27 +50,28 @@ sudo cmake -S . -B build
 sudo cmake --build build --target install
 ```
 
-### Windows (MSYS2 / MinGW64)
+### Windows (MSYS2 / UCRT64)
 
-Open an MSYS2 MinGW64 shell and run:
+Open an MSYS2 UCRT64 shell and run:
 
 ```bash
 pacman -Syu
 pacman -S base-devel
-pacman -S mingw-w64-x86_64-toolchain
-pacman -S mingw-w64-x86_64-cmake
-pacman -S mingw-w64-x86_64-make
-pacman -S mingw-w64-x86_64-hwloc
-pacman -S mingw-w64-x86_64-msmpi    # multiprocessing flavor only
-pacman -S mingw-w64-x86_64-spdlog
-pacman -S mingw-w64-x86_64-fmt
+pacman -S mingw-w64-ucrt-x86_64-toolchain
+pacman -S mingw-w64-ucrt-x86_64-cmake
+pacman -S mingw-w64-ucrt-x86_64-ninja
+pacman -S mingw-w64-ucrt-x86_64-hwloc
+pacman -S mingw-w64-ucrt-x86_64-pkgconf
+pacman -S mingw-w64-ucrt-x86_64-msmpi    # multiprocessing flavor only
+pacman -S mingw-w64-ucrt-x86_64-spdlog
+pacman -S mingw-w64-ucrt-x86_64-fmt
 ```
 
 If you plan to run the tests:
 
 ```bash
-pacman -S mingw-w64-x86_64-boost
-pacman -S mingw-w64-x86_64-gtest
+pacman -S mingw-w64-ucrt-x86_64-boost
+pacman -S mingw-w64-ucrt-x86_64-gtest
 ```
 
 ### macOS (Homebrew)
@@ -76,6 +79,7 @@ pacman -S mingw-w64-x86_64-gtest
 ```bash
 brew install cmake
 brew install hwloc
+brew install pkgconf
 brew install open-mpi   # multiprocessing flavor only
 brew install spdlog
 brew install fmt
