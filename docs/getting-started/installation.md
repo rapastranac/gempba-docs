@@ -62,34 +62,34 @@ Use `purge` instead of `remove` to also clear any leftover configuration files.
 
 ---
 
-## Windows (MSYS2 / MinGW64)
+## Windows (MSYS2 / UCRT64)
 
-MSYS2 packages are attached to each GitHub Release rather than served from a custom pacman repository. Download the `.pkg.tar.zst` asset(s) for the flavor you want — their names carry the version (e.g. `mingw-w64-x86_64-gempba-4.1.1-1-any.pkg.tar.zst`) — from the [latest release](https://github.com/rapastranac/gempba/releases/latest), then install locally:
+MSYS2 packages are attached to each GitHub Release rather than served from a custom pacman repository. Download the `.pkg.tar.zst` asset(s) for the flavor you want from the [latest release](https://github.com/rapastranac/gempba/releases/latest); their names carry the version, such as `mingw-w64-ucrt-x86_64-gempba-4.4.0-1-any.pkg.tar.zst`. Then install them from an MSYS2 UCRT64 shell:
 
 ```bash
-pacman -U mingw-w64-x86_64-gempba-<version>-any.pkg.tar.zst       # multithreading (default)
-pacman -U mingw-w64-x86_64-gempba-mpi-<version>-any.pkg.tar.zst   # MPI; depends on the mt package above
+pacman -U mingw-w64-ucrt-x86_64-gempba-<version>-any.pkg.tar.zst       # multithreading (default)
+pacman -U mingw-w64-ucrt-x86_64-gempba-mpi-<version>-any.pkg.tar.zst   # MPI; depends on the mt package above
 ```
 
 If you installed from a local package and want to upgrade, download the new package and run the same command again.
 
-Prefer to build from the `PKGBUILD` instead:
+Prefer to build from the `PKGBUILD` instead, in the same shell:
 
 ```bash
 curl -LO https://raw.githubusercontent.com/rapastranac/gempba/main/packaging/msys2/PKGBUILD
-makepkg -si
+MINGW_ARCH=ucrt64 makepkg-mingw -si
 ```
 
 ### Verify the installation
 
 ```bash
-pacman -Qi mingw-w64-x86_64-gempba
+pacman -Qi mingw-w64-ucrt-x86_64-gempba
 ```
 
 ### Uninstall
 
 ```bash
-pacman -R mingw-w64-x86_64-gempba
+pacman -R mingw-w64-ucrt-x86_64-gempba
 ```
 
 ---

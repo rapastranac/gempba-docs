@@ -1,4 +1,5 @@
 site_name: GemPBA
+site_description: Generic Massive Parallelisation of Branching Algorithms, a hybrid parallel C++23 framework
 site_url: https://rapastranac.github.io/gempba-docs/
 repo_url: https://github.com/rapastranac/gempba
 repo_name: rapastranac/gempba
