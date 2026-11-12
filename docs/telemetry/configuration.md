@@ -40,6 +40,8 @@ The aggregator (rank 0) binds a loopback-only TCP server for the dashboard chann
 === "C++"
 
     ```cpp
+    #include <gempba/gempba.hpp>
+
     gempba::telemetry::configure_port(9100);   // must be called before the first node_manager / scheduler
     ```
 
@@ -51,8 +53,10 @@ The aggregator (rank 0) binds a loopback-only TCP server for the dashboard chann
 
 The server binds **loopback only** by design; it is never exposed on a public interface. To reach it from another machine, use the [GemPBA Dashboard](dashboard.md), which opens the SSH forward for you (see [Connecting](connecting.md)).
 
-!!! note "Example binaries expose `-telemetry_port`"
-    The `gempba-examples` programs forward a `-telemetry_port <n>` command-line argument to `configure_port`. That flag is an example-binary convention, not part of the library API; in your own code, call `configure_port` directly.
+Two runs on the same host need different ports.
+
+!!! note "The examples take a port"
+    gempba-examples' `multiprocessing_benchmark` takes `-telemetry_port <n>`, and gempba-java-examples' `synthetic_void` takes `-Dgempba.telemetry.port=<n>`. Their cluster jobs serve on 9001 and 9000, so both can run on one node. These options belong to the examples, not to the library; in your own code, call `configure_port` directly.
 
 ## Emission cadence and live control
 
