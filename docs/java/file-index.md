@@ -30,9 +30,12 @@ The Java binding lives in the gempba repo under `bindings/`. The shared source s
 <div class="d5"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/task/VoidNodeTask.java">VoidNodeTask.java</a></div>
 <div class="d4"><span class="tc">└── </span><span class="dn">value/</span></div>
 <div class="d5"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/BalancingPolicy.java">BalancingPolicy.java</a></div>
+<div class="d5"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/EndReason.java">EndReason.java</a></div>
 <div class="d5"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/Goal.java">Goal.java</a></div>
+<div class="d5"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/RunOutcome.java">RunOutcome.java</a></div>
 <div class="d5"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/Score.java">Score.java</a></div>
-<div class="d5"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/ScoreType.java">ScoreType.java</a></div>
+<div class="d5"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/ScoreType.java">ScoreType.java</a></div>
+<div class="d5"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/StopTrigger.java">StopTrigger.java</a></div>
 
 <div class="d3"><span class="tc">├── </span><span class="dn">java-multithreading/io/gempba/</span> <span class="file-desc">— mt classifier source set</span></div>
 <div class="d4"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multithreading/io/gempba/GemPBA.java">GemPBA.java</a> <span class="file-desc">— MT entry point and factories</span></div>
