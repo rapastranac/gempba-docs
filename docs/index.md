@@ -64,7 +64,7 @@ Pre-built packages and the Java fat JAR target one architecture per OS; other ar
 |---|---|
 | Linux | `x86_64` |
 | Windows | `x86_64` |
-| macOS | `x86_64` (Intel) |
+| macOS | `aarch64` (Apple Silicon) |
 
 ## Requirements
 
