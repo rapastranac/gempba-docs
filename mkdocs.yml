@@ -43,6 +43,7 @@ nav:
       - Installation: getting-started/installation.md
       - Building: getting-started/building.md
       - Quick Start: quick-start.md
+      - Stopping a Run: stopping-a-run.md
   - Java:
       - Overview: java/index.md
       - Installation: java/installation.md
