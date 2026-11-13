@@ -1,7 +1,7 @@
 # `default_mpi_stats_visitor`
 
 ```cpp
-#include <gempba/defaults/default_mpi_stats_visitor.hpp>  // included automatically via gempba.hpp
+#include <gempba/mpi/default_mpi_stats_visitor.hpp>  // included automatically via gempba/mpi.hpp
 ```
 
 The built-in [`stats_visitor`](../../interfaces/stats-visitor.md) for the MPI scheduler stats. After calling `visit`, all fields are populated as plain public members.
@@ -21,12 +21,6 @@ std::size_t sent_task_count;
 ```
 
 Tasks sent to other processes during the run.
-
-```cpp
-std::size_t total_requested_tasks;
-```
-
-Total tasks requested from the load balancer over the course of the run.
 
 ```cpp
 std::size_t total_thread_requests;
