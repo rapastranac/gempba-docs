@@ -4,9 +4,9 @@
 #include <gempba/core/scheduler.hpp>  // included automatically via gempba.hpp
 ```
 
-Abstract interface for process-level coordination. Defines the IPC contract without coupling to any specific transport (MPI, UPC++, etc.). Extends [`scheduler_traits`](#scheduler_traits-shared-base), which is also the base of the two inner role classes `center` and `worker`.
+Abstract interface for process-level coordination. Every rank holds one scheduler and calls its [`run`](#running-a-search); rank 0, the root, seeds the run and reads its results. Extends [`scheduler_traits`](#scheduler_traits-shared-base).
 
-Built-in implementations use MPI (OpenMPI on Linux/macOS, MS-MPI on Windows). For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
+Built-in implementations use MPI (OpenMPI on Linux/macOS, MS-MPI on Windows) and come with the MPI component, `gempba::mpi`. A custom scheduler is installed with `gempba::mpi::create_scheduler`, which also sets up telemetry over MPI, so it runs on MPI too. For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
 
 ---
 
@@ -28,7 +28,7 @@ auto* s = gempba::mpi::create_scheduler(std::make_unique<MyScheduler>());
 
 ## `scheduler_traits` (shared base)
 
-Available on `scheduler`, `scheduler::center`, and `scheduler::worker`.
+The base of `scheduler`.
 
 ```cpp
 virtual void barrier() = 0;
@@ -39,7 +39,7 @@ Global synchronization point — blocks until all processes reach this call.
 [[nodiscard]] virtual int rank_me()    const = 0;
 [[nodiscard]] virtual int world_size() const = 0;
 ```
-Process identity within the communicator. Rank 0 is the coordinator.
+Process identity within the communicator. Rank 0 is the root; in the built-in schedulers it is also the coordinator.
 
 ```cpp
 [[nodiscard]] virtual std::unique_ptr<stats> get_stats() const = 0;
@@ -49,16 +49,6 @@ This process's runtime metrics. Workers hold compute stats; the coordinator's st
 ---
 
 ## `scheduler` interface
-
-### Role access
-
-```cpp
-virtual scheduler::center& center_view() = 0;
-virtual scheduler::worker& worker_view() = 0;
-```
-Return the center-side or worker-side interface. Pass `worker_view()` to the load balancer and node manager factories.
-
----
 
 ### Configuration
 
@@ -71,6 +61,44 @@ Set optimization direction (`MAXIMISE`/`MINIMISE`) and score numeric type. Must 
 virtual void set_custom_initial_topology(tree&&) = 0;
 ```
 Replace the default startup waiting list with a custom process assignment tree.
+
+---
+
+### Running a search
+
+```cpp
+run_outcome run(node_manager& nm,
+                std::map<int, std::shared_ptr<serial_runnable>> runnables,
+                std::optional<task_bundle> seed = std::nullopt);
+```
+Run this rank's part of the search. Every rank calls it with the same runnables, and it returns once the whole run has ended, with how it ended, the same on every rank; the root also logs it (see [Stopping a Run](../../stopping-a-run.md#reading-how-it-ended)). Only the root passes the seed; a root without one, or another rank with one, throws `std::invalid_argument`. Incoming `task_packet`s are dispatched to the matching [`serial_runnable`](serial-runnable.md) by ID.
+
+```cpp
+[[nodiscard]] task_packet         get_result();
+[[nodiscard]] std::vector<result> get_all_results();
+```
+`get_result()` — single best result found across all ranks.  
+`get_all_results()` — each rank's best result, indexed by rank and empty where a rank found none.  
+Both are for the root once `run` has returned; any other rank throws `std::logic_error`.
+
+```cpp
+[[nodiscard]] bool is_root() const;
+```
+Whether this rank is the root, rank 0.
+
+---
+
+### Task transfer
+
+```cpp
+virtual unsigned int force_push(task_packet&& task, int function_id) = 0;
+```
+Hand `task` to another rank, to run under the runnable `function_id`. Returns the receiving rank.
+
+```cpp
+virtual std::optional<transmission_guard> try_open_transmission_channel() = 0;
+```
+Non-blocking lock on the outgoing transmission mutex. Returns `nullopt` if the channel is already in use.
 
 ---
 
@@ -93,7 +121,7 @@ One `stats` entry per rank. Index 0 (the coordinator) is empty. Call only on ran
 ```cpp
 [[nodiscard]] virtual double elapsed_time() const = 0;
 ```
-Wall-clock seconds from run start to termination, with the termination-detection timeout subtracted (so it reflects actual computation, not the idle wait that confirms completion).
+Wall-clock seconds from run start to termination.
 
 ---
 
@@ -102,69 +130,24 @@ Wall-clock seconds from run start to termination, with the termination-detection
 ```cpp
 [[nodiscard]] virtual std::size_t get_pending_request_count() const = 0;
 ```
-Outstanding requests in the scheduler queue. Sampled by [telemetry](../../telemetry/index.md) for the worker frames.
-
----
-
-## `scheduler::center`
-
-Role for rank 0, called after seeding the initial task.
-
-```cpp
-virtual void run(task_packet task, int runnable_id) = 0;
-```
-Seed `task` to the first worker tagged with `runnable_id`, then enter the coordination loop until all workers signal termination.
-
-```cpp
-virtual task_packet         get_result()      = 0;
-virtual std::vector<result> get_all_results() = 0;
-```
-`get_result()` — single best result found across all workers.  
-`get_all_results()` — one `result` per rank; index 0 (the coordinator) holds an empty `result`.
-
----
-
-## `scheduler::worker`
-
-Role for all non-zero ranks.
-
-```cpp
-virtual void run(node_manager& nm,
-                 std::map<int, std::shared_ptr<serial_runnable>> runnables) = 0;
-```
-Block until the coordinator signals termination. Dispatch incoming `task_packet`s to matching [`serial_runnable`](serial-runnable.md)s by ID.
-
-```cpp
-virtual unsigned int force_push(task_packet&& task, int function_id) = 0;
-```
-Send a task directly to the next assigned waiting process, bypassing the pending-task queue. Returns the receiving rank.
-
-```cpp
-[[nodiscard]] virtual unsigned int next_process() const = 0;
-```
-Rank of the next process in the waiting list without consuming it.
-
-```cpp
-virtual std::optional<transmission_guard> try_open_transmission_channel() = 0;
-```
-Non-blocking lock on the outgoing transmission mutex. Returns `nullopt` if the channel is already in use.
+Outstanding requests in the scheduler queue. Sampled by [telemetry](../../telemetry/index.md) for the rank frames.
 
 ---
 
 ## Custom implementation
 
 ```cpp
-class MyWorker  : public gempba::scheduler::worker  { /* ... */ };
-class MyCenter  : public gempba::scheduler::center  { /* ... */ };
-
 class MyScheduler : public gempba::scheduler {
-    gempba::scheduler::center& center_view() override { return center_; }
-    gempba::scheduler::worker& worker_view() override { return worker_; }
-    // implement remaining scheduler and scheduler_traits pure virtuals
-private:
-    MyCenter center_;
-    MyWorker worker_;
+    // implement the remaining scheduler and scheduler_traits pure virtuals
+protected:
+    gempba::run_outcome do_run(gempba::node_manager& nm,
+                               std::map<int, std::shared_ptr<gempba::serial_runnable>> runnables,
+                               std::optional<gempba::task_bundle> seed) override;
+    gempba::task_packet do_get_result() override;
+    std::vector<gempba::result> do_get_all_results() override;
 };
 
 auto* s = gempba::mpi::create_scheduler(std::make_unique<MyScheduler>());
 ```
+
+`run`, `get_result` and `get_all_results` check the caller's rank, then call these. `do_run` is this rank's part of the run, with `seed` set exactly on the root, and returns the same `run_outcome` on every rank. gempba's [`custom-schedulers.md`](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/custom-schedulers.md) lists what a custom scheduler must do to feed telemetry and to take part in a stop.
