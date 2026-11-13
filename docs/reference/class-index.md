@@ -121,8 +121,8 @@ pure-virtual interfaces.
     </tr>
 
     <tr>
-      <td><a href="../../telemetry/data-model/"><code>telemetry::worker_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
-      <td>The frame structs behind the live stream: per-worker counters, per-host stats, and the startup topology</td>
+      <td><a href="../../telemetry/data-model/"><code>telemetry::rank_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
+      <td>The frame structs behind the live stream: per-rank counters, per-host stats, and the startup topology</td>
     </tr>
 
     <!-- ── C ABI ──────────────────────────────────── -->
