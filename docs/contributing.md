@@ -203,16 +203,18 @@ account's monthly allowance. So they run only on pull requests into and pushes t
 hand: `gh workflow run ci-cpp-macos.yml --ref <branch>`.
 
 The C++ build pipelines install dependencies (hwloc, Boost, spdlog, fmt, GoogleTest/GMock, and the platform MPI —
-OpenMPI on Linux and macOS, MS-MPI via MSYS2 on Windows), build with CMake across the `multiprocessing: [ON, OFF]`
-matrix, then run the full test suite via CTest. Each PR also builds the [gempba-examples](https://github.com/rapastranac/gempba-examples)
-tree against the freshly built library, so the install / `gempbaConfig.cmake` / exported-headers chain is exercised on
-every change. Flaky tests (prefixed `FLAKY_`) are retried up to three times. A JUnit XML report is published as a
+OpenMPI on Linux and macOS, MS-MPI via MSYS2 on Windows), build gempba with the MPI component
+(`-DGEMPBA_BUILD_MPI=ON`), then run the full test suite via CTest; on Ubuntu that includes the multi-rank MPI integration
+tests under `mpiexec`. Each PR also builds the [gempba-examples](https://github.com/rapastranac/gempba-examples) tree,
+the multithreading and the MPI examples, against an installed copy of the library, so the install / `gempbaConfig.cmake` /
+exported-headers chain is exercised on every change. On Ubuntu, one more job installs gempba without MPI and builds a
+consumer that compiles `gempba::mpi` against MPICH. Flaky tests (prefixed `FLAKY_`) are retried up to three times. A JUnit XML report is published as a
 workflow artifact after each run.
 
 The Lint pipeline runs clang-format-22 (format check) and clang-tidy-22 (static analysis) against all first-party
 sources.
 
-On a version tag (`v*`), the `release-*.yml` workflows build and publish packages for every flavor and platform:
+On a version tag (`v*`), the `release-*.yml` workflows build and publish packages of the core and the MPI component for every platform:
 
 - **Ubuntu**: `.deb` packages (`libgempba-dev`, `libgempba-mpi-dev`) published to a GPG-signed APT repository on GitHub Pages
 - **Windows**: MSYS2 packages (`.pkg.tar.zst`) attached to the GitHub Release
@@ -226,11 +228,12 @@ See the [File Index](reference/file-index.md) for the full source layout. The to
 | Directory         | Contents                                                            |
 |-------------------|---------------------------------------------------------------------|
 | `include/gempba/` | Public API headers                                                  |
-| `private/impl/`   | Built-in implementations, not part of the public API                |
-| `src/`            | Translation units                                                   |
+| `src/core/`       | The core, `gempba::gempba`: its translation units, and in `private/` the built-in implementations, not part of the public API |
+| `src/mpi/`        | The MPI component, `gempba::mpi`, laid out the same way; it installs as source |
+| `cmake/`          | The CMake code that declares, installs and packages the components, the `.deb` packages included |
 | `tests/`          | Unit tests (GoogleTest)                                             |
 | `bindings/`       | Non-C++ bindings — the stable C ABI (`jni/`) and the Java JNI layer (`java/`) |
-| `packaging/`      | Packaging manifests (MSYS2 `PKGBUILD`, Homebrew formulae, `.deb` control) |
+| `packaging/`      | Packaging manifests (MSYS2 `PKGBUILD`, Homebrew formulae)           |
 | `scripts/`        | Build, lint, telemetry, and JAR-build helper scripts                |
 
 Runnable examples and their graph instance data now live in the sibling
