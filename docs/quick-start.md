@@ -112,6 +112,8 @@ target_link_libraries(my_app PRIVATE gempba::gempba)
 
 Build, run, and watch all eight workers light up. For the full, runnable version of this program (with per-node cost simulation and benchmark plumbing), see `multithreading/src/benchmark.cpp` in [gempba-examples](https://github.com/rapastranac/gempba-examples).
 
+To stop early, press **Ctrl+C** once: the run winds down gracefully and keeps the best result found so far. [Stopping a Run](stopping-a-run.md) covers the other ways to stop it and how a run says it ended.
+
 ## What changes for multiprocessing
 
 The MPI flavor keeps the same recursive-task shape and adds a scheduler:

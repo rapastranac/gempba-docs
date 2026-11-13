@@ -13,7 +13,7 @@ All public types in the `io.gempba` packages, grouped by role. Links go to the s
 
     <tr>
       <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multithreading/io/gempba/GemPBA.java"><code>GemPBA</code></a></td>
-      <td>Static factories and entry points: <code>createLoadBalancer</code>, <code>createNodeManager</code>, <code>createSeedNode</code>, node creation, telemetry switches, <code>shutdown</code>. Each flavor ships its own variant of this class (<a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/GemPBA.java">MP variant</a>), mirroring the C++ inline-namespace selection</td>
+      <td>Static factories and entry points: <code>createLoadBalancer</code>, <code>createNodeManager</code>, <code>createSeedNode</code>, node creation, telemetry switches, stopping a run (<code>requestStop</code>, <code>isStopRequested</code>, <code>stopOnSignals</code>), <code>shutdown</code>. Each flavor ships its own variant of this class (<a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/GemPBA.java">MP variant</a>), mirroring the C++ inline-namespace selection</td>
     </tr>
 
     <!-- ── Core handles ───────────────────────────── -->
@@ -55,6 +55,21 @@ All public types in the `io.gempba` packages, grouped by role. Links go to the s
     <tr>
       <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/BalancingPolicy.java"><code>BalancingPolicy</code></a></td>
       <td>Load-balancing strategy (<code>QUASI_HORIZONTAL</code> / <code>WORK_STEALING</code>), mirroring <code>gempba::balancing_policy</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/RunOutcome.java"><code>RunOutcome</code></a></td>
+      <td>How a run ended, as <code>Scheduler.run</code> returns it: <code>reason()</code>, <code>trigger()</code>, <code>signal()</code> and <code>isInterrupted()</code>, mirroring <code>gempba::run_outcome</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/EndReason.java"><code>EndReason</code></a></td>
+      <td>Whether a run completed or was interrupted (<code>COMPLETED</code> / <code>INTERRUPTED</code>), mirroring <code>gempba::end_reason</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/value/StopTrigger.java"><code>StopTrigger</code></a></td>
+      <td>What stopped a run (<code>NONE</code>, <code>CODE</code>, <code>SIGNAL</code>, <code>CONTROL</code>), mirroring <code>gempba::stop_trigger</code></td>
     </tr>
 
     <!-- ── Task interfaces ────────────────────────── -->

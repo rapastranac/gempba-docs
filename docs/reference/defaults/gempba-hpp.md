@@ -149,10 +149,40 @@ Create a child node with serializers. Required in multiprocessing mode because a
 
 ---
 
+## Stopping a run
+
+These come with `<gempba/core/stop.hpp>`, which this header includes. See [Stopping a Run](../../stopping-a-run.md) for how they fit together.
+
+```cpp
+gempba::request_stop();
+```
+
+Ask the run to stop. Returns at once and is safe from any thread. Nodes that haven't started are pruned from then on, nodes already running finish, and the run returns its best result so far. Under MPI every rank stops. The first stop wins, by any trigger, until `shutdown()`.
+
+```cpp
+bool stopping = gempba::stop_requested();
+```
+
+Whether a stop was requested since the last `shutdown()`, by any trigger. Long work inside one node can poll it to return early.
+
+```cpp
+gempba::stop_on_signals(false);
+```
+
+Whether `SIGINT` and `SIGTERM` stop the run gracefully instead of killing the process; on by default. While on, `create_node_manager` takes each of the two signals that nothing else handles yet, and `shutdown()` gives it back. A second `SIGINT` kills the process. Turning it off gives the signals back at once.
+
+```cpp
+gempba::run_outcome outcome = scheduler->run(nm, runnables, std::move(seed));
+```
+
+How the run ended, the same on every rank: `m_reason` (`end_reason::COMPLETED` or `INTERRUPTED`), `m_trigger` (`stop_trigger::NONE`, `CODE`, `SIGNAL` or `CONTROL`) and `m_signal`, the signal's number for a stop by signal. Multiprocessing only.
+
+---
+
 ## Shutdown
 
 ```cpp
 return gempba::shutdown();
 ```
 
-Call at the end of `main()`. Finalizes the IPC backend (MPI by default) when multiprocessing is enabled and returns the correct exit code. Do not skip this if multiprocessing is on.
+Call at the end of `main()`. Finalizes the IPC backend (MPI by default) when multiprocessing is enabled and returns the correct exit code. Do not skip this if multiprocessing is on. It also logs how a multithreading run ended, gives back the signals `create_node_manager` took, and clears the stop, so `stop_requested()` is `false` again.

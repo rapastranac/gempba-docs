@@ -33,9 +33,9 @@ For the complete catalog, see the [Class Index](class-index.md) and [File Index]
 
 | Package | Key types |
 |---|---|
-| `io.gempba` | `GemPBA` — factories and entry points (`createLoadBalancer`, `createNodeManager`, `createSeedNode`, `shutdown`, …) |
+| `io.gempba` | `GemPBA` — factories and entry points (`createLoadBalancer`, `createNodeManager`, `createSeedNode`, `requestStop`, `shutdown`, …) |
 | `io.gempba.core` | `LoadBalancer`, `NodeManager`, `Node` |
-| `io.gempba.value` | `Score`, `ScoreType`, `Goal`, `BalancingPolicy` |
+| `io.gempba.value` | `Score`, `ScoreType`, `Goal`, `BalancingPolicy`, `RunOutcome`, `EndReason`, `StopTrigger` |
 | `io.gempba.task` | `NodeTask`, `VoidNodeTask`, `Serializer`, `Deserializer` functional interfaces |
 | `io.gempba.scheduler` | `Scheduler`, `SchedulerTopology`, `SerialRunnable` *(multiprocessing classifier only)* |
 | `io.gempba.stats` | `RankStats` |
@@ -45,5 +45,6 @@ For the complete catalog, see the [Class Index](class-index.md) and [File Index]
 - **[Installation](installation.md)** — add the GitHub Packages registry, authenticate, and declare the dependency.
 - **[Quick Start](quick-start.md)** — a complete multithreading program, walked through end to end.
 - **[Examples](examples.md)** — the runnable `gempba-java-examples` catalog.
+- **[Stopping a Run](../stopping-a-run.md)**: stop a run early, by signal, from code or from the dashboard, and read how it ended.
 - **[How it works](how-it-works.md)** — how the binding leverages `task_packet` to bridge the JVM and the native runtime.
 - **[Class Index](class-index.md)** / **[File Index](file-index.md)**: every public `io.gempba` type, and where it lives in the source tree.

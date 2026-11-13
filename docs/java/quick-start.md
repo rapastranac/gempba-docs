@@ -138,6 +138,8 @@ mvn -pl mutithreading exec:java -Dexec.mainClass=io.gempba.mt.synthetic_void.Mai
 
 Or, in IntelliJ IDEA, open the project's `pom.xml`, let Maven resolve, and hit the green ▶ next to `main`.
 
+To stop early, press **Ctrl+C** once: the run winds down gracefully and keeps the best result found so far. [Stopping a Run](../stopping-a-run.md) covers the other ways to stop it and how a run says it ended.
+
 ## What changes for multiprocessing
 
 The `mp-mpi` classifier adds the `io.gempba.scheduler` package (`Scheduler`, `SchedulerTopology`, `SerialRunnable`) and an MP-specific `GemPBA` factory surface, and the program is launched under `mpiexec`. The recursive-task shape stays the same. See the `multiprocessing` module in [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples) for a full MP program and its launcher.
