@@ -198,6 +198,10 @@ shared so the tag-time publish reuses the exact build path CI exercises. The CI 
 | Java         | `ubuntu-24.04` |
 | Lint         | `ubuntu-24.04` |
 
+The macOS pipeline and the Java macOS jobs run on GitHub's hosted Apple Silicon runner, whose minutes come out of the
+account's monthly allowance. So they run only on pull requests into and pushes to `main` or `release`, on tags, and by
+hand: `gh workflow run ci-cpp-macos.yml --ref <branch>`.
+
 The C++ build pipelines install dependencies (hwloc, Boost, spdlog, fmt, GoogleTest/GMock, and the platform MPI —
 OpenMPI on Linux and macOS, MS-MPI via MSYS2 on Windows), build with CMake across the `multiprocessing: [ON, OFF]`
 matrix, then run the full test suite via CTest. Each PR also builds the [gempba-examples](https://github.com/rapastranac/gempba-examples)
