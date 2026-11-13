@@ -31,7 +31,7 @@ The kill switch is a process-local, sticky flag. Set it **before** the first `no
     ```
 
 !!! warning "Set it symmetrically across all ranks"
-    The flag is **process-local**. In `mp-mpi`, disabling telemetry on only *some* ranks will deadlock the still-enabled ranks during transport setup (the MPI transport sets up collectively). Call `disable()` on **every** rank, or none. The recommended pattern is to disable on all ranks before any `create_*` entry point.
+    The flag is **process-local**. In an MPI run, disabling telemetry on only *some* ranks will deadlock the still-enabled ranks during transport setup (the MPI transport sets up collectively). Call `disable()` on **every** rank, or none. The recommended pattern is to disable on all ranks before any `create_*` entry point.
 
 ## The dashboard port
 

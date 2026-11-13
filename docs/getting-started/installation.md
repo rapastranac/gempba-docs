@@ -3,7 +3,7 @@
 GemPBA comes in two **flavors**, and which one you want depends on where your computation runs:
 
 - **Multithreading (`mt`)** — the default. Uses all the cores of a **single machine**. No MPI to install, nothing to configure. If you are unsure, start here.
-- **Multiprocessing (`mpi`; the Java artifact calls it `mp-mpi`)** — distributes work across **multiple machines/nodes** over MPI. Add it when one machine is not enough.
+- **Multiprocessing (`mpi`; the Java artifact is `gempba-mpi`)** — distributes work across **multiple machines/nodes** over MPI. Add it when one machine is not enough.
 
 Both flavors can be installed side by side on **any** platform. You pick which one a program uses when you build *that* program (see [Selecting a flavor](#selecting-a-flavor)), not when you install.
 
@@ -115,7 +115,7 @@ cmake -B build -DCMAKE_PREFIX_PATH=$(brew --prefix gempba-mpi)   # a project bui
 
 ## Java (Maven)
 
-GemPBA is also a Maven dependency, published to GitHub Packages as a fat JAR (one per `mt` / `mp-mpi` flavor classifier). See the dedicated **[Java section](../java/index.md)** for the registry setup, authentication, dependency snippet, and a full Quick Start.
+GemPBA is also a Maven dependency: `io.github.rapastranac:gempba`, or `gempba-mpi` for MPI, on Maven Central. See the dedicated **[Java section](../java/index.md)** for the dependency snippet, which MPI the JAR needs, and a full Quick Start.
 
 ---
 

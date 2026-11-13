@@ -2,7 +2,7 @@
 
 This walks through a complete multithreading program: a synthetic binary-tree traversal that counts leaves in parallel. It is a trimmed version of the `synthetic_void` example from [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples), and it uses the public `io.gempba` API exactly as your own algorithm would.
 
-First make sure the dependency resolves — see [Installation](installation.md). This example uses the `mt` classifier, so no MPI runtime is needed.
+First make sure the dependency resolves — see [Installation](installation.md). This example uses the `gempba` artifact, so no MPI runtime is needed.
 
 ## The shape of a GemPBA program
 
@@ -142,4 +142,4 @@ To stop early, press **Ctrl+C** once: the run winds down gracefully and keeps th
 
 ## What changes for multiprocessing
 
-The `mp-mpi` classifier adds the `io.gempba.scheduler` package (`Scheduler`, `SchedulerTopology`, `SerialRunnable`) and an MP-specific `GemPBA` factory surface, and the program is launched under `mpiexec`. The recursive-task shape stays the same. See the `multiprocessing` module in [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples) for a full MP program and its launcher.
+Depend on `gempba-mpi` instead of `gempba`. It adds the `io.gempba.mpi` package: `Mpi.createScheduler(SchedulerTopology.SEMI_CENTRALIZED)` creates a `Scheduler`, which `GemPBA.createLoadBalancer` and `GemPBA.createNodeManager` take as a second argument, and the program is launched under `mpiexec`. The recursive-task shape stays the same. See the `multiprocessing` module in [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples) for a full MP program and its launcher.

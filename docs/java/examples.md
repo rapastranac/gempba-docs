@@ -21,7 +21,7 @@ mutithreading/src/main/java/io/gempba/mt/
 
 ## Building
 
-Requires **JDK 25** and **Maven 3.9+**, plus the GitHub Packages authentication described in [Installation](installation.md). Then, from the repo root:
+Requires **JDK 25** and **Maven 3.9+**. The gempba dependencies resolve from Maven Central, see [Installation](installation.md); `-Dgempba.version=<version>` picks another version. Then, from the repo root:
 
 ```bash
 mvn install
