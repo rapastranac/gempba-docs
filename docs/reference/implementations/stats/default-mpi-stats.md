@@ -1,10 +1,10 @@
 # Default MPI stats
 
 ```cpp
-#include <gempba/defaults/default_mpi_stats.hpp>  // included automatically via gempba.hpp
+// src/mpi/private/impl/schedulers/default_mpi_stats.hpp: private to the MPI component
 ```
 
-The built-in [`stats`](../../interfaces/stats.md) implementation for the MPI schedulers. An instance is owned by each worker process during a run. After `synchronize_stats()`, the coordinator collects one instance from every rank.
+The built-in [`stats`](../../interfaces/stats.md) implementation for the MPI schedulers. Programs read it through [`default_mpi_stats_visitor`](../stats-visitors/default-mpi-stats-visitor.md) or the `visit` lambda below, not by including it. An instance is owned by each worker process during a run. After `synchronize_stats()`, the coordinator collects one instance from every rank.
 
 ---
 
@@ -21,12 +21,6 @@ std::size_t sent_task_count;
 ```
 
 Tasks sent to other processes during the run.
-
-```cpp
-std::size_t total_requested_tasks;
-```
-
-Total tasks requested from the load balancer over the course of the run.
 
 ```cpp
 std::size_t total_thread_requests;

@@ -22,7 +22,7 @@ Pluggable contracts. Implement one to replace a built-in component.
 | [`node_core`](interfaces/node-core.md)             | Abstract node — owns an instance, tracks tree position, manages lifecycle |
 | [`node_traits`](interfaces/node-traits.md)         | Full interface contract every node must satisfy                           |
 | [`load_balancer`](interfaces/load-balancer.md) | Thread-level work distribution within a process                           |
-| [`scheduler`](interfaces/scheduler.md)             | Process-level coordination — transport-agnostic IPC contract              |
+| [`scheduler`](interfaces/scheduler.md)             | Process-level coordination over MPI — every rank calls its `run`          |
 | [`serial_runnable`](interfaces/serial-runnable.md) | Type erasure for functions crossing process boundaries                    |
 | [`stats`](interfaces/stats.md)                     | Runtime metrics collection                                                |
 | [`stats_visitor`](interfaces/stats-visitor.md)     | Format-agnostic readout of collected metrics                              |

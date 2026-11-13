@@ -33,23 +33,13 @@ pure-virtual interfaces.
     <tr>
       <td><a href="../interfaces/scheduler/#scheduler_traits-shared-base"><code>scheduler_traits</code></a>
         <span class="abstract-badge">abstract</span></td>
-      <td>Shared base for <code>scheduler</code> and its role views: state, counters, world layout</td>
+      <td>Base of <code>scheduler</code>: barrier, rank, world size and this rank's stats</td>
     </tr>
 
     <tr>
       <td><a href="../interfaces/scheduler/"><code>scheduler</code></a>
         <span class="abstract-badge">abstract</span></td>
-      <td>Process-level IPC coordination — transport-agnostic contract</td>
-    </tr>
-    <tr class="nested">
-      <td><a href="../interfaces/scheduler/#schedulercenter"><code>scheduler::center</code></a>
-        <span class="abstract-badge">abstract</span></td>
-      <td>Seeds the initial task and coordinates workers (rank 0)</td>
-    </tr>
-    <tr class="nested">
-      <td><a href="../interfaces/scheduler/#schedulerworker"><code>scheduler::worker</code></a>
-        <span class="abstract-badge">abstract</span></td>
-      <td>Explores the search tree and exchanges tasks with other processes (non-zero ranks)</td>
+      <td>Process-level coordination over MPI; every rank calls its <code>run</code>, and the root (rank 0) seeds the run and reads its results</td>
     </tr>
 
     <tr>
@@ -131,8 +121,8 @@ pure-virtual interfaces.
     </tr>
 
     <tr>
-      <td><a href="../../telemetry/data-model/"><code>telemetry::worker_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
-      <td>The frame structs behind the live stream: per-worker counters, per-host stats, and the startup topology</td>
+      <td><a href="../../telemetry/data-model/"><code>telemetry::rank_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
+      <td>The frame structs behind the live stream: per-rank counters, per-host stats, and the startup topology</td>
     </tr>
 
     <!-- ── C ABI ──────────────────────────────────── -->

@@ -55,7 +55,8 @@ std::map<int, std::shared_ptr<gempba::serial_runnable>> runnables;
 runnables[FUNCTION_ID]       = runnable_a;
 runnables[OTHER_FUNCTION_ID] = runnable_b;
 
-s->worker_view().run(nm, runnables);  // blocks until computation is complete
+std::optional<gempba::task_bundle> seed;      // set on the root only
+s->run(nm, runnables, std::move(seed));      // every rank; blocks until the whole run has ended
 ```
 
 When a `task_packet` arrives tagged with `FUNCTION_ID`, the scheduler calls `operator()` on the matching runnable. All template machinery (deserialization, dispatch, serialization) stays inside `detail/runnables/` — nothing typed crosses a process boundary.

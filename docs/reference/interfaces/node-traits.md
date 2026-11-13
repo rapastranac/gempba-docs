@@ -24,7 +24,8 @@ enum node_state {
     PUSHED,
     DISCARDED,
     RETRIEVED,
-    SENT_TO_ANOTHER_PROCESS
+    SENT_TO_ANOTHER_PROCESS,
+    RUNNING
 };
 ```
 
@@ -98,9 +99,9 @@ virtual void delegate_locally(load_balancer* lb) = 0;
 Hand to `lb` for thread-level dispatch within this process.
 
 ```cpp
-virtual void delegate_remotely(scheduler::worker* worker, int runner_id) = 0;
+virtual void delegate_remotely(scheduler* scheduler, int runner_id) = 0;
 ```
-Serialize and send to another process via `worker`. `runner_id` selects the matching [`serial_runnable`](serial-runnable.md) on the remote side.
+Serialize and send to another process via `scheduler`. `runner_id` selects the matching [`serial_runnable`](serial-runnable.md) on the remote side.
 
 ---
 
