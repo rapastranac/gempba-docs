@@ -56,7 +56,7 @@ The server binds **loopback only** by design; it is never exposed on a public in
 Two runs on the same host need different ports.
 
 !!! note "The examples take a port"
-    gempba-examples' `multiprocessing_benchmark` takes `-telemetry_port <n>`, and gempba-java-examples' `synthetic_void` takes `-Dgempba.telemetry.port=<n>`. Their cluster jobs serve on 9001 and 9000, so both can run on one node. These options belong to the examples, not to the library; in your own code, call `configure_port` directly.
+    Every gempba-examples program takes `-telemetry_port <n>`, and its `scripts/run*` read the `TELEMETRY_PORT` environment variable. gempba-java-examples' `synthetic_void` takes `-Dgempba.telemetry.port=<n>`, and its `multiprocessing/run` scripts take `-port <n>`. The two repositories' cluster jobs serve on 9001 and 9000, so both can run on one node. These options belong to the examples, not to the library; in your own code, call `configure_port` directly.
 
 ## Emission cadence and live control
 
