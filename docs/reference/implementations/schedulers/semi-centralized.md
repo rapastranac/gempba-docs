@@ -1,7 +1,9 @@
 # MPI Semi-Centralized
 
 ```cpp
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
+#include <gempba/mpi.hpp>
+
+auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::SEMI_CENTRALIZED);
 ```
 
 Implements [`scheduler`](../../interfaces/scheduler.md). The recommended multiprocessing scheduler. Uses MPI as the IPC transport (OpenMPI on Linux/macOS, MS-MPI on Windows).

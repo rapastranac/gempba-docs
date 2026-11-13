@@ -2,7 +2,7 @@
 
 This walks through a complete multithreading program: a synthetic binary-tree traversal that counts leaves in parallel. It is a trimmed version of the benchmark from [gempba-examples](https://github.com/rapastranac/gempba-examples), and it uses the public API exactly as your own algorithm would. The same pattern works for any recursive branching algorithm.
 
-First install GemPBA (see [Installation](getting-started/installation.md)). This example uses the multithreading (`mt`) flavor, so no MPI is needed.
+First install GemPBA (see [Installation](getting-started/installation.md)). This example uses the core alone, so no MPI is needed.
 
 ## The shape of a GemPBA program
 
@@ -98,9 +98,6 @@ int main() {
 }
 ```
 
-!!! note "Short form vs explicit namespaces"
-    In a consumer build, the installed flavor's namespace is `inline`, so `gempba::create_load_balancer(...)` resolves to `gempba::multithreading::create_load_balancer(...)` (or the `multiprocessing` variant in an MPI build). Write the short form, as above; reach for the explicit `gempba::multithreading::` / `gempba::multiprocessing::` qualifiers only when you want to be unambiguous.
-
 ## Run it
 
 The two snippets above form a single `main.cpp`: the task first, the driver below it. Wire it into a CMake project (see [Installation](getting-started/installation.md#using-in-your-cmake-project-find_package)):
@@ -114,12 +111,14 @@ Build, run, and watch all eight workers light up. For the full, runnable version
 
 To stop early, press **Ctrl+C** once: the run winds down gracefully and keeps the best result found so far. [Stopping a Run](stopping-a-run.md) covers the other ways to stop it and how a run says it ended.
 
-## What changes for multiprocessing
+## What changes for MPI
 
-The MPI flavor keeps the same recursive-task shape and adds a scheduler:
+An MPI program keeps the same recursive-task shape and adds a scheduler from the MPI component:
 
-- `gempba::create_scheduler(topology, timeout)` comes first, and the load balancer / node manager factories additionally take the scheduler's `worker` view: `gempba::create_load_balancer(policy, worker)`, `gempba::create_node_manager(lb, worker)`.
+- It includes `<gempba/mpi.hpp>`, asks for the component with `find_package(gempba REQUIRED COMPONENTS mpi)`, and links `gempba::mpi`.
+- `gempba::mpi::create_scheduler(topology)` comes first, and the load balancer and node manager factories take the scheduler: `gempba::create_load_balancer(policy, scheduler)`, `gempba::create_node_manager(lb, scheduler)`.
 - Node factories take a serializer / deserializer pair so a task's arguments can travel between ranks as a `gempba::task_packet`.
+- Every rank registers the same runnables and calls `scheduler->run(nm, runnables, seed)`, which returns once the whole run has ended. Only the root, rank 0, passes the seed, and only the root reads the best result, with `scheduler->get_result()`.
 - The program is launched under `mpiexec`.
 
 See the `multiprocessing` tree in [gempba-examples](https://github.com/rapastranac/gempba-examples) for a full MP program, and [IPC Topologies](scheduler-topologies.md) for the scheduler layouts.

@@ -9,7 +9,7 @@ GemPBA's public surface is intentionally small.
 
 |                                            | Purpose                                                                     |
 |--------------------------------------------|-----------------------------------------------------------------------------|
-| [`gempba`](defaults/gempba-hpp.md)         | The only header you need — facade, factory functions, global accessors      |
+| [`gempba`](defaults/gempba-hpp.md)         | The facade — factory functions, global accessors, and `<gempba/mpi.hpp>` for MPI |
 | [`node_manager`](defaults/node-manager.md) | Control panel: configure goal, submit work, wait, collect results           |
 | [`node`](defaults/node.md)                 | Concrete final class — user-facing handle to a branch in the recursion tree |
 
@@ -46,4 +46,4 @@ The runtime carries a built-in telemetry subsystem under `include/gempba/telemet
 
 ## C ABI
 
-`<gempba/cabi/gempba.h>` exposes the full runtime as a stable `extern "C"` surface: opaque handles, status codes, and callback registration. It exists so non-C++ front-ends can drive GemPBA; the [Java binding](../java/how-it-works.md) is its first consumer. For a code-level walkthrough, the [GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba) covers it in depth.
+`<gempba/cabi/gempba.h>`, with `<gempba/cabi/gempba_mpi.h>` for the MPI component, exposes the full runtime as a stable `extern "C"` surface: opaque handles, status codes, and callback registration. It exists so non-C++ front-ends can drive GemPBA; the [Java binding](../java/how-it-works.md) is its first consumer. For a code-level walkthrough, the [GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba) covers it in depth.

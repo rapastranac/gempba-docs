@@ -13,8 +13,10 @@ Built-in implementations use MPI (OpenMPI on Linux/macOS, MS-MPI on Windows). Fo
 ## Factory
 
 ```cpp
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
-auto* s = gempba::multiprocessing::create_scheduler(std::make_unique<MyScheduler>());
+#include <gempba/mpi.hpp>
+
+auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::SEMI_CENTRALIZED);
+auto* s = gempba::mpi::create_scheduler(std::make_unique<MyScheduler>());
 ```
 
 | `scheduler_topology` | Description |
@@ -164,5 +166,5 @@ private:
     MyWorker worker_;
 };
 
-auto* s = gempba::multiprocessing::create_scheduler(std::make_unique<MyScheduler>());
+auto* s = gempba::mpi::create_scheduler(std::make_unique<MyScheduler>());
 ```

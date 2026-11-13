@@ -4,11 +4,13 @@ GemPBA ships with two scheduler topologies for multiprocessing. The default
 recommendation is `SEMI_CENTRALIZED`.
 
 ```cpp
+#include <gempba/mpi.hpp>
+
 // Semi-centralized (recommended)
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
+auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::SEMI_CENTRALIZED);
 
 // Centralized (for comparison)
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::CENTRALIZED);
+auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::CENTRALIZED);
 ```
 
 ---

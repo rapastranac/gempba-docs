@@ -4,10 +4,7 @@
 #include <gempba/gempba.hpp>
 ```
 
-This is the only header you need. It is the facade for the entire library. It exposes the global accessors, all factory functions, and the two flavor namespaces: `gempba::multithreading` and `gempba::multiprocessing`.
-
-!!! note "Short form"
-    In a consumer build, the installed flavor's namespace is `inline`, so you can drop the qualifier and write `gempba::create_load_balancer(...)`, `gempba::create_node_manager(...)`, and so on. This page uses the explicit form so each function's flavor is unambiguous.
+This is the facade for the entire library. It exposes the global accessors and every factory function, and it is the only header a multithreading program needs. An MPI program also includes [`<gempba/mpi.hpp>`](#the-mpi-component-gempbampihpp) for its scheduler.
 
 ---
 
@@ -31,13 +28,13 @@ Returns a reference to the node manager.
 scheduler* s = gempba::get_scheduler();
 ```
 
-Returns a pointer to the active scheduler. Multiprocessing only.
+Returns a pointer to the active scheduler. Throws when none has been created, as in a multithreading program.
 
 ```cpp
 scheduler* s = gempba::try_get_scheduler();
 ```
 
-Non-throwing variant: returns `nullptr` when no scheduler has been created instead of throwing. Multiprocessing only. Useful for read-only probes (telemetry uses it).
+Non-throwing variant: returns `nullptr` when no scheduler has been created instead of throwing. Useful for read-only probes (telemetry uses it).
 
 ---
 
@@ -57,32 +54,32 @@ Same for a non-void function.
 
 ---
 
-## Mode-agnostic factories
+## Load balancer and node manager
+
+```cpp
+auto* lb = gempba::create_load_balancer(gempba::balancing_policy::QUASI_HORIZONTAL);
+```
+
+Create a load balancer using a built-in balancing policy. An MPI program passes its scheduler as well: `gempba::create_load_balancer(policy, scheduler)`.
 
 ```cpp
 auto* lb = gempba::create_load_balancer(std::make_unique<MyLoadBalancer>());
 ```
 
-Take ownership of a custom load balancer implementation. This overload lives at the top level and behaves identically in MT and MP builds, since the worker pointer (when relevant) is part of the caller-provided instance.
+Take ownership of a custom load balancer implementation. Your implementation holds the scheduler itself, if it uses one.
+
+```cpp
+auto& nm = gempba::create_node_manager(lb);
+```
+
+Create the node manager. One per process. An MPI program passes its scheduler as well: `gempba::create_node_manager(lb, scheduler)`.
 
 ---
 
-## Multithreading: `gempba::multithreading`
+## Nodes
 
 ```cpp
-auto* lb = gempba::multithreading::create_load_balancer(gempba::balancing_policy::QUASI_HORIZONTAL);
-```
-
-Create a load balancer using a built-in balancing policy.
-
-```cpp
-auto& nm = gempba::multithreading::create_node_manager(lb);
-```
-
-Create the node manager. One per process.
-
-```cpp
-auto child = gempba::multithreading::create_explicit_node<void>(
+auto child = gempba::create_explicit_node<void>(
     *lb, parent, &my_func, std::make_tuple(args...)
 );
 ```
@@ -90,54 +87,15 @@ auto child = gempba::multithreading::create_explicit_node<void>(
 Create a child node inside your recursive function. Arguments are captured eagerly. Note the node factories take the load balancer by reference, while `create_node_manager` takes it as a pointer.
 
 ```cpp
-auto child = gempba::multithreading::create_lazy_node<void>(
+auto child = gempba::create_lazy_node<void>(
     *lb, parent, &my_func, args_initializer_fn
 );
 ```
 
 Lazy variant. Arguments are computed on demand, which is useful when preparing them is expensive and the branch might be pruned before it ever executes.
 
----
-
-## Multiprocessing: `gempba::multiprocessing`
-
-Each process runs the setup code and branches on its role (coordinator or worker).
-
 ```cpp
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
-```
-
-Create a scheduler using a built-in topology.
-
-```cpp
-auto* s = gempba::multiprocessing::create_scheduler(std::make_unique<MyScheduler>());
-```
-
-Create a scheduler with a custom implementation.
-
-```cpp
-auto* lb = gempba::multiprocessing::create_load_balancer(
-    gempba::balancing_policy::QUASI_HORIZONTAL,
-    &s->worker_view()
-);
-```
-
-Create a load balancer that is aware of the scheduler's worker interface.
-
-```cpp
-auto& nm = gempba::multiprocessing::create_node_manager(lb, &s->worker_view());
-```
-
-Create the node manager for worker processes.
-
-```cpp
-auto visitor = gempba::multiprocessing::get_default_mpi_stats_visitor();
-```
-
-Returns the bundled [stats visitor](../implementations/stats-visitors/default-mpi-stats-visitor.md) for the MPI schedulers, ready to pass to the stats-collection API.
-
-```cpp
-auto child = gempba::multiprocessing::create_explicit_node<void>(
+auto child = gempba::create_explicit_node<void>(
     *lb, parent, &my_func,
     std::make_tuple(args...),
     args_serializer_fn,    // Args... -> task_packet
@@ -145,7 +103,54 @@ auto child = gempba::multiprocessing::create_explicit_node<void>(
 );
 ```
 
-Create a child node with serializers. Required in multiprocessing mode because arguments cross process boundaries as bytes.
+Create a child node with serializers. An MPI program needs them, because a node that runs on another rank sends its arguments there as bytes. `create_lazy_node` takes the same pair after its initializer.
+
+---
+
+## The MPI component: `<gempba/mpi.hpp>`
+
+```cpp
+#include <gempba/mpi.hpp>
+```
+
+The schedulers that spread a run across MPI ranks. They come with the MPI component, so a program that includes this header links `gempba::mpi` (see [Installation](../../getting-started/installation.md#using-in-your-cmake-project-find_package)). Every rank runs the same setup.
+
+```cpp
+auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::SEMI_CENTRALIZED);
+```
+
+Create a scheduler using a built-in topology, and install telemetry over MPI. Every rank calls it.
+
+```cpp
+auto* s = gempba::mpi::create_scheduler(std::make_unique<MyScheduler>());
+```
+
+Install a custom scheduler, which runs on MPI, and telemetry over MPI. Every rank calls it.
+
+```cpp
+auto* lb = gempba::create_load_balancer(gempba::balancing_policy::QUASI_HORIZONTAL, s);
+auto& nm = gempba::create_node_manager(lb, s);
+```
+
+Pass the scheduler to the load balancer and the node manager.
+
+```cpp
+s->run(nm, runnables, std::move(seed));
+```
+
+Run this rank's part of the search. Every rank calls it with the same runnables, and it returns once the whole run has ended. Only the root, rank 0, passes the seed. It returns how the run ended; see [Stopping a run](#stopping-a-run).
+
+```cpp
+gempba::task_packet best = s->get_result();
+```
+
+The best result found across all ranks, once `run` has returned. Only the root may call it; any other rank throws.
+
+```cpp
+auto visitor = gempba::mpi::get_default_mpi_stats_visitor();
+```
+
+Returns the bundled [stats visitor](../implementations/stats-visitors/default-mpi-stats-visitor.md) for the MPI schedulers, ready to pass to the stats-collection API.
 
 ---
 
@@ -175,7 +180,7 @@ Whether `SIGINT` and `SIGTERM` stop the run gracefully instead of killing the pr
 gempba::run_outcome outcome = scheduler->run(nm, runnables, std::move(seed));
 ```
 
-How the run ended, the same on every rank: `m_reason` (`end_reason::COMPLETED` or `INTERRUPTED`), `m_trigger` (`stop_trigger::NONE`, `CODE`, `SIGNAL` or `CONTROL`) and `m_signal`, the signal's number for a stop by signal. Multiprocessing only.
+How the run ended, the same on every rank: `m_reason` (`end_reason::COMPLETED` or `INTERRUPTED`), `m_trigger` (`stop_trigger::NONE`, `CODE`, `SIGNAL` or `CONTROL`) and `m_signal`, the signal's number for a stop by signal. MPI programs only.
 
 ---
 
@@ -185,4 +190,4 @@ How the run ended, the same on every rank: `m_reason` (`end_reason::COMPLETED` o
 return gempba::shutdown();
 ```
 
-Call at the end of `main()`. Finalizes the IPC backend (MPI by default) when multiprocessing is enabled and returns the correct exit code. Do not skip this if multiprocessing is on. It also logs how a multithreading run ended, gives back the signals `create_node_manager` took, and clears the stop, so `stop_requested()` is `false` again.
+Call at the end of `main()`. It destroys the scheduler, which finalizes MPI in an MPI program, so don't skip it there, and returns `EXIT_SUCCESS`. It also logs how a multithreading run ended, gives back the signals `create_node_manager` took, and clears the stop, so `stop_requested()` is `false` again.

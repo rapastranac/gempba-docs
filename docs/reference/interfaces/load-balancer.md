@@ -118,6 +118,6 @@ class MyLoadBalancer : public gempba::load_balancer {
 auto* lb = gempba::create_load_balancer(std::make_unique<MyLoadBalancer>());
 ```
 
-The BYO overload is mode-agnostic and lives at the top level of the `gempba` namespace; it behaves identically in MT and MP builds.
+The BYO overload serves multithreading and MPI programs alike; your implementation holds the scheduler itself, if it uses one.
 
-Study `quasi_horizontal_load_balancer` in `private/impl/load_balancing/` for the expected semantics of every tree navigation call before writing from scratch.
+Study `quasi_horizontal_load_balancer` in `src/core/private/impl/load_balancing/` for the expected semantics of every tree navigation call before writing from scratch.
