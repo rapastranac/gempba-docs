@@ -73,6 +73,7 @@ A connected client writes control lines back on the same socket, one JSON object
 | `{"kind":"resume"}` | Resume at the current interval. |
 | `{"kind":"snapshot"}` | Make every rank send one frame at once, whatever the interval and even while paused; the aggregator then broadcasts one full line. |
 | `{"kind":"mark","label":"..."}` | Record a timestamped marker on the run, labelled as you choose. |
+| `{"kind":"stop","token":"..."}` | Stop the run, from gempba v5.0.0: every rank prunes the work it hasn't started, and the run ends with its best result so far. Accepted only when `token` matches the `GEMPBA_STOP_TOKEN` environment variable the run was started with; see [Stopping a Run](../stopping-a-run.md#from-the-dashboard). |
 
 In code, the equivalent setter lives on the hub:
 
