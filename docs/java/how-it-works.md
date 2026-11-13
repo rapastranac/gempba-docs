@@ -39,9 +39,9 @@ The shape is what you would hope for. On a single machine the overhead vanishes 
 
 ## The same code scales from one machine to many
 
-Here is the part worth internalizing: the `Serializer` / `Deserializer` pair you write for a single-machine (`mt`) program is *exactly* what a distributed (`mp-mpi`) program needs — because under the hood it is the same `task_packet` doing the same job, only travelling farther.
+Here is the part worth internalizing: the `Serializer` / `Deserializer` pair you write for a single-machine program is *exactly* what a distributed (`gempba-mpi`) program needs — because under the hood it is the same `task_packet` doing the same job, only travelling farther.
 
-So the habit you build on day one is the habit that scales. Your MT code already speaks in serializable arguments; when a problem outgrows one machine you switch the dependency classifier to `mp-mpi`, launch under `mpiexec`, and the task logic you already wrote keeps working. There is no rewrite, no second mental model, no "now go serialize everything" migration — you did that part from the start, almost without noticing. The serialization step you paid for on a single machine *is* your upgrade path: going distributed becomes a configuration change, not a port — and, as the numbers above show, one that costs only a few percent.
+So the habit you build on day one is the habit that scales. Your MT code already speaks in serializable arguments; when a problem outgrows one machine you switch the dependency to `gempba-mpi`, create a scheduler with `Mpi.createScheduler`, launch under `mpiexec`, and the task logic you already wrote keeps working. There is no rewrite, no second mental model, no "now go serialize everything" migration — you did that part from the start, almost without noticing. The serialization step you paid for on a single machine *is* your upgrade path: going distributed becomes a configuration change, not a port — and, as the numbers above show, one that costs only a few percent.
 
 ## Going deeper
 

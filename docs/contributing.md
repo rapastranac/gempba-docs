@@ -217,7 +217,7 @@ On a version tag (`v*`), the `release-*.yml` workflows build and publish package
 - **Ubuntu**: `.deb` packages (`libgempba-dev`, `libgempba-mpi-dev`) published to a GPG-signed APT repository on GitHub Pages
 - **Windows**: MSYS2 packages (`.pkg.tar.zst`) attached to the GitHub Release
 - **macOS**: Homebrew formulae (`gempba`, `gempba-mpi`) pushed to the project's tap — built and `brew test`-ed on a real macOS runner first, so a non-installable formula blocks the release
-- **Java**: fat JARs (`mt`, `mp-mpi` classifiers) published to GitHub Packages
+- **Java**: the `gempba` and `gempba-mpi` JARs, uploaded to Maven Central
 
 ## Project structure
 

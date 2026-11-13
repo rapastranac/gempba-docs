@@ -54,7 +54,7 @@ GemPBA ships in two flavors that install side by side on any platform:
 You pick which one a program uses at build time. See [Installation](getting-started/installation.md) for APT / MSYS2 / Homebrew instructions and the flavor-selection API.
 
 !!! tip "Using Java?"
-    GemPBA ships as a Maven dependency too (from `v4.1.0`) — `import io.gempba.*` and call the same scheduler from the JVM. See the **[Java section](java/index.md)**.
+    GemPBA is on Maven Central too (from `v5.0.0`) — `import io.gempba.*` and call the same scheduler from the JVM. See the **[Java section](java/index.md)**.
 
 ## Platforms
 

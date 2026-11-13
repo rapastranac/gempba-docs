@@ -1,6 +1,6 @@
 # Class Index
 
-All public types in the `io.gempba` packages, grouped by role. Links go to the source on GitHub. Types marked **MP only** ship only in the `mp-mpi` classifier.
+All public types in the `io.gempba` packages, grouped by role. Links go to the source on GitHub. Types marked **`gempba-mpi` only** ship only in the `gempba-mpi` artifact.
 
 <table class="class-index">
   <thead>
@@ -9,11 +9,11 @@ All public types in the `io.gempba` packages, grouped by role. Links go to the s
   <tbody>
 
     <!-- ── Entry point ────────────────────────────── -->
-    <tr class="category"><td colspan="2">Entry point</td></tr>
+    <tr class="category"><td colspan="2">Entry point (<code>io.gempba</code>)</td></tr>
 
     <tr>
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multithreading/io/gempba/GemPBA.java"><code>GemPBA</code></a></td>
-      <td>Static factories and entry points: <code>createLoadBalancer</code>, <code>createNodeManager</code>, <code>createSeedNode</code>, node creation, telemetry switches, stopping a run (<code>requestStop</code>, <code>isStopRequested</code>, <code>stopOnSignals</code>), <code>shutdown</code>. Each flavor ships its own variant of this class (<a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/GemPBA.java">MP variant</a>), mirroring the C++ inline-namespace selection</td>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/GemPBA.java"><code>GemPBA</code></a></td>
+      <td>Static factories and entry points: <code>createLoadBalancer</code>, <code>createNodeManager</code>, <code>createSeedNode</code>, node creation, telemetry switches, stopping a run (<code>requestStop</code>, <code>isStopRequested</code>, <code>stopOnSignals</code>), <code>shutdown</code>. The same class in both artifacts, mirroring the C++ <code>gempba::</code> namespace</td>
     </tr>
 
     <!-- ── Core handles ───────────────────────────── -->
@@ -87,12 +87,12 @@ All public types in the `io.gempba` packages, grouped by role. Links go to the s
 
     <tr>
       <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/task/ClosureTask.java"><code>ClosureTask</code></a></td>
-      <td>MT-mode task whose arguments are captured in the Java lambda closure; no serialization involved</td>
+      <td>Task whose arguments are captured in the Java lambda closure; no serialization involved</td>
     </tr>
 
     <tr>
       <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/task/ResultClosureTask.java"><code>ResultClosureTask&lt;R&gt;</code></a></td>
-      <td>MT-mode closure task that returns a typed result, paired with a <code>Serializer</code> for retrieval via <code>Node.getResult()</code></td>
+      <td>Closure task that returns a typed result, paired with a <code>Serializer</code> for retrieval via <code>Node.getResult()</code></td>
     </tr>
 
     <tr>
@@ -110,35 +110,35 @@ All public types in the `io.gempba` packages, grouped by role. Links go to the s
       <td>Argument initialiser for lazy nodes: return serialised bytes to run, or <code>null</code> to prune</td>
     </tr>
 
-    <!-- ── Multiprocessing ────────────────────────── -->
-    <tr class="category"><td colspan="2">Scheduling, MP only (<code>io.gempba.scheduler</code>)</td></tr>
+    <!-- ── Scheduling ─────────────────────────────── -->
+    <tr class="category"><td colspan="2">Scheduling (<code>io.gempba.scheduler</code>)</td></tr>
 
     <tr>
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/scheduler/Scheduler.java"><code>Scheduler</code></a></td>
-      <td>Handle to a C++ <code>gempba::scheduler</code>; obtained from <code>GemPBA.createScheduler</code></td>
-    </tr>
-    <tr class="nested">
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/scheduler/Scheduler.java"><code>Scheduler.Center</code></a></td>
-      <td>Center-role view (rank 0): seeds the initial task and coordinates workers</td>
-    </tr>
-    <tr class="nested">
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/scheduler/Scheduler.java"><code>Scheduler.Worker</code></a></td>
-      <td>Worker-role view (non-zero ranks): runs the search and exchanges tasks</td>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/scheduler/Scheduler.java"><code>Scheduler</code></a></td>
+      <td>Handle to a C++ <code>gempba::scheduler</code>: <code>run</code>, <code>rankMe</code>, <code>worldSize</code>, <code>isRoot</code>, <code>barrier</code>, statistics and results. The built-in MPI ones come from <code>Mpi.createScheduler</code></td>
     </tr>
 
     <tr>
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/scheduler/SchedulerTopology.java"><code>SchedulerTopology</code></a></td>
-      <td>MPI topology selection (<code>SEMI_CENTRALIZED</code> / <code>CENTRALIZED</code>)</td>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/scheduler/SerialRunnable.java"><code>SerialRunnable</code></a></td>
+      <td>Serializable task passed to <code>Scheduler.run</code> by integer ID; a rank that receives a task looks it up, deserialises the bytes and runs it</td>
     </tr>
 
     <tr>
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/scheduler/SerialRunnable.java"><code>SerialRunnable</code></a></td>
-      <td>Serializable task registered on a <code>Scheduler.Worker</code> by integer ID for cross-rank dispatch</td>
-    </tr>
-
-    <tr>
-      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-multiprocessing/io/gempba/scheduler/SerialTask.java"><code>SerialTask</code></a></td>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/scheduler/SerialTask.java"><code>SerialTask</code></a></td>
       <td>Task body for a <code>SerialRunnable</code>; typically creates child nodes from deserialised arguments</td>
+    </tr>
+
+    <!-- ── MPI component ──────────────────────────── -->
+    <tr class="category"><td colspan="2">MPI component, <code>gempba-mpi</code> only (<code>io.gempba.mpi</code>)</td></tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-mpi/io/gempba/mpi/Mpi.java"><code>Mpi</code></a></td>
+      <td>The MPI component's calls, mirroring C++ <code>gempba::mpi</code>: <code>createScheduler(SchedulerTopology)</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java-mpi/io/gempba/mpi/SchedulerTopology.java"><code>SchedulerTopology</code></a></td>
+      <td>MPI topology selection (<code>SEMI_CENTRALIZED</code> / <code>CENTRALIZED</code>), mirroring <code>gempba::mpi::scheduler_topology</code></td>
     </tr>
 
     <!-- ── Stats ──────────────────────────────────── -->
@@ -159,7 +159,12 @@ All public types in the `io.gempba` packages, grouped by role. Links go to the s
 
     <tr>
       <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/internal/NativeLoader.java"><code>NativeLoader</code></a></td>
-      <td>Extracts the right <code>natives/&lt;os&gt;-&lt;arch&gt;/</code> binary from the fat JAR and loads it at runtime</td>
+      <td>Extracts the right <code>natives/&lt;os&gt;-&lt;arch&gt;/</code> binary from the JAR and loads it at runtime</td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/bindings/java/src/main/java/io/gempba/internal/StopSignals.java"><code>StopSignals</code></a></td>
+      <td>Lets <code>SIGINT</code> and <code>SIGTERM</code> stop a run gracefully inside a JVM, which handles both signals itself</td>
     </tr>
 
   </tbody>
