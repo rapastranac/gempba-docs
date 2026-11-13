@@ -48,7 +48,7 @@ The aggregator (rank 0) binds a loopback-only TCP server for the dashboard chann
 === "Java"
 
     ```java
-    GemPBA.configureTelemetryPort(9100);       // available from v4.1.3, both flavors
+    GemPBA.configureTelemetryPort(9100);       // available from v4.1.3, in gempba and gempba-mpi
     ```
 
 The server binds **loopback only** by design; it is never exposed on a public interface. To reach it from another machine, use the [GemPBA Dashboard](dashboard.md), which opens the SSH forward for you (see [Connecting](connecting.md)).
@@ -60,15 +60,13 @@ Two runs on the same host need different ports.
 
 ## Emission cadence and live control
 
-gempba v4.3.0 uses **one telemetry interval**. Rank frames, per-host (node) frames and the aggregator's broadcast all refresh on it: **500 ms** by default, clamped to 50–600000 ms. Change it in code, or **live from a connected client**, so a UI can throttle the stream without restarting the run.
+gempba uses **one telemetry interval**. Rank frames, per-host (node) frames and the aggregator's broadcast all refresh on it: **500 ms** by default, clamped to 50–600000 ms. Change it in code, or **live from a connected client**, so a UI can throttle the stream without restarting the run.
 
 A connected client writes control lines back on the same socket, one JSON object per line:
 
 | Control line | Effect |
 |---|---|
 | `{"kind":"set_interval_ms","value":N}` | Set the interval to `N` ms, for rank frames, node frames and the broadcast alike. |
-| `{"kind":"set_worker_interval_ms","value":N}` | The schema-1 name for the same thing; accepted until v5.0.0. |
-| `{"kind":"set_node_interval_ms","value":N}` | Accepted and ignored since v4.3.0, now that node frames follow the one interval; removed in v5.0.0. |
 | `{"kind":"pause"}` | Stop every rank sending frames. Counters keep counting, and the aggregator keeps sending a short `"paused":true` line so the run does not look lost. |
 | `{"kind":"resume"}` | Resume at the current interval. |
 | `{"kind":"snapshot"}` | Make every rank send one frame at once, whatever the interval and even while paused; the aggregator then broadcasts one full line. |
@@ -84,7 +82,7 @@ if (hub) {
 }
 ```
 
-The in-process control enum is `control_kind::SET_INTERVAL_MS`. The old `set_worker_interval_ms()` and `control_kind::SET_WORKER_INTERVAL_MS` still compile, with a deprecation warning, and forward to these until v5.0.0; `set_node_interval_ms()` does nothing and is removed in v5.0.0.
+The in-process control enum is `control_kind::SET_INTERVAL_MS`.
 
 A faster interval gives a more responsive dashboard at the cost of more frames on the wire; a slower one is cheaper for long unattended runs. Because the interval is client-controllable, a dashboard can dial it up while you are watching and back down when you are not.
 
