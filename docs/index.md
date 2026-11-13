@@ -44,14 +44,14 @@ A desktop app that connects to a running GemPBA program and shows the whole run 
 [See the dashboard](telemetry/dashboard.md){ .md-button .md-button--primary }
 [Download](https://github.com/rapastranac/gempba-dashboard/releases/latest){ .md-button }
 
-## Flavors
+## The core and the MPI component
 
-GemPBA ships in two flavors that install side by side on any platform:
+GemPBA is one library with multithreading built in, plus an optional MPI component, on any platform:
 
-- **Multithreading (`mt`)** — the default; uses all cores of a single machine.
-- **Multiprocessing (`mpi`)** — distributes work across multiple machines/nodes over MPI.
+- **The core** (`gempba`) — uses all cores of a single machine; no MPI needed.
+- **The MPI component** (`gempba-mpi`) — distributes work across multiple machines/nodes over MPI. It installs as source, and your build compiles it against your MPI.
 
-You pick which one a program uses at build time. See [Installation](getting-started/installation.md) for APT / MSYS2 / Homebrew instructions and the flavor-selection API.
+A program uses the MPI component only when it asks for it, so multithreading and MPI programs build side by side from one installation. See [Installation](getting-started/installation.md) for APT / MSYS2 / Homebrew instructions and `find_package(gempba COMPONENTS mpi)`.
 
 !!! tip "Using Java?"
     GemPBA is on Maven Central too (from `v5.0.0`) — `import io.gempba.*` and call the same scheduler from the JVM. See the **[Java section](java/index.md)**.
@@ -73,8 +73,8 @@ Pre-built packages and the Java fat JAR target one architecture per OS; other ar
 | C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
 | CMake | ≥ 3.28 | |
 | hwloc | any recent | Hardware-topology probe (telemetry) |
-| OpenMPI | ≥ 4.0 | Only for the multiprocessing flavor |
-| spdlog / fmt | any recent | System-provided |
+| MPI | Open MPI ≥ 4.0, MPICH, or MS-MPI | Only for the MPI component |
+| spdlog / fmt | any recent | Build only; compiled into the library |
 | Boost | any recent | Optional — tests only |
 | GoogleTest | any recent | Optional — running tests only |
 

@@ -1,7 +1,9 @@
 # MPI Centralized
 
 ```cpp
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::CENTRALIZED);
+#include <gempba/mpi.hpp>
+
+auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::CENTRALIZED);
 ```
 
 Implements [`scheduler`](../../interfaces/scheduler.md). An actively routing multiprocessing scheduler. Uses MPI as the IPC transport (OpenMPI on Linux/macOS, MS-MPI on Windows).
