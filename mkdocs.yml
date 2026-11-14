@@ -1,5 +1,5 @@
 site_name: GemPBA
-site_description: Generic Massive Parallelisation of Branching Algorithms, a hybrid parallel C++23 framework
+site_description: GemPBA parallelizes branching algorithms (branch and bound, backtracking) on threads and MPI. A high-performance C++ core, with a Java API on Maven Central and a C ABI.
 site_url: https://rapastranac.github.io/gempba-docs/
 repo_url: https://github.com/rapastranac/gempba
 repo_name: rapastranac/gempba
@@ -13,7 +13,18 @@ theme:
   logo: assets/logo.svg
   favicon: assets/favicon.svg
   palette:
-    primary: custom
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
   features:
     - navigation.tabs
     - navigation.sections
@@ -27,11 +38,16 @@ markdown_extensions:
   - md_in_html
   - admonition
   - pymdownx.details
+  - pymdownx.snippets:
+      base_path: [docs]
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
   - Home: index.md

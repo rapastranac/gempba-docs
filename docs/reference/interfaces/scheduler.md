@@ -6,7 +6,7 @@
 
 Abstract interface for process-level coordination. Every rank holds one scheduler and calls its [`run`](#running-a-search); rank 0, the root, seeds the run and reads its results. Extends [`scheduler_traits`](#scheduler_traits-shared-base).
 
-Built-in implementations use MPI (OpenMPI on Linux/macOS, MS-MPI on Windows) and come with the MPI component, `gempba::mpi`. A custom scheduler is installed with `gempba::mpi::create_scheduler`, which also sets up telemetry over MPI, so it runs on MPI too. For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
+Built-in implementations use MPI (Open MPI, MPICH or MS-MPI, whichever your build compiles against) and come with the MPI component, `gempba::mpi`. A custom scheduler is installed with `gempba::mpi::create_scheduler`, which also sets up telemetry over MPI, so it runs on MPI too. For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
 
 ---
 
@@ -44,7 +44,7 @@ Process identity within the communicator. Rank 0 is the root; in the built-in sc
 ```cpp
 [[nodiscard]] virtual std::unique_ptr<stats> get_stats() const = 0;
 ```
-This process's runtime metrics. Workers hold compute stats; the coordinator's stats are empty.
+This process's runtime metrics. Workers hold compute stats; the coordinator holds its own counts and elapsed time.
 
 ---
 
@@ -60,7 +60,7 @@ Set optimization direction (`MAXIMISE`/`MINIMISE`) and score numeric type. Must 
 ```cpp
 virtual void set_custom_initial_topology(tree&&) = 0;
 ```
-Replace the default startup waiting list with a custom process assignment tree.
+Replace the default startup waiting list, a binomial tree over the workers, with a custom process assignment tree. The semi-centralized scheduler uses it; the centralized one, where every task goes through the coordinator, ignores it.
 
 ---
 
@@ -98,7 +98,7 @@ Hand `task` to another rank, to run under the runnable `function_id`. Returns th
 ```cpp
 virtual std::optional<transmission_guard> try_open_transmission_channel() = 0;
 ```
-Non-blocking lock on the outgoing transmission mutex. Returns `nullopt` if the channel is already in use.
+Non-blocking lock on the outgoing transmission mutex. Returns `nullopt` if the channel is already in use, and in the built-in schedulers also when there is nowhere to send: the semi-centralized one has no waiting process assigned to this rank, or the centralized coordinator is full.
 
 ---
 
@@ -107,12 +107,12 @@ Non-blocking lock on the outgoing transmission mutex. Returns `nullopt` if the c
 ```cpp
 virtual void synchronize_stats() = 0;
 ```
-Gather stats from all workers. Must be called by **all** processes after `run()` returns.
+Gather every rank's stats on rank 0. Collective: **every** rank calls it after `run()` returns.
 
 ```cpp
 [[nodiscard]] virtual std::vector<std::unique_ptr<stats>> get_stats_vector() const = 0;
 ```
-One `stats` entry per rank. Index 0 (the coordinator) is empty. Call only on rank 0 after `synchronize_stats()`.
+One `stats` entry per rank, index 0 included: the coordinator's own counts and elapsed time. Call only on rank 0 after `synchronize_stats()`.
 
 ---
 
@@ -130,7 +130,17 @@ Wall-clock seconds from run start to termination.
 ```cpp
 [[nodiscard]] virtual std::size_t get_pending_request_count() const = 0;
 ```
-Outstanding requests in the scheduler queue. Sampled by [telemetry](../../telemetry/index.md) for the rank frames.
+Outstanding requests in the scheduler queue: the centralized coordinator's queued tasks, and always 0 for the semi-centralized scheduler, which queues none. Sampled by [telemetry](../../telemetry/index.md) for the rank frames.
+
+```cpp
+[[nodiscard]] virtual std::string_view get_name() const;   // "custom" unless overridden
+```
+The name telemetry reports for this scheduler: `"semi_centralized"` or `"centralized"` for the built-ins.
+
+```cpp
+[[nodiscard]] virtual rank_role role_of(int rank) const;   // rank_role::WORKER unless overridden
+```
+The role a rank plays: `rank_role::COORDINATOR`, which coordinates and runs no tasks, or `rank_role::WORKER`, which runs tasks (`<gempba/core/rank_role.hpp>`). The built-ins answer `COORDINATOR` for rank 0. Each rank reports its own role to telemetry once, at startup, so the answer must stay fixed for the whole run.
 
 ---
 

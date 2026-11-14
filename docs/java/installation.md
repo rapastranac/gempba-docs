@@ -1,3 +1,7 @@
+---
+description: "Install GemPBA for Java from Maven Central: io.github.rapastranac:gempba for multithreading or gempba-mpi for MPI, with no repository or token to configure."
+---
+
 # Installation (Maven)
 
 GemPBA's JARs are on Maven Central as two artifacts that share one API:

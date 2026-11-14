@@ -2,14 +2,14 @@
 
 Telemetry is exposed two ways, and both carry the same information:
 
-- **In process**, as C++ frame structs (`<gempba/telemetry/frames.hpp>`, `topology.hpp`) for a consumer compiled into the same binary, such as a custom `telemetry_transport`.
+- **In process**, as C++ frame structs (`<gempba/telemetry/frames.hpp>`, `topology.hpp`) for a consumer compiled into the same binary, which reads them from the process's hub (`gempba::telemetry::get()`).
 - **Over the socket**, as a line-delimited **JSON broadcast** on the dashboard channel, for everything else.
 
 This page is a map of what a broadcast line carries. The authoritative, field-by-field reference, with each key's unit and the release that added it, every control line, the compatibility rules and every schema version, lives in gempba's [`docs/telemetry/wire-format.md`](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md). This page links there rather than keeping a second copy in sync.
 
 ## Schema 2
 
-gempba v4.3.0 sends **schema 2**: every line carries `"version": 2`. A consumer written against an older release reads that release's schema, which stays valid for it. wire-format.md lists [every schema version](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#schema-versions), newest first, and the compatibility rules: a consumer ignores keys it does not know, and a renamed, removed or redefined key bumps `version`.
+gempba sends **schema 2** from v4.3.0 on, v5.0.0 included: every line carries `"version": 2`. A consumer written against an older release reads that release's schema, which stays valid for it. wire-format.md lists [every schema version](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#schema-versions), newest first, and the compatibility rules: a consumer ignores keys it does not know, and a renamed, removed or redefined key bumps `version`.
 
 ## What a line carries
 
@@ -28,7 +28,7 @@ The socket is bidirectional: a client writes control lines back, one JSON object
 
 ## JSON keys versus C++ struct fields
 
-The JSON keys and the C++ struct fields describe the same data but **do not always share a name**. Since gempba's one-vocabulary change the wire says `rank` where the C++ struct still says worker, and the old struct names stay until v5.0.0 removes them: the line's `rank` is the struct's `m_worker_id`, the line's `idle_microseconds_per_thread` is `m_idle_microseconds_per_worker`, and so on. Read the wire names from wire-format.md and the struct names from the gempba headers; do not derive one from the other by stripping an `m_` prefix.
+The JSON keys and the C++ struct fields describe the same data, and since v5.0.0 they use the same words: the line's `rank` is `rank_frame`'s `m_rank`, and its `idle_microseconds_per_thread` is `m_idle_microseconds_per_thread`. They still **don't always share a name**. Read the wire names from wire-format.md and the struct names from the gempba headers; do not derive one from the other by stripping an `m_` prefix.
 
 ## Feeding telemetry from your own scheduler
 

@@ -5,7 +5,7 @@ Working example programs live in the sibling repository [**rapastranac/gempba-ex
 The tree is split by how a program runs: `multithreading/src/` uses the core alone, and `multiprocessing/src/` links the MPI component, `gempba::mpi`. To build them, install GemPBA (see [Installation](getting-started/installation.md)) and build the example repo against it. The MPI examples need the MPI component installed; configure with `-DGEMPBA_EXAMPLES_MPI=OFF` to build only the multithreading ones.
 
 !!! info "Java examples"
-    Java/Maven equivalents live in [**rapastranac/gempba-java-examples**](https://github.com/rapastranac/gempba-java-examples), organized into `multithreading/`, `multiprocessing/`, and `sequential/` Maven modules.
+    Java/Maven equivalents live in [**rapastranac/gempba-java-examples**](https://github.com/rapastranac/gempba-java-examples), organized into `mutithreading/` (the repository's spelling), `multiprocessing/`, and `sequential/` Maven modules.
 
 ## Benchmarks
 
@@ -22,8 +22,8 @@ A real combinatorial optimization problem on graphs, with pruning and result tra
 
 | File | Mode | Scheduler | Encoding | Notes |
 |---|---|---|---|---|
-| `multithreading/src/bitvect_opt_enc_semi.cpp` | Multithreading | n/a | Bitvector | Recommended starting point for MT. |
-| `multiprocessing/src/bitvect_opt_enc_semi.cpp` | Multiprocessing | Semi-centralized | Bitvector | Recommended starting point for MP. |
+| `multithreading/src/bitvect_opt_enc_semi.cpp` | Multithreading | n/a | Bitvector | Recommended starting point for multithreading. |
+| `multiprocessing/src/bitvect_opt_enc_semi.cpp` | Multiprocessing | Semi-centralized | Bitvector | Recommended starting point for MPI. |
 | `multiprocessing/src/bitvect_opt_enc_central.cpp` | Multiprocessing | Centralized | Bitvector | Same as above, centralized topology. |
 | `multithreading/src/graph_opt_enc_semi.cpp` | Multithreading | n/a | Graph class | Same problem, larger per-node payload. |
 | `multithreading/src/graph_opt_enc_semi_non_void.cpp` | Multithreading | n/a | Graph class | Non-void recursive function variant. |

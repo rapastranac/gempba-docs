@@ -55,8 +55,6 @@ cmake -B build -DGEMPBA_BUILD_MPI=OFF -DGEMPBA_HWLOC=ON -DCMAKE_BUILD_TYPE=Relea
 ctest --test-dir build --output-on-failure
 ```
 
-Flaky tests (prefixed `FLAKY_`) are retried automatically in CI.
-
 ## Running examples
 
 Example programs no longer live in the gempba source tree — they moved to the sibling repository [**rapastranac/gempba-examples**](https://github.com/rapastranac/gempba-examples) (C++) and [**rapastranac/gempba-java-examples**](https://github.com/rapastranac/gempba-java-examples) (Java), where they consume GemPBA via `find_package(gempba)` exactly as a downstream user would. Clone one of those repos, install GemPBA (or point it at your build), and build the examples from there. See the [Examples](../examples.md) page for the catalog.

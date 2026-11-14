@@ -42,8 +42,8 @@ Built-in concrete implementations of the above interfaces.
 
 ## Telemetry
 
-The runtime carries a built-in telemetry subsystem under `include/gempba/telemetry/` (`telemetry_hub`, frame and topology structs, transports). It has its own documentation section rather than per-header reference pages: see [Telemetry](../telemetry/index.md) for the concepts, [Configuration](../telemetry/configuration.md) for the runtime API (`disable`/`enable`, `configure_port`, cadence control), and [Data model](../telemetry/data-model.md) for the frame contract.
+The runtime carries a built-in telemetry subsystem under `include/gempba/telemetry/` (`telemetry_hub`, and the frame and topology structs). It has its own documentation section rather than per-header reference pages: see [Telemetry](../telemetry/index.md) for the concepts, [Configuration](../telemetry/configuration.md) for the runtime API (`disable`/`enable`, `configure_port`, cadence control), and [Data model](../telemetry/data-model.md) for the frame contract.
 
 ## C ABI
 
-`<gempba/cabi/gempba.h>`, with `<gempba/cabi/gempba_mpi.h>` for the MPI component, exposes the full runtime as a stable `extern "C"` surface: opaque handles, status codes, and callback registration. It exists so non-C++ front-ends can drive GemPBA; the [Java binding](../java/how-it-works.md) is its first consumer. For a code-level walkthrough, the [GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba) covers it in depth.
+`<gempba/cabi/gempba.h>`, with `<gempba/cabi/gempba_mpi.h>` for the MPI component, exposes the full runtime as an `extern "C"` surface: opaque handles, status codes, and callback registration. It exists so non-C++ front-ends can drive GemPBA; the [Java binding](../java/how-it-works.md) is its first consumer. For a code-level walkthrough, the [GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba) covers it in depth.

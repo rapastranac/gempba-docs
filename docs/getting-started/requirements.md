@@ -1,16 +1,16 @@
 # Requirements
 
-These requirements apply when **building GemPBA from source**. If you install a pre-built package (APT, MSYS2, Homebrew) or pull the Java JAR, the runtime dependencies are resolved for you — see [Installation](installation.md).
+These requirements apply when **building GemPBA from source**. If you install a pre-built package (APT, MSYS2, Homebrew) or the Java artifacts from Maven Central, the package manager brings what they need; only Homebrew's `gempba-mpi` leaves the MPI to you. See [Installation](installation.md).
 
 | Dependency | Version | Notes |
 |---|---|---|
-| C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
+| C++ compiler | C++23 | GCC or Clang (AppleClang on macOS); on Windows, MSYS2 UCRT64's GCC |
 | CMake | ≥ 3.28 | |
-| hwloc | any recent | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON by default when gempba is the root project) |
+| hwloc | ≥ 2.10 | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON by default when gempba is the root project); libgempba loads it at run time |
 | pkg-config | any recent | Finds hwloc in the build |
 | MPI | Open MPI ≥ 4.0, MPICH, or MS-MPI on Windows | Only for the MPI component: gempba's build with `GEMPBA_BUILD_MPI=ON`, the default, and programs that use `gempba::mpi` |
-| spdlog | any recent | Build only; compiled into the library |
-| fmt | any recent | Build only; compiled into the library |
+| spdlog | ≥ 1.12 | Build only; compiled into the library |
+| fmt | ≥ 9.1 | Build only; compiled into the library |
 | Boost | any recent | Optional — tests only |
 | GoogleTest | any recent | Optional — running tests only |
 | JDK + Maven | JDK 25, Maven 3.9+ | Only for the Java binding |
