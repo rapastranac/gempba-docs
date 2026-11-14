@@ -6,7 +6,7 @@
 
 Abstract interface for process-level coordination. Every rank holds one scheduler and calls its [`run`](#running-a-search); rank 0, the root, seeds the run and reads its results. Extends [`scheduler_traits`](#scheduler_traits-shared-base).
 
-Built-in implementations use MPI (OpenMPI on Linux/macOS, MS-MPI on Windows) and come with the MPI component, `gempba::mpi`. A custom scheduler is installed with `gempba::mpi::create_scheduler`, which also sets up telemetry over MPI, so it runs on MPI too. For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
+Built-in implementations use MPI (Open MPI, MPICH or MS-MPI, whichever your build compiles against) and come with the MPI component, `gempba::mpi`. A custom scheduler is installed with `gempba::mpi::create_scheduler`, which also sets up telemetry over MPI, so it runs on MPI too. For protocol details see [Scheduler Topologies](../../scheduler-topologies.md).
 
 ---
 
@@ -131,6 +131,16 @@ Wall-clock seconds from run start to termination.
 [[nodiscard]] virtual std::size_t get_pending_request_count() const = 0;
 ```
 Outstanding requests in the scheduler queue: the centralized coordinator's queued tasks, and always 0 for the semi-centralized scheduler, which queues none. Sampled by [telemetry](../../telemetry/index.md) for the rank frames.
+
+```cpp
+[[nodiscard]] virtual std::string_view get_name() const;   // "custom" unless overridden
+```
+The name telemetry reports for this scheduler: `"semi_centralized"` or `"centralized"` for the built-ins.
+
+```cpp
+[[nodiscard]] virtual rank_role role_of(int rank) const;   // rank_role::WORKER unless overridden
+```
+The role a rank plays: `rank_role::COORDINATOR`, which coordinates and runs no tasks, or `rank_role::WORKER`, which runs tasks (`<gempba/core/rank_role.hpp>`). The built-ins answer `COORDINATOR` for rank 0. Each rank reports its own role to telemetry once, at startup, so the answer must stay fixed for the whole run.
 
 ---
 

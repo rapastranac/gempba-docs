@@ -6,7 +6,7 @@
 auto* s = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::CENTRALIZED);
 ```
 
-Implements [`scheduler`](../../interfaces/scheduler.md). An actively routing multiprocessing scheduler. Uses MPI as the IPC transport (OpenMPI on Linux/macOS, MS-MPI on Windows).
+Implements [`scheduler`](../../interfaces/scheduler.md). An actively routing MPI scheduler. Uses MPI as the IPC transport: Open MPI, MPICH or MS-MPI, whichever your build compiles `gempba::mpi` against.
 
 The coordinator (rank 0) is an active participant: workers send excess tasks to the coordinator, and the coordinator dispatches them to available workers. Every task handoff traverses the coordinator twice — once inbound, once outbound. At small process counts this is negligible; at scale the coordinator becomes a bottleneck.
 
@@ -21,7 +21,7 @@ For the full protocol walkthrough and comparison with the semi-centralized topol
 - Dispatch queued tasks to available workers
 - Broadcast the global best value
 
-The coordinator's task queue has a configurable capacity limit. When it is full, workers are signaled to stop sending tasks. When it falls below threshold, workers resume.
+The coordinator's queue is bounded by compile-time limits: 1000 tasks per process, times the number of ranks, or 10 GB of memory. Past either one it broadcasts `CENTER_IS_FULL`, and workers run their tasks locally instead of sending them. Once the queue is below 80% of the task limit and memory below 90%, it broadcasts `CENTER_IS_FREE` and workers send again. It never rejects a task it has received.
 
 ---
 

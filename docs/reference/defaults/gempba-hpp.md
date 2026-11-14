@@ -36,6 +36,14 @@ scheduler* s = gempba::try_get_scheduler();
 
 Non-throwing variant: returns `nullptr` when no scheduler has been created instead of throwing. Useful for read-only probes (telemetry uses it).
 
+```cpp
+gempba::reset_node_manager();
+gempba::reset_load_balancer();
+gempba::reset_scheduler();
+```
+
+Destroy one component without shutting the rest down, so it can be created again: in tests, or between runs in one process. `reset_node_manager()` also gives back the signals `create_node_manager` took. `shutdown()` resets all three.
+
 ---
 
 ## Seed creation
@@ -51,6 +59,12 @@ auto seed = gempba::create_seed_node<MyReturnType>(*lb, &my_func, std::make_tupl
 ```
 
 Same for a non-void function.
+
+```cpp
+auto dummy = gempba::create_dummy_node(*lb);
+```
+
+A placeholder parent with no function, for the seed's children: the seed runs with no parent, and children always need one.
 
 ---
 
@@ -104,6 +118,16 @@ auto child = gempba::create_explicit_node<void>(
 ```
 
 Create a child node with serializers. An MPI program needs them, because a node that runs on another rank sends its arguments there as bytes. `create_lazy_node` takes the same pair after its initializer.
+
+```cpp
+auto child = gempba::create_from_bytes_node<void, Args...>(
+    *lb, parent, &my_func, args_serializer_fn, args_deserializer_fn
+);
+```
+
+A serializable child with no arguments yet: they arrive later as bytes, through the node's `deserialize(task_packet)`.
+
+The child factories throw if `parent` is null (`gempba::check_not_null`); a seed's children take a dummy node instead.
 
 ---
 
