@@ -356,3 +356,4 @@
 .md-typeset .grid.cards > ul > li > p:first-child strong {
   color: var(--md-primary-fg-color);
 }
+.md-typeset .diagram .halo     { paint-order: stroke; stroke: var(--fig-paper); stroke-width: 4px; stroke-linejoin: round; }
