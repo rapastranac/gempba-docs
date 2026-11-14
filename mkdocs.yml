@@ -1,5 +1,5 @@
 site_name: GemPBA
-site_description: Generic Massive Parallelisation of Branching Algorithms, a hybrid parallel C++23 framework
+site_description: GemPBA parallelizes branching algorithms (branch and bound, backtracking) on threads and MPI. A high-performance C++ core, with a Java API on Maven Central and a C ABI.
 site_url: https://rapastranac.github.io/gempba-docs/
 repo_url: https://github.com/rapastranac/gempba
 repo_name: rapastranac/gempba

@@ -1,3 +1,7 @@
+---
+description: "A complete GemPBA program in Java: parallelize a recursive search over threads, then what changes for MPI."
+---
+
 # Quick Start (Java)
 
 This walks through a complete multithreading program: a synthetic binary-tree traversal that counts leaves in parallel. It is a trimmed version of the `synthetic_void` example from [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples), and it uses the public `io.gempba` API exactly as your own algorithm would.

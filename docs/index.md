@@ -1,3 +1,7 @@
+---
+description: GemPBA parallelizes branch-and-bound and other branching algorithms on threads and MPI. A high-performance C++23 core, with a Java API on Maven Central (io.github.rapastranac:gempba) and a C ABI.
+---
+
 # GemPBA
 
 [![C/C++ CI (Ubuntu 24.04)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-ubuntu.yml/badge.svg)](https://github.com/rapastranac/gempba/actions/workflows/ci-cpp-ubuntu.yml)
@@ -9,13 +13,73 @@
 ![GitHub Release](https://img.shields.io/github/v/release/rapastranac/gempba)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/rapastranac/gempba)
 
-**GemPBA** is a hybrid parallelization framework for branching algorithms. It supports:
+**GemPBA** (Generic Massive Parallelisation of Branching Algorithms) parallelizes branch-and-bound, backtracking and other recursive search algorithms. Its core is **C++23**, for speed, and it is just as much a **Java** library: the same runtime is on Maven Central as `io.github.rapastranac:gempba`, and a C ABI opens it to other languages. It runs a search on:
 
-- **Multithreading** — multiple worker threads within a single process
-- **Multiprocessing** — work distributed across multiple processes (OpenMPI by default, but pluggable)
-- **Hybrid** — multiple threads per process, spread across multiple nodes
+- **Multithreading:** all the cores of one machine, with nothing else to install
+- **MPI:** many processes across many nodes, over the Open MPI, MPICH or MS-MPI you already have
+- **Hybrid:** several threads per process, spread across nodes
 
-There are two main research contributions baked into the framework.
+<div class="grid cards" markdown>
+
+-   **C++**
+
+    `find_package(gempba)`, plus `COMPONENTS mpi` for MPI, from APT, Homebrew or MSYS2.
+
+    [Install for C++](getting-started/installation.md) · [Quick Start](quick-start.md)
+
+-   **Java**
+
+    `io.github.rapastranac:gempba` or `gempba-mpi` on Maven Central, no token, natives inside the JAR.
+
+    [Install for Java](java/installation.md) · [Quick Start](java/quick-start.md)
+
+</div>
+
+## What's new in v5
+
+<div class="grid cards" markdown>
+
+-   **One core, one entry point**
+
+    No more build-time flavors: one library with multithreading built in, and MPI as a component you ask for. Every rank calls `scheduler::run`, with the same API in C++ and Java.
+
+    [Architecture](architecture.md)
+
+-   **MPI your way**
+
+    The MPI component compiles in your build against the MPI you have: Open MPI, MPICH or MS-MPI. Switching MPIs is a new build directory, not a reinstall.
+
+    [Installation](getting-started/installation.md)
+
+-   **Exact termination**
+
+    A run ends exactly when its work is done: Dijkstra–Scholten acknowledgements, with no timeout and no heuristic. v5 drops the old timeout parameter for good.
+
+    [How the run ends](scheduler-topologies.md#how-the-run-ends)
+
+-   **Stop a run, know how it ended**
+
+    Ctrl+C, `SIGTERM`, `request_stop()` or a dashboard wind a run down gracefully, keeping its best result, and every run says whether that result is proven.
+
+    [Stopping a Run](stopping-a-run.md)
+
+-   **Java on Maven Central**
+
+    One dependency, no repository or token, with Linux, Windows and Apple Silicon natives inside the JAR, and your own native when you need another MPI.
+
+    [Java](java/index.md)
+
+-   **A clean shared library**
+
+    `libgempba.so.5` exports only its API, keeps its dependencies private, and its headers include only the standard library.
+
+    [Releases](releases.md)
+
+</div>
+
+## The research behind it
+
+Two research contributions are baked into the framework.
 
 The first is the **Quasi-Horizontal Load Balancing** strategy. Standard work-stealing treats all pending tasks equally. Quasi-horizontal balancing understands the shape of your recursion tree and selects work near the root, where each task will spawn the most downstream work. For branching algorithms where subtree sizes vary dramatically, this makes a significant difference in CPU utilization.
 
@@ -51,10 +115,10 @@ GemPBA is one library with multithreading built in, plus an optional MPI compone
 - **The core** (`gempba`) — uses all cores of a single machine; no MPI needed.
 - **The MPI component** (`gempba-mpi`) — distributes work across multiple machines/nodes over MPI. It installs as source, and your build compiles it against your MPI.
 
-A program uses the MPI component only when it asks for it, so multithreading and MPI programs build side by side from one installation. See [Installation](getting-started/installation.md) for APT / MSYS2 / Homebrew instructions and `find_package(gempba COMPONENTS mpi)`.
+A program uses the MPI component only when it asks for it, so multithreading and MPI programs build side by side from one installation. See [Installation](getting-started/installation.md) for APT / MSYS2 / Homebrew instructions and `find_package(gempba COMPONENTS mpi)`, and [Architecture](architecture.md) for how the pieces fit.
 
 !!! tip "Using Java?"
-    GemPBA is on Maven Central too (from `v5.0.0`) — `import io.gempba.*` and call the same scheduler from the JVM. See the **[Java section](java/index.md)**.
+    The Java API is the same core from the JVM, as `gempba` and `gempba-mpi` on Maven Central. See the **[Java section](java/index.md)**.
 
 ## Platforms
 
