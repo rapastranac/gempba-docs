@@ -18,7 +18,7 @@ Telemetry lives in the C++ runtime, beneath the public API, not in any one front
 - **Per-rank frames**: cumulative task counters (started / sent / received), tasks currently running, scheduler pending count, pool idle time split into starved and imbalanced, scheduler running and waiting time, the bytes and time spent moving tasks, process CPU %, RSS, thread count, and a per-destination **traffic list** (`edges_out`) for visualizing how work flows between ranks.
 - **Per-host frames**, emitted by one **sentinel** rank per host: per-socket CPU and memory, total/available memory, and the job's own memory usage and limit (from its enforcing cgroup, so a shared node shows gempba's allocation rather than the whole machine).
 - **Topology snapshot**, captured once at startup: every host, the ranks it owns, each rank's scheduler role, per-socket physical/logical core counts, CPU names, and CPU-id lists, plus a `run` object with the run's setup, annotations and markers. Frames carry numeric `rank`s; the topology maps them back to host and hardware.
-- **Live control**: a connected client can retune the one telemetry interval, and pause, resume, snapshot or mark the run, on the fly, so a dashboard can dial detail up while you watch and back down for long unattended runs.
+- **Live control**: a connected client can retune the one telemetry interval, pause, resume, snapshot or mark the run, and from v5.0.0 [stop it](../stopping-a-run.md#from-the-dashboard) with its token, on the fly, so a dashboard can dial detail up while you watch and back down for long unattended runs.
 
 ## How it fits together
 
@@ -29,10 +29,12 @@ flowchart LR
         W1[rank 1 / worker]
         W2[rank 2 / worker]
     end
-    W1 -->|record_* hooks| HUB[telemetry hub]
-    W2 -->|record_* hooks| HUB
-    W0 --- HUB
-    HUB -->|on the telemetry interval| AGG[aggregator, rank 0]
+    W0 -->|record_* hooks| H0[hub, rank 0]
+    W1 -->|record_* hooks| H1[hub, rank 1]
+    W2 -->|record_* hooks| H2[hub, rank 2]
+    H0 -->|frames, on the telemetry interval| AGG[aggregator, rank 0]
+    H1 -->|frames, on the telemetry interval| AGG
+    H2 -->|frames, on the telemetry interval| AGG
     AGG -->|line-delimited JSON, loopback TCP :9000| DASH[dashboard / watch script]
     DASH -.->|control messages| AGG
 ```

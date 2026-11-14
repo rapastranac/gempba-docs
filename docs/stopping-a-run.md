@@ -69,7 +69,7 @@ if (GemPBA.isStopRequested()) {         // inside a long node: return early
 
 ### From the dashboard
 
-A telemetry client can stop the run with the `stop` control line on the dashboard socket; the [GemPBA Dashboard](telemetry/dashboard.md)'s **Stop the run** sends it. Because any user on the host can reach that socket, the line carries a token, and the run stops only when the token matches the `GEMPBA_STOP_TOKEN` environment variable the run was started with:
+A telemetry client can stop the run with the `stop` control line on the dashboard socket. The [GemPBA Dashboard](telemetry/dashboard.md)'s **Stop the run** sends it, from the dashboard's next release (2.1); 2.0 has no stop. Because any user on the host can reach that socket, the line carries a token, and the run stops only when the token matches the `GEMPBA_STOP_TOKEN` environment variable the run was started with:
 
 ```bash
 export GEMPBA_STOP_TOKEN=pick-your-own   # set before starting the program
@@ -86,7 +86,7 @@ telemetry: refused a stop line: this run has no GEMPBA_STOP_TOKEN
 telemetry: refused a stop line with the wrong token
 ```
 
-The example repositories' cluster jobs export `GEMPBA_STOP_TOKEN=${GEMPBA_STOP_TOKEN:-s3cret}`, so their runs take the dashboard's stop out of the box. The token you set in your own environment overrides that default.
+The example repositories' cluster jobs export `GEMPBA_STOP_TOKEN=${GEMPBA_STOP_TOKEN:-s3cret}`, so their runs take a stop line out of the box. The token you set in your own environment overrides that default.
 
 ## Reading how it ended
 

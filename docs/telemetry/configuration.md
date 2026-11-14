@@ -12,7 +12,7 @@ The kill switch is a process-local, sticky flag. Set it **before** the first `no
     #include <gempba/gempba.hpp>
 
     gempba::telemetry::disable();      // no hub is installed; no pump thread, no socket
-    // ... create_load_balancer / create_node_manager / create_scheduler ...
+    // ... create_load_balancer / create_node_manager, or gempba::mpi::create_scheduler ...
 
     gempba::telemetry::enable();       // lift a prior disable
     bool on = gempba::telemetry::is_enabled();
@@ -48,7 +48,7 @@ The aggregator (rank 0) binds a loopback-only TCP server for the dashboard chann
 === "Java"
 
     ```java
-    GemPBA.configureTelemetryPort(9100);       // available from v4.1.3, in gempba and gempba-mpi
+    GemPBA.configureTelemetryPort(9100);       // in both artifacts, gempba and gempba-mpi
     ```
 
 The server binds **loopback only** by design; it is never exposed on a public interface. To reach it from another machine, use the [GemPBA Dashboard](dashboard.md), which opens the SSH forward for you (see [Connecting](connecting.md)).
