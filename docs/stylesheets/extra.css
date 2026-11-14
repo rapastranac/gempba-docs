@@ -256,3 +256,103 @@
 .md-typeset details.story .story-body > p:first-child {
   margin-top: 0;
 }
+/* ── Dark palette ─────────────────────────────────────────────────── */
+/* The story card's kicker uses the dark teal, which sinks into slate's background. */
+[data-md-color-scheme="slate"] .md-typeset details.story .story-kicker {
+  color: var(--md-primary-fg-color--light);
+}
+
+/* The dashboard's SVGs come from its repository with light colours baked in; give them a light card in dark mode. */
+[data-md-color-scheme="slate"] .md-typeset figure img[src$=".svg"] {
+  background: #ffffff;
+  padding: 0.4rem;
+}
+
+/* ── Diagrams: hand-made SVGs inlined with pymdownx.snippets ───────────── */
+/* Each SVG names its parts with these classes instead of colours, so it follows the light/dark switch. */
+.md-typeset .diagram {
+  --fig-ink:        var(--md-default-fg-color);
+  --fig-ink-soft:   var(--md-default-fg-color--light);
+  --fig-line:       var(--md-default-fg-color--light);
+  --fig-frame:      var(--md-default-fg-color--lighter);
+  --fig-paper:      var(--md-default-bg-color);
+  --fig-shade:      var(--md-code-bg-color);
+  --fig-core:       #119cae;
+  --fig-core-soft:  rgba(17, 156, 174, 0.12);
+  --fig-mpi:        #8250df;
+  --fig-mpi-soft:   rgba(130, 80, 223, 0.12);
+  --fig-ok:         #1a7f37;
+  --fig-ok-soft:    rgba(26, 127, 55, 0.12);
+  --fig-warn:       #9a6700;
+  --fig-warn-soft:  rgba(191, 135, 0, 0.14);
+  --fig-bad:        #cf222e;
+  --fig-bad-soft:   rgba(207, 34, 46, 0.10);
+  width: 100%;
+  margin: 1.2rem 0;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .diagram {
+  --fig-core:       #3cc4d6;
+  --fig-core-soft:  rgba(60, 196, 214, 0.16);
+  --fig-mpi:        #b392f0;
+  --fig-mpi-soft:   rgba(179, 146, 240, 0.16);
+  --fig-ok:         #4ac26b;
+  --fig-ok-soft:    rgba(74, 194, 107, 0.16);
+  --fig-warn:       #d4a72c;
+  --fig-warn-soft:  rgba(212, 167, 44, 0.16);
+  --fig-bad:        #ff7b72;
+  --fig-bad-soft:   rgba(255, 123, 114, 0.14);
+}
+
+.md-typeset .diagram svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+  font-family: var(--md-text-font-family), -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+.md-typeset .diagram text      { fill: var(--fig-ink); font-size: 14px; }
+.md-typeset .diagram .t-soft   { fill: var(--fig-ink-soft); font-size: 12.5px; }
+.md-typeset .diagram .t-title  { font-weight: 700; font-size: 15px; }
+.md-typeset .diagram .t-head   { font-weight: 700; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; fill: var(--fig-ink-soft); }
+.md-typeset .diagram .t-mono   { font-family: var(--md-code-font-family), monospace; font-size: 12.5px; }
+.md-typeset .diagram .t-core   { fill: var(--fig-core); }
+.md-typeset .diagram .t-mpi    { fill: var(--fig-mpi); }
+.md-typeset .diagram .t-ok     { fill: var(--fig-ok); }
+.md-typeset .diagram .t-warn   { fill: var(--fig-warn); }
+.md-typeset .diagram .t-bad    { fill: var(--fig-bad); }
+
+.md-typeset .diagram .box      { fill: var(--fig-paper); stroke: var(--fig-frame); stroke-width: 1.2; }
+.md-typeset .diagram .panel    { fill: var(--fig-shade); stroke: none; }
+.md-typeset .diagram .core     { fill: var(--fig-core-soft); stroke: var(--fig-core); stroke-width: 1.5; }
+.md-typeset .diagram .mpi      { fill: var(--fig-mpi-soft); stroke: var(--fig-mpi); stroke-width: 1.5; }
+.md-typeset .diagram .ok       { fill: var(--fig-ok-soft); stroke: var(--fig-ok); stroke-width: 1.5; }
+.md-typeset .diagram .warn     { fill: var(--fig-warn-soft); stroke: var(--fig-warn); stroke-width: 1.5; }
+.md-typeset .diagram .bad      { fill: var(--fig-bad-soft); stroke: var(--fig-bad); stroke-width: 1.5; }
+.md-typeset .diagram .dashed   { stroke-dasharray: 5 4; }
+
+.md-typeset .diagram .ln       { fill: none; stroke: var(--fig-line); stroke-width: 1.5; }
+.md-typeset .diagram .ln-core  { fill: none; stroke: var(--fig-core); stroke-width: 1.8; }
+.md-typeset .diagram .ln-mpi   { fill: none; stroke: var(--fig-mpi); stroke-width: 1.8; }
+.md-typeset .diagram .ln-ok    { fill: none; stroke: var(--fig-ok); stroke-width: 1.8; }
+.md-typeset .diagram .ln-warn  { fill: none; stroke: var(--fig-warn); stroke-width: 1.8; }
+.md-typeset .diagram .ln-bad   { fill: none; stroke: var(--fig-bad); stroke-width: 1.8; }
+.md-typeset .diagram .head     { fill: var(--fig-line); }
+.md-typeset .diagram .head-core { fill: var(--fig-core); }
+.md-typeset .diagram .head-mpi { fill: var(--fig-mpi); }
+.md-typeset .diagram .head-ok  { fill: var(--fig-ok); }
+.md-typeset .diagram .head-warn { fill: var(--fig-warn); }
+.md-typeset .diagram .head-bad { fill: var(--fig-bad); }
+.md-typeset .diagram .dot      { fill: var(--fig-ink-soft); }
+
+/* Scroll a wide diagram sideways on a phone rather than shrink its text below reading size. */
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .diagram { overflow-x: auto; }
+  .md-typeset .diagram svg { min-width: 560px; }
+}
+
+/* ── Highlight cards on the home page ─────────────────────────────── */
+.md-typeset .grid.cards > ul > li > p:first-child strong {
+  color: var(--md-primary-fg-color);
+}
