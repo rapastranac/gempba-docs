@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 290" role="img" aria-label="One entry point: every rank calls scheduler::run, rank 0 with the seed; rank 0 coordinates and the others work; run returns the same run_outcome on every rank, and rank 0 reads the results">
+<title>One entry point: every rank calls scheduler::run, rank 0 with the seed; rank 0 coordinates and the others work; run returns the same run_outcome on every rank, and rank 0 reads the results</title>
+<rect class="mpi" x="17.0" y="20.0" width="176.0" height="62.0" rx="8"/>
+<text x="105.0" y="44.0" text-anchor="middle">rank 0</text>
+<text x="105.0" y="63.0" text-anchor="middle" class="t-soft">coordinator</text>
+<text x="105.0" y="112.0" text-anchor="middle" class="t-mono">run(nm, runnables, seed)</text>
+<path class="ln" d="M105.0 84.0 L105.0 96.0"/>
+<path class="ln" d="M105.0 120.0 L105.0 150.0"/>
+<polygon class="head" points="105.0,150.0 108.8,143.0 101.2,143.0"/>
+<rect class="core" x="207.0" y="20.0" width="176.0" height="62.0" rx="8"/>
+<text x="295.0" y="44.0" text-anchor="middle">rank 1</text>
+<text x="295.0" y="63.0" text-anchor="middle" class="t-soft">worker</text>
+<text x="295.0" y="112.0" text-anchor="middle" class="t-mono">run(nm, runnables)</text>
+<path class="ln" d="M295.0 84.0 L295.0 96.0"/>
+<path class="ln" d="M295.0 120.0 L295.0 150.0"/>
+<polygon class="head" points="295.0,150.0 298.9,143.0 291.1,143.0"/>
+<rect class="core" x="397.0" y="20.0" width="176.0" height="62.0" rx="8"/>
+<text x="485.0" y="44.0" text-anchor="middle">rank 2</text>
+<text x="485.0" y="63.0" text-anchor="middle" class="t-soft">worker</text>
+<text x="485.0" y="112.0" text-anchor="middle" class="t-mono">run(nm, runnables)</text>
+<path class="ln" d="M485.0 84.0 L485.0 96.0"/>
+<path class="ln" d="M485.0 120.0 L485.0 150.0"/>
+<polygon class="head" points="485.0,150.0 488.9,143.0 481.1,143.0"/>
+<rect class="core" x="587.0" y="20.0" width="176.0" height="62.0" rx="8"/>
+<text x="675.0" y="44.0" text-anchor="middle">rank N</text>
+<text x="675.0" y="63.0" text-anchor="middle" class="t-soft">worker</text>
+<text x="675.0" y="112.0" text-anchor="middle" class="t-mono">run(nm, runnables)</text>
+<path class="ln" d="M675.0 84.0 L675.0 96.0"/>
+<path class="ln" d="M675.0 120.0 L675.0 150.0"/>
+<polygon class="head" points="675.0,150.0 678.9,143.0 671.1,143.0"/>
+<text x="580.0" y="54.0" text-anchor="middle" class="t-soft">…</text>
+<rect class="ok" x="17.0" y="152.0" width="746.0" height="40.0" rx="8"/>
+<text x="390.0" y="177.0" text-anchor="middle">run returns once the whole run has ended, with the same run_outcome on every rank</text>
+<rect class="box" x="17.0" y="214.0" width="176.0" height="58.0" rx="8"/>
+<text x="105.0" y="237.0" text-anchor="middle" class="t-mono">get_result()</text>
+<text x="105.0" y="256.0" text-anchor="middle" class="t-mono">get_all_results()</text>
+<path class="ln-mpi" d="M105.0 194.0 L105.0 212.0"/>
+<polygon class="head-mpi" points="105.0,212.0 108.8,205.0 101.2,205.0"/>
+<text x="213.0" y="236.0" text-anchor="start" class="t-soft">Rank 0 reads the best result, and each rank's, once run returns; anywhere else</text>
+<text x="213.0" y="254.0" text-anchor="start" class="t-soft">these throw. Every rank calls synchronize_stats(), then rank 0 reads the stats.</text>
+</svg>

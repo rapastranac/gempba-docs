@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 300" role="img" aria-label="The MPI component is compiled against your MPI: the installation holds the core library and the component's source; find_package(gempba COMPONENTS mpi) compiles gempba::mpi in your build against the MPI CMake finds there, Open MPI, MPICH or MS-MPI, and your program links both">
+<title>The MPI component is compiled against your MPI: the installation holds the core library and the component's source; find_package(gempba COMPONENTS mpi) compiles gempba::mpi in your build against the MPI CMake finds there, Open MPI, MPICH or MS-MPI, and your program links both</title>
+<text x="120.0" y="26.0" text-anchor="middle" class="t-head">Installed once</text>
+<text x="390.0" y="26.0" text-anchor="middle" class="t-head">Your build</text>
+<text x="660.0" y="26.0" text-anchor="middle" class="t-head">Your program</text>
+<rect class="core" x="20.0" y="44.0" width="200.0" height="74.0" rx="8"/>
+<text x="120.0" y="70.0" text-anchor="middle">libgempba.so.5</text>
+<text x="120.0" y="88.0" text-anchor="middle" class="t-soft">compiled, shared</text>
+<text x="120.0" y="106.0" text-anchor="middle" class="t-soft">+ headers</text>
+<rect class="mpi dashed" x="20.0" y="140.0" width="200.0" height="74.0" rx="8"/>
+<text x="120.0" y="166.0" text-anchor="middle">gempba-mpi</text>
+<text x="120.0" y="184.0" text-anchor="middle" class="t-soft">the component, as source</text>
+<text x="120.0" y="202.0" text-anchor="middle" class="t-soft">compiled in your build</text>
+<rect class="box" x="270.0" y="88.0" width="240.0" height="110.0" rx="8"/>
+<text x="390.0" y="112.0" text-anchor="middle" class="t-mono">find_package(gempba</text>
+<text x="390.0" y="131.0" text-anchor="middle" class="t-mono">COMPONENTS mpi)</text>
+<text x="390.0" y="150.0" text-anchor="middle" class="t-soft">compiles gempba::mpi, static,</text>
+<text x="390.0" y="169.0" text-anchor="middle" class="t-soft">against the MPI it finds</text>
+<rect class="warn" x="280.0" y="222.0" width="70.0" height="30.0" rx="15"/>
+<text x="315.0" y="242.0" text-anchor="middle" style="font-size:12.5px">Open MPI</text>
+<rect class="warn" x="358.0" y="222.0" width="70.0" height="30.0" rx="15"/>
+<text x="393.0" y="242.0" text-anchor="middle" style="font-size:12.5px">MPICH</text>
+<rect class="warn" x="436.0" y="222.0" width="70.0" height="30.0" rx="15"/>
+<text x="471.0" y="242.0" text-anchor="middle" style="font-size:12.5px">MS-MPI</text>
+<path class="ln-warn" d="M390.0 220.0 L390.0 200.0"/>
+<polygon class="head-warn" points="390.0,200.0 386.1,207.0 393.9,207.0"/>
+<text x="390.0" y="278.0" text-anchor="middle" class="t-soft">whichever MPI your build sees</text>
+<path class="ln-core" d="M220.0 81.0 L268.0 120.0"/>
+<polygon class="head-core" points="268.0,120.0 264.6,111.5 259.0,118.4"/>
+<path class="ln-mpi" d="M220.0 177.0 L268.0 160.0"/>
+<polygon class="head-mpi" points="268.0,160.0 259.0,158.5 261.9,166.8"/>
+<rect class="box" x="560.0" y="88.0" width="200.0" height="110.0" rx="8"/>
+<text x="660.0" y="112.0" text-anchor="middle">links</text>
+<text x="660.0" y="131.0" text-anchor="middle" class="t-mono t-core">gempba::gempba</text>
+<text x="660.0" y="150.0" text-anchor="middle" class="t-mono t-mpi">gempba::mpi</text>
+<text x="660.0" y="169.0" text-anchor="middle" class="t-soft">your MPI</text>
+<path class="ln" d="M510.0 143.0 L558.0 143.0"/>
+<polygon class="head" points="558.0,143.0 550.0,138.6 550.0,147.4"/>
+<text x="660.0" y="230.0" text-anchor="middle" class="t-soft">Another MPI: another build</text>
+<text x="660.0" y="248.0" text-anchor="middle" class="t-soft">directory, not a reinstall</text>
+</svg>
