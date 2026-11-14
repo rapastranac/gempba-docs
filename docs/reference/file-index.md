@@ -16,7 +16,7 @@
 <div><span class="dn">include/</span></div>
 <div class="d1"><span class="tc">└── </span><span class="dn">gempba/</span></div>
 <div class="d2"><span class="tc">├── </span><span class="dn">cabi/</span></div>
-<div class="d3"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba.h">gempba.h</a> <span class="file-desc">— stable C ABI over the full runtime; what the <a href="../../java/how-it-works/">Java binding</a> sits on</span></div>
+<div class="d3"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba.h">gempba.h</a> <span class="file-desc">— the C ABI over the full runtime; what the <a href="../../java/how-it-works/">Java binding</a> sits on</span></div>
 <div class="d3"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba_mpi.h">gempba_mpi.h</a> <span class="file-desc">— the C ABI's calls for the MPI component</span></div>
 <div class="d2"><span class="tc">├── </span><span class="dn">core/</span></div>
 <div class="d3"><span class="tc">├── </span><a href="../interfaces/load-balancer/">load_balancer.hpp</a></div>

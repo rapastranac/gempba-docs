@@ -11,7 +11,7 @@ Live, per-rank observability across a distributed run is normally a project of i
 
 ## One implementation, every binding
 
-Telemetry lives in the C++ runtime, beneath the public API, not in any one front-end. So every binding inherits it for free: the [Java binding](../java/index.md) is fully observable today with no telemetry-specific code, and anything else built on the [stable C ABI](../java/how-it-works.md) would consume the same stream the same way. There is no per-language telemetry to write or keep in sync; there is one implementation, in the core.
+Telemetry lives in the C++ runtime, beneath the public API, not in any one front-end. So every binding inherits it for free: the [Java binding](../java/index.md) is fully observable today with no telemetry-specific code, and anything else built on the [C ABI](../java/how-it-works.md) would consume the same stream the same way. There is no per-language telemetry to write or keep in sync; there is one implementation, in the core.
 
 ## What it gives you
 
