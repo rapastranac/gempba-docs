@@ -55,6 +55,7 @@ The Java binding lives in the gempba repo under `bindings/`. The shared source s
 
 <div><span class="dn">include/gempba/</span></div>
 <div class="d1"><span class="tc">└── </span><span class="dn">cabi/</span></div>
-<div class="d2"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba.h">gempba.h</a> <span class="file-desc">— the stable C ABI the JNI shim calls into</span></div>
+<div class="d2"><span class="tc">├── </span><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba.h">gempba.h</a> <span class="file-desc">— the C ABI the JNI shim calls into</span></div>
+<div class="d2"><span class="tc">└── </span><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba_mpi.h">gempba_mpi.h</a> <span class="file-desc">— the MPI component's C calls (<code>gempba_mpi_create_scheduler</code>), behind <code>Mpi.createScheduler</code></span></div>
 
 </div>

@@ -8,8 +8,8 @@ Runnable, consumer-side examples live in [**rapastranac/gempba-java-examples**](
 |---|---|
 | `commons` | Variant-agnostic helpers (busy-wait, jitter, deterministic noise). |
 | `sequential` | Plain-Java reference oracles. No GemPBA dependency. |
-| `mutithreading` | GemPBA MT examples. Self-contained — no external runtime needed. |
-| `multiprocessing` | GemPBA MP examples. Require an MPI runtime (MS-MPI / OpenMPI / MPICH). |
+| `mutithreading` | Multithreading examples, on `gempba`. Self-contained: no external runtime needed. |
+| `multiprocessing` | MPI examples, on `gempba-mpi`. They need the MPI its native library is built against: Open MPI on Linux and macOS, MS-MPI on Windows; for another, see [Which MPI](installation.md#which-mpi). |
 
 Examples live as sibling sub-packages under `io.gempba.<module>`, one per variant:
 
@@ -31,7 +31,7 @@ mvn install
 
 The simplest path is to open the root `pom.xml` in **IntelliJ IDEA**, let Maven resolve, and run any `Main` class with the green ▶ gutter icon.
 
-From the command line (MT / sequential):
+From the command line (sequential and multithreading):
 
 ```bash
 mvn -pl sequential   exec:java -Dexec.mainClass=io.gempba.seq.synthetic_void.Main
@@ -39,7 +39,7 @@ mvn -pl mutithreading exec:java -Dexec.mainClass=io.gempba.mt.synthetic_void.Mai
 ```
 
 !!! warning "Multiprocessing must run under mpiexec"
-    MP examples must be launched under `mpiexec`/`mpirun`, not plain `java`. The repo ships platform-matched launchers:
+    MPI examples must be launched under `mpiexec`/`mpirun`, not plain `java`. The repo ships platform-matched launchers:
 
     ```bash
     ./multiprocessing/run.ps1 synthetic_void -n 4   # Windows
