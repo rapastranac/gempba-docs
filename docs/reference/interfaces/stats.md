@@ -38,7 +38,7 @@ Dispatch to a typed [`stats_visitor`](stats-visitor.md).
 // Lambda visitor
 stats_ptr->visit([](const std::string& key, std::any&& value) {
     if (key == "idle_time")
-        std::cout << std::any_cast<double>(value) << " ms\n";
+        std::cout << std::any_cast<double>(value) << " s per thread\n";
     if (key == "received_task_count")
         std::cout << std::any_cast<std::size_t>(value) << "\n";
 });

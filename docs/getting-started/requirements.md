@@ -1,21 +1,21 @@
 # Requirements
 
-These requirements apply when **building GemPBA from source**. If you install a pre-built package (APT, MSYS2, Homebrew) or pull the Java JAR, the runtime dependencies are resolved for you — see [Installation](installation.md).
+These requirements apply when **building GemPBA from source**. If you install a pre-built package (APT, MSYS2, Homebrew) or the Java artifacts from Maven Central, the package manager brings what they need; only Homebrew's `gempba-mpi` leaves the MPI to you. See [Installation](installation.md).
 
 | Dependency | Version | Notes |
 |---|---|---|
-| C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
+| C++ compiler | C++23 | GCC or Clang (AppleClang on macOS); on Windows, MSYS2 UCRT64's GCC |
 | CMake | ≥ 3.28 | |
-| hwloc | any recent | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON by default when gempba is the root project) |
-| pkg-config | any recent | Finds hwloc, in the build and in `find_package(gempba)` |
-| OpenMPI | ≥ 4.0 | Only for the multiprocessing (`mpi`) flavor |
-| spdlog | any recent | Must be provided by the system since v3.1.0 |
-| fmt | any recent | Pulled in alongside spdlog |
-| Boost | any recent | Optional — tests only (fetched automatically by CPM) |
-| GoogleTest | any recent | Optional — running tests only (fetched automatically by CPM) |
+| hwloc | ≥ 2.10 | Hardware-topology probe used by telemetry (gated by `GEMPBA_HWLOC`, ON by default when gempba is the root project); libgempba loads it at run time |
+| pkg-config | any recent | Finds hwloc in the build |
+| MPI | Open MPI ≥ 4.0, MPICH, or MS-MPI on Windows | Only for the MPI component: gempba's build with `GEMPBA_BUILD_MPI=ON`, the default, and programs that use `gempba::mpi` |
+| spdlog | ≥ 1.12 | Build only; compiled into the library |
+| fmt | ≥ 9.1 | Build only; compiled into the library |
+| Boost | any recent | Optional — tests only |
+| GoogleTest | any recent | Optional — running tests only |
 | JDK + Maven | JDK 25, Maven 3.9+ | Only for the Java binding |
 
-GemPBA uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) to fetch some dependencies automatically. **BS_thread_pool**, **Boost**, and **GoogleTest** are among them — no action needed for those.
+GemPBA uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) to fetch **BS_thread_pool** during the build — no action needed for it.
 
 ---
 
@@ -29,7 +29,7 @@ sudo apt install -y build-essential
 sudo apt install -y cmake
 sudo apt install -y libhwloc-dev
 sudo apt install -y pkgconf
-sudo apt install -y libopenmpi-dev   # multiprocessing flavor only
+sudo apt install -y libopenmpi-dev   # the MPI component; not needed with -DGEMPBA_BUILD_MPI=OFF
 sudo apt install -y libspdlog-dev
 sudo apt install -y libfmt-dev
 ```
@@ -62,7 +62,7 @@ pacman -S mingw-w64-ucrt-x86_64-cmake
 pacman -S mingw-w64-ucrt-x86_64-ninja
 pacman -S mingw-w64-ucrt-x86_64-hwloc
 pacman -S mingw-w64-ucrt-x86_64-pkgconf
-pacman -S mingw-w64-ucrt-x86_64-msmpi    # multiprocessing flavor only
+pacman -S mingw-w64-ucrt-x86_64-msmpi    # the MPI component; not needed with -DGEMPBA_BUILD_MPI=OFF
 pacman -S mingw-w64-ucrt-x86_64-spdlog
 pacman -S mingw-w64-ucrt-x86_64-fmt
 ```
@@ -80,7 +80,7 @@ pacman -S mingw-w64-ucrt-x86_64-gtest
 brew install cmake
 brew install hwloc
 brew install pkgconf
-brew install open-mpi   # multiprocessing flavor only
+brew install open-mpi   # the MPI component; not needed with -DGEMPBA_BUILD_MPI=OFF
 brew install spdlog
 brew install fmt
 ```

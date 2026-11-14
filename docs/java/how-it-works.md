@@ -39,13 +39,13 @@ The shape is what you would hope for. On a single machine the overhead vanishes 
 
 ## The same code scales from one machine to many
 
-Here is the part worth internalizing: the `Serializer` / `Deserializer` pair you write for a single-machine (`mt`) program is *exactly* what a distributed (`mp-mpi`) program needs — because under the hood it is the same `task_packet` doing the same job, only travelling farther.
+Here is the part worth internalizing: the `Serializer` / `Deserializer` pair you write for the seed of a single-machine program is the same kind of code a distributed (`gempba-mpi`) program needs, because under the hood it is the same `task_packet` doing the same job, only travelling farther.
 
-So the habit you build on day one is the habit that scales. Your MT code already speaks in serializable arguments; when a problem outgrows one machine you switch the dependency classifier to `mp-mpi`, launch under `mpiexec`, and the task logic you already wrote keeps working. There is no rewrite, no second mental model, no "now go serialize everything" migration — you did that part from the start, almost without noticing. The serialization step you paid for on a single machine *is* your upgrade path: going distributed becomes a configuration change, not a port — and, as the numbers above show, one that costs only a few percent.
+So the habit you build on day one is the habit that scales. When a problem outgrows one machine, you switch the dependency to `gempba-mpi`, create a scheduler with `Mpi.createScheduler`, give the children the same serializer pair the seed already has, register the task as a runnable, and call `Scheduler.run` on every rank under `mpiexec`. Your task logic, the recursion itself, stays as it is: going distributed is a small, mechanical change rather than a port, and, as the numbers above show, one that costs only a few percent. The [Quick Start](quick-start.md#what-changes-for-multiprocessing) lists the four changes.
 
 ## Going deeper
 
-This page is the idea, not the wiring. For the detailed architecture — the JNI layer, the stable C ABI the binding sits on, handle ownership, and how a native worker thread calls back into the JVM — see the **[GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba)**.
+This page is the idea, not the wiring. For the detailed architecture — the JNI layer, the C ABI the binding sits on, handle ownership, and how a native worker thread calls back into the JVM — see the **[GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba)**.
 
 !!! note
     The DeepWiki is auto-generated and may briefly lag the latest release; it refreshes periodically.

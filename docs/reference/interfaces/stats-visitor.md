@@ -1,7 +1,7 @@
 # `stats_visitor`
 
 ```cpp
-#include <gempba/stats/stats_visitor.hpp>  // included automatically via gempba.hpp
+#include <gempba/stats/stats_visitor.hpp>  // gempba.hpp only declares it; <gempba/mpi.hpp> includes it
 ```
 
 Abstract interface for reading out metrics from a [`stats`](stats.md) object. Decouples collection (what is measured) from presentation (how it is reported).
@@ -23,14 +23,14 @@ Called by `stats::visit(stats_visitor*)`. Map field names from the stats object 
 class MyStatsVisitor : public gempba::stats_visitor {
 public:
     std::size_t task_count{};
-    double      idle_ms{};
+    double      idle_seconds{};
 
     void visit(const gempba::stats& s) override {
         s.visit([this](const std::string& key, std::any&& value) {
             if (key == "received_task_count")
                 task_count = std::any_cast<std::size_t>(value);
             else if (key == "idle_time")
-                idle_ms = std::any_cast<double>(value);
+                idle_seconds = std::any_cast<double>(value);
         });
     }
 };

@@ -10,12 +10,12 @@ Built-in implementations: [Quasi-Horizontal](../implementations/load-balancers/q
 
 ---
 
-## Member types
+## Related types
 
 ```cpp
-enum balancing_policy { /* implementation-defined values */ };
+enum balancing_policy { QUASI_HORIZONTAL, WORK_STEALING };   // gempba::balancing_policy, <gempba/utils/gempba_utils.hpp>
 ```
-Enum identifying the concrete strategy. Returned by `get_balancing_policy()`.
+The built-in strategies, at namespace scope. Returned by `get_balancing_policy()` and passed to `create_load_balancer`.
 
 ---
 
@@ -35,7 +35,7 @@ Set number of worker threads. Call before submitting any work.
 ```cpp
 virtual bool try_local_submit(node& p_node) = 0;
 ```
-Attempt to push `p_node` to an idle thread. Returns `false` if pool is full — the caller must run the node inline.
+Hand `p_node` to an idle pool thread. Returns `true` when it was handed off or discarded, or a balancer had already dispatched it; `false` when no thread was free, in which case the balancer has already run it on the calling thread.
 
 ```cpp
 virtual void forward(node& p_node) = 0;
@@ -45,7 +45,7 @@ Execute `p_node` on the calling thread immediately.
 ```cpp
 virtual bool try_remote_submit(node& p_node, int runnable_id) = 0;
 ```
-Send `p_node` to another process via the wired-in scheduler. `runnable_id` selects the matching [`serial_runnable`](serial-runnable.md) on the remote side. Only meaningful in multiprocessing mode.
+Send `p_node` to another process through the scheduler, falling back to `try_local_submit` when no process is free. `runnable_id` selects the matching [`serial_runnable`](serial-runnable.md) on the remote side. Returns `true` when it was sent, discarded or already dispatched; `false` after the fallback. Throws without a scheduler, so it belongs to MPI programs.
 
 ```cpp
 virtual std::future<std::any> force_local_submit(std::function<std::any()>&&) = 0;
@@ -65,10 +65,12 @@ Submit an arbitrary callable to the thread pool and return a future. Internal us
 ```
 
 `get_idle_time()`: cumulative wall-clock seconds the pool spent waiting for work, averaged per thread.  
+`get_starved_idle_time()` / `get_imbalanced_idle_time()`: the part of that idle time spent while no task ran in the pool, and while other threads ran tasks; 0 for a balancer that doesn't split it.  
+`get_spawn_rejected_pool_full_count()` / `get_spawn_remote_rejected_count()`: submissions that found the pool full, and remote submissions that found no process free.  
 `is_done()`: `true` when queue is empty and all threads are idle.  
 `get_thread_request_count()`: total tasks submitted since startup.  
 `get_thread_pool_size()`: current worker-thread count in the pool.  
-`get_tasks_running_count()`: tasks executing on the pool right now. Together with `get_thread_pool_size()` this is what [telemetry](../../telemetry/index.md) samples for the live worker frames.
+`get_tasks_running_count()`: tasks executing on the pool right now. Together with `get_thread_pool_size()` this is what [telemetry](../../telemetry/index.md) samples for the live rank frames.
 
 ---
 
@@ -118,6 +120,6 @@ class MyLoadBalancer : public gempba::load_balancer {
 auto* lb = gempba::create_load_balancer(std::make_unique<MyLoadBalancer>());
 ```
 
-The BYO overload is mode-agnostic and lives at the top level of the `gempba` namespace; it behaves identically in MT and MP builds.
+The BYO overload serves multithreading and MPI programs alike; your implementation holds the scheduler itself, if it uses one.
 
-Study `quasi_horizontal_load_balancer` in `private/impl/load_balancing/` for the expected semantics of every tree navigation call before writing from scratch.
+Study `quasi_horizontal_load_balancer` in `src/core/private/impl/load_balancing/` for the expected semantics of every tree navigation call before writing from scratch.

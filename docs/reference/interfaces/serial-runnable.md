@@ -28,20 +28,20 @@ Deserialize arguments from `task`, call the wrapped function, return serialized 
 ### Void function
 
 ```cpp
-auto runnable = gempba::multiprocessing::runnables::return_none::create<Arg1, Arg2, ...>(
+auto runnable = gempba::runnables::return_none::create<Arg1, Arg2, ...>(
     FUNCTION_ID,
     &my_func,
-    deserializer   // std::function<std::tuple<Arg1, Arg2, ...>(task_packet)>
+    deserializer   // std::function<std::tuple<Arg1, Arg2, ...>(const task_packet&&)>
 );
 ```
 
 ### Non-void function
 
 ```cpp
-auto runnable = gempba::multiprocessing::runnables::return_value::create<ReturnType, Arg1, Arg2, ...>(
+auto runnable = gempba::runnables::return_value::create<ReturnType, Arg1, Arg2, ...>(
     FUNCTION_ID,
     &my_func,
-    deserializer,  // std::function<std::tuple<Arg1, Arg2, ...>(task_packet)>
+    deserializer,  // std::function<std::tuple<Arg1, Arg2, ...>(const task_packet&&)>
     serializer     // std::function<task_packet(ReturnType)>
 );
 ```
@@ -55,7 +55,8 @@ std::map<int, std::shared_ptr<gempba::serial_runnable>> runnables;
 runnables[FUNCTION_ID]       = runnable_a;
 runnables[OTHER_FUNCTION_ID] = runnable_b;
 
-s->worker_view().run(nm, runnables);  // blocks until computation is complete
+std::optional<gempba::task_bundle> seed;      // set on the root only
+s->run(nm, runnables, std::move(seed));      // every rank; blocks until the whole run has ended
 ```
 
 When a `task_packet` arrives tagged with `FUNCTION_ID`, the scheduler calls `operator()` on the matching runnable. All template machinery (deserialization, dispatch, serialization) stays inside `detail/runnables/` — nothing typed crosses a process boundary.

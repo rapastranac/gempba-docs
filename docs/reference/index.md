@@ -9,7 +9,7 @@ GemPBA's public surface is intentionally small.
 
 |                                            | Purpose                                                                     |
 |--------------------------------------------|-----------------------------------------------------------------------------|
-| [`gempba`](defaults/gempba-hpp.md)         | The only header you need — facade, factory functions, global accessors      |
+| [`gempba`](defaults/gempba-hpp.md)         | The facade — factory functions, global accessors, and `<gempba/mpi.hpp>` for MPI |
 | [`node_manager`](defaults/node-manager.md) | Control panel: configure goal, submit work, wait, collect results           |
 | [`node`](defaults/node.md)                 | Concrete final class — user-facing handle to a branch in the recursion tree |
 
@@ -22,7 +22,7 @@ Pluggable contracts. Implement one to replace a built-in component.
 | [`node_core`](interfaces/node-core.md)             | Abstract node — owns an instance, tracks tree position, manages lifecycle |
 | [`node_traits`](interfaces/node-traits.md)         | Full interface contract every node must satisfy                           |
 | [`load_balancer`](interfaces/load-balancer.md) | Thread-level work distribution within a process                           |
-| [`scheduler`](interfaces/scheduler.md)             | Process-level coordination — transport-agnostic IPC contract              |
+| [`scheduler`](interfaces/scheduler.md)             | Process-level coordination over MPI — every rank calls its `run`          |
 | [`serial_runnable`](interfaces/serial-runnable.md) | Type erasure for functions crossing process boundaries                    |
 | [`stats`](interfaces/stats.md)                     | Runtime metrics collection                                                |
 | [`stats_visitor`](interfaces/stats-visitor.md)     | Format-agnostic readout of collected metrics                              |
@@ -42,8 +42,8 @@ Built-in concrete implementations of the above interfaces.
 
 ## Telemetry
 
-The runtime carries a built-in telemetry subsystem under `include/gempba/telemetry/` (`telemetry_hub`, frame and topology structs, transports). It has its own documentation section rather than per-header reference pages: see [Telemetry](../telemetry/index.md) for the concepts, [Configuration](../telemetry/configuration.md) for the runtime API (`disable`/`enable`, `configure_port`, cadence control), and [Data model](../telemetry/data-model.md) for the frame contract.
+The runtime carries a built-in telemetry subsystem under `include/gempba/telemetry/` (`telemetry_hub`, and the frame and topology structs). It has its own documentation section rather than per-header reference pages: see [Telemetry](../telemetry/index.md) for the concepts, [Configuration](../telemetry/configuration.md) for the runtime API (`disable`/`enable`, `configure_port`, cadence control), and [Data model](../telemetry/data-model.md) for the frame contract.
 
 ## C ABI
 
-`<gempba/cabi/gempba.h>` exposes the full runtime as a stable `extern "C"` surface: opaque handles, status codes, and callback registration. It exists so non-C++ front-ends can drive GemPBA; the [Java binding](../java/how-it-works.md) is its first consumer. For a code-level walkthrough, the [GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba) covers it in depth.
+`<gempba/cabi/gempba.h>`, with `<gempba/cabi/gempba_mpi.h>` for the MPI component, exposes the full runtime as an `extern "C"` surface: opaque handles, status codes, and callback registration. It exists so non-C++ front-ends can drive GemPBA; the [Java binding](../java/how-it-works.md) is its first consumer. For a code-level walkthrough, the [GemPBA DeepWiki](https://deepwiki.com/rapastranac/gempba) covers it in depth.
