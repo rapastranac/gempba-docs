@@ -20,7 +20,7 @@ The aggregator (rank 0) emits one JSON object per line, every telemetry interval
 - **`ranks`**: the latest frame from every rank, whatever its role: task counters, where its pool threads' idle time went (starved versus imbalanced), scheduler timing, the cost of moving tasks, and an `edges_out` list of the ranks it sent tasks to;
 - **`nodes`**: the latest per-host frame from each host's sentinel rank: CPU, memory, and the job's own memory within its cgroup.
 
-While the run is paused, a line carries only the envelope header with `"paused": true`. The line sent at shutdown carries the run's totals and `"final": true`, and is the last before the aggregator closes the connection. From gempba v5.0.0, an MPI run's final line also says how the run ended in `end`: `reason`, and for an interrupted run `trigger` and `signal`. A connection that closes without that final line was lost; see [Stopping a Run](../stopping-a-run.md#on-the-telemetry-stream). See [the full worked example and every field](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#example).
+While the run is paused, a line carries only the envelope header with `"paused": true`. The line sent at shutdown carries the run's totals and `"final": true`, and is the last before the aggregator closes the connection. From gempba v5.0.0, the final line also says how the run ended in `end`: `reason`, and for an interrupted run `trigger` and `signal`. A connection that closes without that final line was lost; see [Stopping a Run](../stopping-a-run.md#on-the-telemetry-stream). See [the full worked example and every field](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md#example).
 
 ## Controlling the stream
 

@@ -143,7 +143,7 @@ gempba: run interrupted by SIGTERM: the result is the best one found before the 
 
 ### On the telemetry stream
 
-At shutdown the aggregator sends a final line, marked `"final":true`, then closes the connection. Under MPI, that line says how the run ended in `end`:
+At shutdown the aggregator sends a final line, marked `"final":true`, then closes the connection. That line says how the run ended in `end`:
 
 ```json
 "end":{"reason":"interrupted","trigger":"signal","signal":"SIGTERM"}
@@ -153,7 +153,7 @@ At shutdown the aggregator sends a final line, marked `"final":true`, then close
 - An interrupted run adds `trigger`: `"code"`, `"signal"` or `"control"`.
 - A stop by signal adds `signal`, its name, such as `"SIGINT"` or `"SIGTERM"`.
 
-`end` is absent when the scheduler didn't report how the run ended, for example when it threw, and on a multithreading run, which has no scheduler to report it. A connection that closes **without** a final line was lost. The full field reference is in gempba's [`wire-format.md`](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md); [Data model](telemetry/data-model.md) maps it.
+A multithreading run has no scheduler, so its `end` comes from whether a stop was requested: `"completed"`, or `"interrupted"` with the stop's trigger. Under MPI, `end` is absent when the scheduler didn't report how the run ended, for example when it threw. A connection that closes **without** a final line was lost. The full field reference is in gempba's [`wire-format.md`](https://github.com/rapastranac/gempba/blob/main/docs/telemetry/wire-format.md); [Data model](telemetry/data-model.md) maps it.
 
 ## On a Slurm cluster
 
