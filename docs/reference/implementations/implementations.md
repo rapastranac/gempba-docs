@@ -14,14 +14,14 @@ be replaced by passing a custom implementation to the corresponding factory func
 
 | Implementation                                         | Interface   | Transport | Notes                                                             |
 |--------------------------------------------------------|-------------|-----------|-------------------------------------------------------------------|
-| [MPI Semi-Centralized](schedulers/semi-centralized.md) | `scheduler` | OpenMPI   | Recommended. The coordinator assigns workers; tasks travel point-to-point. |
-| [MPI Centralized](schedulers/centralized.md)           | `scheduler` | OpenMPI   | Benchmarking only. All tasks route through the coordinator.            |
+| [MPI Semi-Centralized](schedulers/semi-centralized.md) | `scheduler` | MPI       | Recommended. The coordinator assigns workers; tasks travel point-to-point. |
+| [MPI Centralized](schedulers/centralized.md)           | `scheduler` | MPI       | Benchmarking only. All tasks route through the coordinator.            |
 
 ## Stats
 
 | Implementation                                  | Interface | Transport | Notes                                    |
 |-------------------------------------------------|-----------|-----------|------------------------------------------|
-| [Default MPI](stats/default-mpi-stats.md)       | `stats`   | OpenMPI   | Built-in metrics for MPI scheduler runs. |
+| [Default MPI](stats/default-mpi-stats.md)       | `stats`   | MPI       | Built-in metrics for MPI scheduler runs. |
 
 ## Stats visitors
 

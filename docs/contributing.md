@@ -38,16 +38,19 @@ Create the issue first if one does not exist, then open the branch with its numb
 ### Commits
 
 Keep commits atomic — one logical unit per commit, never bundling unrelated changes. Every commit must leave the project
-in a working state. Reference the issue number at the start of the commit message:
+in a working state. Start the title with the issue number and one type: `feat`, `fix`, `perf`, `refactor`, `docs`, `test`,
+`build`, `ci` or `chore`. When the commit changes work an earlier, already merged issue brought, name that issue in
+parentheses:
 
 ```
-#8 Reformat node_traits reference to table-driven style
+#8 docs: Reformat node_traits reference to table-driven style
+#465 feat(#45, #394): Log how the run ended
 ```
 
 For multi-change commits, add a blank line after the title and describe each change as a bullet:
 
 ```
-#8 Reformat node_traits reference to table-driven style
+#8 docs: Reformat node_traits reference to table-driven style
 
 - Replace prose description with a two-column table
 - Add anchor for each trait entry
@@ -135,7 +138,7 @@ Short loop indices (`i`, `j`, `k`, `idx`, `it`, `iter`) are exempt from the `v_`
 The clang-tidy configuration enables a focused subset of checks:
 
 - `bugprone-*` for common bug patterns, with a targeted exclusion list
-- `modernize-*` for C++17/20 idioms (trailing return types and a few others are excluded)
+- `modernize-*` for modern C++ idioms (trailing return types and a few others are excluded)
 - `performance-*` for performance anti-patterns
 - `readability-*` for identifier naming, redundant code, and general clarity
 - Selected rules from `cert-*`, `cppcoreguidelines-*`, `misc-*`, and `hicpp-*`
@@ -186,8 +189,8 @@ runs reuse that directory, so the configuration step is skipped unless you delet
 
 ## Continuous integration
 
-Workflows are split by trigger: `ci-*.yml` runs on pull requests and on pushes to `main` / branches matching the
-`{NUMBER}-*` pattern, while `release-*.yml` runs on version tags (`v*`). Reusable building blocks (`_build-*.yml`) are
+Workflows are split by trigger: `ci-*.yml` runs on pull requests, except those that change only documentation, and on
+pushes to `main` and `release`, while `release-*.yml` runs on version tags (`v*`). Reusable building blocks (`_build-*.yml`) are
 shared so the tag-time publish reuses the exact build path CI exercises. The CI pipelines run in parallel:
 
 | Pipeline     | Runner         |
@@ -195,25 +198,31 @@ shared so the tag-time publish reuses the exact build path CI exercises. The CI 
 | Ubuntu 24.04 | `ubuntu-24.04` |
 | Windows 2025 | `windows-2025` |
 | macOS 26     | `macos-26`     |
-| Java         | `ubuntu-24.04` |
+| Java         | `ubuntu-24.04`, `windows-2025`, `macos-26` |
 | Lint         | `ubuntu-24.04` |
 
+The macOS pipeline and the Java macOS jobs run on GitHub's hosted Apple Silicon runner, whose minutes come out of the
+account's monthly allowance. So they run only on pull requests into and pushes to `main` or `release`, on tags, and by
+hand: `gh workflow run ci-cpp-macos.yml --ref <branch>`.
+
 The C++ build pipelines install dependencies (hwloc, Boost, spdlog, fmt, GoogleTest/GMock, and the platform MPI —
-OpenMPI on Linux and macOS, MS-MPI via MSYS2 on Windows), build with CMake across the `multiprocessing: [ON, OFF]`
-matrix, then run the full test suite via CTest. Each PR also builds the [gempba-examples](https://github.com/rapastranac/gempba-examples)
-tree against the freshly built library, so the install / `gempbaConfig.cmake` / exported-headers chain is exercised on
-every change. Flaky tests (prefixed `FLAKY_`) are retried up to three times. A JUnit XML report is published as a
+OpenMPI on Linux and macOS, MS-MPI via MSYS2 on Windows), build gempba with the MPI component
+(`-DGEMPBA_BUILD_MPI=ON`), then run the full test suite via CTest; on Ubuntu that includes the multi-rank MPI integration
+tests under `mpiexec`. Each PR also builds the [gempba-examples](https://github.com/rapastranac/gempba-examples) tree,
+the multithreading and the MPI examples, against an installed copy of the library, so the install / `gempbaConfig.cmake` /
+exported-headers chain is exercised on every change. On Ubuntu, one more job installs gempba without MPI and builds a
+consumer that compiles `gempba::mpi` against MPICH. A JUnit XML report is published as a
 workflow artifact after each run.
 
 The Lint pipeline runs clang-format-22 (format check) and clang-tidy-22 (static analysis) against all first-party
 sources.
 
-On a version tag (`v*`), the `release-*.yml` workflows build and publish packages for every flavor and platform:
+On a version tag (`v*`), the `release-*.yml` workflows build and publish packages of the core and the MPI component for every platform:
 
 - **Ubuntu**: `.deb` packages (`libgempba-dev`, `libgempba-mpi-dev`) published to a GPG-signed APT repository on GitHub Pages
 - **Windows**: MSYS2 packages (`.pkg.tar.zst`) attached to the GitHub Release
 - **macOS**: Homebrew formulae (`gempba`, `gempba-mpi`) pushed to the project's tap — built and `brew test`-ed on a real macOS runner first, so a non-installable formula blocks the release
-- **Java**: fat JARs (`mt`, `mp-mpi` classifiers) published to GitHub Packages
+- **Java**: the `gempba` and `gempba-mpi` JARs, uploaded to Maven Central
 
 ## Project structure
 
@@ -222,11 +231,12 @@ See the [File Index](reference/file-index.md) for the full source layout. The to
 | Directory         | Contents                                                            |
 |-------------------|---------------------------------------------------------------------|
 | `include/gempba/` | Public API headers                                                  |
-| `private/impl/`   | Built-in implementations, not part of the public API                |
-| `src/`            | Translation units                                                   |
+| `src/core/`       | The core, `gempba::gempba`: its translation units, and in `private/` the built-in implementations, not part of the public API |
+| `src/mpi/`        | The MPI component, `gempba::mpi`, laid out the same way; it installs as source |
+| `cmake/`          | The CMake code that declares, installs and packages the components, the `.deb` packages included |
 | `tests/`          | Unit tests (GoogleTest)                                             |
-| `bindings/`       | Non-C++ bindings — the stable C ABI (`jni/`) and the Java JNI layer (`java/`) |
-| `packaging/`      | Packaging manifests (MSYS2 `PKGBUILD`, Homebrew formulae, `.deb` control) |
+| `bindings/`       | Non-C++ bindings: the JNI shim and its native build (`jni/`) and the Java API (`java/`), over the C ABI in `include/gempba/cabi/` |
+| `packaging/`      | Packaging manifests (MSYS2 `PKGBUILD`, Homebrew formulae)           |
 | `scripts/`        | Build, lint, telemetry, and JAR-build helper scripts                |
 
 Runnable examples and their graph instance data now live in the sibling

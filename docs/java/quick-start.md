@@ -1,8 +1,12 @@
+---
+description: "A complete GemPBA program in Java: parallelize a recursive search over threads, then what changes for MPI."
+---
+
 # Quick Start (Java)
 
 This walks through a complete multithreading program: a synthetic binary-tree traversal that counts leaves in parallel. It is a trimmed version of the `synthetic_void` example from [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples), and it uses the public `io.gempba` API exactly as your own algorithm would.
 
-First make sure the dependency resolves — see [Installation](installation.md). This example uses the `mt` classifier, so no MPI runtime is needed.
+First make sure the dependency resolves — see [Installation](installation.md). This example uses the `gempba` artifact, so no MPI runtime is needed.
 
 ## The shape of a GemPBA program
 
@@ -128,7 +132,7 @@ public class Main {
     They are the seed argument's passage into native code. Java cannot generate a typed native call the way C++ templates do, so GemPBA's Java binding moves a task's payload across the boundary as bytes. Only the **seed** needs them here — the child nodes capture their arguments straight from the Java closure. See [How it works](how-it-works.md) for the full story.
 
 !!! note "Java 25 entry point"
-    The example uses the instance `void main()` form finalized in **Java 25** (no `String[] args`, no `public static`). The binding targets JDK 25.
+    The example uses the simpler entry point finalized in **Java 25**: `static void main()`, with no `String[] args` and no `public`. The binding targets JDK 25.
 
 ## Run it
 
@@ -138,6 +142,15 @@ mvn -pl mutithreading exec:java -Dexec.mainClass=io.gempba.mt.synthetic_void.Mai
 
 Or, in IntelliJ IDEA, open the project's `pom.xml`, let Maven resolve, and hit the green ▶ next to `main`.
 
+To stop early, press **Ctrl+C** once: the run winds down gracefully and keeps the best result found so far. [Stopping a Run](../stopping-a-run.md) covers the other ways to stop it and how a run says it ended.
+
 ## What changes for multiprocessing
 
-The `mp-mpi` classifier adds the `io.gempba.scheduler` package (`Scheduler`, `SchedulerTopology`, `SerialRunnable`) and an MP-specific `GemPBA` factory surface, and the program is launched under `mpiexec`. The recursive-task shape stays the same. See the `multiprocessing` module in [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples) for a full MP program and its launcher.
+Depend on `gempba-mpi` instead of `gempba`, and launch the program under `mpiexec`. The recursion keeps its shape, but work can now move to another process, so four things change:
+
+- **A scheduler.** `Mpi.createScheduler(SchedulerTopology.SEMI_CENTRALIZED)`, from the `io.gempba.mpi` package, creates a `Scheduler`, which `GemPBA.createLoadBalancer` and `GemPBA.createNodeManager` take as their second argument.
+- **Children carry bytes.** A child that may go to another rank is created with a `Serializer` and a `Deserializer`, `GemPBA.createExplicitNode(lb, parent, task, args, serializer, deserializer)`, and offered with `nm.tryRemoteSubmit(node, runnableId)` instead of `tryLocalSubmit`.
+- **A runnable by id.** `GemPBA.runnableReturnNone(id, (threadId, bytes) -> …)` tells every rank how to run a task that arrives as bytes.
+- **One entry point on every rank.** Rank 0 calls `sched.run(nm, Map.of(id, runnable), seed, id)` with the serialized seed, and every other rank calls `sched.run(nm, Map.of(id, runnable))`. It blocks until the whole run ends and returns how it ended.
+
+See the `multiprocessing` module in [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples) for a full MPI program and its launcher.

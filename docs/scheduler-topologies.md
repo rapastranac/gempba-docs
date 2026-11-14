@@ -1,15 +1,18 @@
 # Scheduler Topologies
 
-GemPBA ships with two scheduler topologies for multiprocessing. The default
-recommendation is `SEMI_CENTRALIZED`.
+GemPBA's MPI component ships two scheduler topologies. The default recommendation is `SEMI_CENTRALIZED`.
 
 ```cpp
+#include <gempba/mpi.hpp>
+
 // Semi-centralized (recommended)
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::SEMI_CENTRALIZED);
+auto* semi = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::SEMI_CENTRALIZED);
 
 // Centralized (for comparison)
-auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::scheduler_topology::CENTRALIZED);
+auto* central = gempba::mpi::create_scheduler(gempba::mpi::scheduler_topology::CENTRALIZED);
 ```
+
+A program creates one of them. Either way, every rank calls `scheduler::run`, and rank 0 is the coordinator: it takes no part in the computation.
 
 ---
 
@@ -17,238 +20,102 @@ auto* s = gempba::multiprocessing::create_scheduler(gempba::multiprocessing::sch
 
 ### What the coordinator does, and does not do
 
-The coordinator (rank 0) has a single responsibility: **knowing who is idle and assigning
-available workers to busy ones**. It never holds tasks, never routes tasks, and never
-participates in computation.
+The coordinator (rank 0) has a single responsibility: **knowing who is idle and assigning available workers to busy ones**. It never holds tasks, never routes tasks, and never participates in computation.
 
-When a worker becomes idle it notifies the coordinator. The coordinator finds a working node that
-has excess work and sends it a message, `send_work(r)`, where `r` is the idle worker.
-The busy worker's communication thread receives this message and adds `r` to its list of
-**waiting processes**. The next time the busy worker has a pending subtask, it sends it
-directly to `r`.
+Before the seed, the coordinator sends every worker its initial list of **waiting processes**: a binomial tree over ranks 1 to N-1, or the tree given to `set_custom_initial_topology`. From then on, a worker reports `RUNNING_STATE` when it starts and `AVAILABLE_STATE` when it runs out of work:
 
-The critical consequence: tasks only travel to workers that the coordinator has confirmed are
-idle. This eliminates the bounce-back problem that plagues decentralized strategies, where
-a task sent to a peer may arrive after that peer has already received work from somewhere
-else and must reject it, wasting a full round-trip.
+- When a running worker has no waiting process, the coordinator gives it an available one.
+- When a worker becomes available, the coordinator assigns it to a running worker, chosen at random among those that have none waiting.
+
+Each assignment reaches the busy worker as a `NEXT_PROCESS` message, and the next time that worker has a spare subtask, it sends it **directly** to the waiting process.
+
+The critical consequence: tasks only travel to workers the coordinator has confirmed are idle. This eliminates the bounce-back problem that plagues decentralized strategies, where a task sent to a peer may arrive after that peer has already received work from somewhere else and must reject it, wasting a full round-trip.
 
 ### Communication model
 
-The coordinator never waits for a worker to query it; it **pushes** messages proactively the
-moment a relevant state change occurs (a new best value, a worker assignment). Workers
-know in real time whether they have a waiting process assigned to them; no polling
-required.
+The coordinator never waits for a worker to query it: it **pushes** a message the moment a relevant state changes, a new best value or a worker assignment. Workers pick these messages up between tasks with a non-blocking probe (`MPI_Iprobe`), so they learn of an assignment without asking for one.
 
 ### Network topology
 
-```mermaid
-flowchart TB
-    subgraph CENTER["Coordinator (rank 0)"]
-        direction LR
-        PS[/"process statuses"/]:::state
-        PA[/"process assignments"/]:::state
-        GBV[/"global best value"/]:::state
-    end
-
-    W1(["Worker 1"]):::worker
-    W2(["Worker 2"]):::worker
-    WN(["Worker N"]):::worker
-
-    CENTER -->|"seed task"| W1
-
-    W1 <-.->|"status / assignment"| CENTER
-    W2 <-.->|"status / assignment"| CENTER
-    WN <-.->|"status / assignment"| CENTER
-
-    W1 -->|"task (direct)"| W2
-    W2 -->|"task (direct)"| WN
-
-    W1 & W2 & WN -->|"best value"| CENTER
-    CENTER -->|"best value (broadcast)"| W1
-    CENTER -->|"best value (broadcast)"| W2
-    CENTER -->|"best value (broadcast)"| WN
-
-    classDef state  fill:#e3f2fd,color:#0d47a1,stroke:#90caf9
-    classDef worker fill:#e8f5e9,color:#1b5e20,stroke:#a5d6a7
-```
-
-**Solid arrows**: task or value payloads.  
-**Dashed arrows**: lightweight signals (status changes, worker assignments); no task payload.
+<figure class="diagram">
+--8<-- "assets/figures/topology-semi-centralized.svg"
+</figure>
 
 ### Protocol walkthrough
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant C  as Coordinator
-    participant W1 as Worker 1
-    participant W2 as Worker 2
-    participant WN as Worker N
+<figure class="diagram">
+--8<-- "assets/figures/protocol-semi-centralized.svg"
+</figure>
 
-    Note over C: statuses · assignments · global best value
+The heart of the strategy:
 
-    C->>W1: seed task
-    W1-->>C: started_running
-    Note over C: W2 available → status[W2] = ASSIGNED
-    C-->>W1: send_work(W2)
+1. Worker 1 starts the seed already knowing its waiting processes, W2 and W3, so it sends its first spare subtasks **directly** to them. The coordinator is not involved in the data transfer.
+2. When W3 runs out of work, it reports `AVAILABLE_STATE`. The coordinator assigns it to W2, a running worker with nobody waiting, with a `NEXT_PROCESS` signal: **no task payload crosses the coordinator**.
+3. W2 sends its next spare subtask to W3, and the cascade goes on.
 
-    Note over W1: explores · pending subtask · W2 assigned
-    W1->>W2: task
-    W2-->>C: started_running
-    Note over C: WN available → status[WN] = ASSIGNED
-    C-->>W2: send_work(WN)
+Because the coordinator's status table is the single source of truth, and W3 was confirmed available before W2 sends to it, the task is always accepted. No bounce-back.
 
-    Note over W2: explores · pending subtask · WN assigned
-    W2->>WN: task
-    WN-->>C: started_running
+### How the run ends
 
-    Note over W1: finds a better solution
-    W1->>C: best value
-    C->>W2: best value
-    C->>WN: best value
+Termination is **exact**: there is no timeout and no quiet period. Both topologies detect it with **Dijkstra–Scholten** acknowledgements:
 
-    Note over C: all workers idle (AVAILABLE / ASSIGNED)
-    C-->>W1: exit
-    C-->>W2: exit
-    C-->>WN: exit
-```
+- Every task a rank sends, the seed included, raises that rank's **deficit** by one, and every acknowledgement (`TASK_RECEIVED`) lowers it.
+- A rank that receives a task while it has no **parent** makes the sender its parent, and holds that acknowledgement back. Any other task is acknowledged at once.
+- A rank acknowledges its parent only once it is **passive**, with no task left to run, and its deficit is zero. That clears its parent.
+- Rank 0 never takes a parent. So when its deficit reaches zero, every task ever sent has finished: the search is over, provably.
 
-Steps 2–4 are the heart of the strategy:
-
-1. W1 notifies the coordinator it is running (`started_running`, step 2). The coordinator finds W2
-   available, records `status[W2] = ASSIGNED`, and signals W1 with `send_work(W2)` (step 3)
-   (**a lightweight signal only; no task payload crosses the coordinator**).
-2. W1 has a pending subtask and W2 in its assigned list: it sends the task directly to W2
-   (step 4); **the coordinator is not involved in the actual data transfer**.
-3. This cascades: W2 starts (step 5), the coordinator assigns WN to W2 (step 6), and W2 later
-   sends a task to WN (step 7).
-
-Because the coordinator's status table is the single source of truth and W2 was confirmed
-available before step 3, the task W1 sends is guaranteed to be accepted. No bounce-back.
+Rank 0 then sends `TERMINATION` to every worker. The message says how many score updates and assignments that worker should still expect, so each worker reads the ones in flight before it leaves, and it carries the run's `run_outcome`, so every rank returns the same answer from `scheduler::run`. A stop request travels on the same acknowledgements, so it reaches rank 0 before the deficit can reach zero (see [Stopping a Run](stopping-a-run.md)).
 
 ---
 
 ## Centralized
 
-The coordinator is an active participant: it usually maintains a **bounded task queue**. Workers push
-their excess subtasks into it, and idle workers pull from it; the coordinator selects which
-task to dispatch according to a priority function (e.g. largest subtree, most promising
-bound).
+The coordinator is an active participant: it maintains a **bounded task queue**. Workers send their spare subtasks to it, and it dispatches them to available workers, highest priority first. The priority is a cheap proxy computed from the task's bytes: the number of set bits in the packet plus the runnable id.
 
-When the queue is full, submitted tasks are **rejected and returned to the sender**; the
-worker must then explore them locally. Because branching algorithms are exponential,
-the queue saturates quickly in practice and most tasks never enter it, which undermines
-the priority-based selection that is the approach's main advantage.
+The queue is bounded by compile-time limits: 1000 tasks per process, times the number of ranks, or 10 GB of memory. Past either one, the coordinator broadcasts `CENTER_IS_FULL`, and workers run their spare subtasks locally instead of sending them. Once the queue is back below 80% of the task limit and memory below 90%, it broadcasts `CENTER_IS_FREE`, and workers send again. **The coordinator never rejects a task it has received**: the backpressure happens before the send. Because branching algorithms are exponential, though, the queue saturates quickly in practice, and most tasks never enter it, which undermines the priority-based selection that is the approach's main advantage.
 
-```mermaid
-sequenceDiagram
-    participant C  as Coordinator
-    participant W1 as Worker 1
-    participant W2 as Worker 2
-    participant WN as Worker N
+<figure class="diagram">
+--8<-- "assets/figures/protocol-centralized.svg"
+</figure>
 
-    Note over C: bounded task queue [ ]
+At small process counts the centralized topology performs comparably to semi-centralized. At scale, the coordinator becomes the bottleneck: every task handoff, regardless of which two workers are involved, must traverse the coordinator twice (inbound + outbound). This is the behavior the semi-centralized design was built to avoid.
 
-    C->>W1: seed task
-    Note over W1: explores · generates subtasks
+The centralized scheduler ends the run the same way, once its deficit is zero **and** its queue is empty. It ignores `set_custom_initial_topology`, since no task goes from worker to worker.
 
-    W1->>C: task
-    Note over C: accepted → enqueued
-    W2-->>C: request task
-    C->>W2: task (dispatched by priority)
-
-    Note over W1: generates more subtasks
-    W1->>C: task
-    Note over C: queue full
-    C->>W1: task (rejected, returned to sender)
-    Note over W1: explores locally
-    
-    WN-->>C: request task
-    C->>WN: task (dispatched by priority)
-
-    Note over C: every task handoff routes here,<br/>bottleneck at scale
-```
-
-**Solid arrows**: task payloads.  
-**Dashed arrows**: lightweight request signals; no task payload.
-
-At small process counts the centralized topology performs comparably to semi-centralized.
-At scale, the coordinator becomes the bottleneck: every task handoff, regardless of which
-two workers are involved, must traverse the coordinator twice (inbound + outbound). This is
-the behavior the semi-centralized design was built to avoid.
-
-The centralized scheduler is kept in the library for reproducing the paper's comparison
-experiments and benchmarking custom scheduling strategies.
+The centralized scheduler is kept in the library for reproducing the paper's comparison experiments and benchmarking custom scheduling strategies.
 
 ---
 
 ## Decentralized
 
 !!! info "Not available in GemPBA"
-    This topology is not implemented in the library. It is described here as background
-    so the design choices of the semi-centralized strategy can be understood in context.
+    This topology is not implemented in the library. It is described here as background so the design choices of the semi-centralized strategy can be understood in context.
 
-There is no central coordinator. Available cores are organized into a **core-tree**: the
-parent of core *r* is *r* − 2<sup>⌊log<sub>2</sub> *r*⌋</sup>, so the root holds the
-full initial instance and each core requests work from its parent when it becomes idle.
-If the parent has a pending task it sends the highest-priority sub-instance from its own
-search tree; if it has nothing, the request fails and the child must retry with a
-different ancestor.
+There is no central coordinator. Available cores are organized into a **core-tree**: the parent of core *r* is *r* − 2<sup>⌊log<sub>2</sub> *r*⌋</sup>, so the root holds the full initial instance and each core requests work from its parent when it becomes idle. If the parent has a pending task it sends the highest-priority sub-instance from its own search tree; if it has nothing, the request fails and the child must retry with a different ancestor.
 
-```mermaid
-flowchart TB
-    R(["Core 0 (root)"]):::worker
-    C1(["Core 1"]):::worker
-    C2(["Core 2"]):::worker
-    C4(["Core 4"]):::worker
-    C3(["Core 3"]):::worker
-    C6(["Core 6"]):::worker
+<figure class="diagram">
+--8<-- "assets/figures/topology-decentralized.svg"
+</figure>
 
-    R --> C1
-    R --> C2
-    R --> C4
-    C1 --> C3
-    C2 --> C6
-
-    C1 -.-> R
-    C4 -.-> R
-    C3 -.-> C1
-    C6 -.-> C2
-
-    classDef worker fill:#e8f5e9,color:#1b5e20,stroke:#a5d6a7
-```
-
-**Solid arrows**: task payloads (parent → child).  
-**Dashed arrows**: work requests (child → parent); may fail if parent has no pending tasks.
-
-**Advantages over centralized:** no single routing bottleneck; no synchronization needed;
-communication overhead is low since cores never route through a shared queue.
+**Advantages over centralized:** no single routing bottleneck; no synchronization needed; communication overhead is low since cores never route through a shared queue.
 
 **Drawbacks:**
 
-- **Failed work requests.** A core's view of its parent's availability is stale. By the
-  time a request arrives, the parent may have already sent its last task elsewhere; the
-  request fails and the core wastes a full round-trip retrying. Under difficult graphs this
-  accounts for a large fraction of total communication.
-- **Skewed core-tree.** The root has ~log *c* neighbours while most leaves have none.
-  Subtrees at leaf cores rarely receive help; the root's subtree is over-assisted.
-- **No global best value.** Each core tracks only its local best, which may lag the true
-  global optimum and fail to prune branches as aggressively as a globally informed worker
-  could.
-- **No global task priority.** A core picks the highest-priority task in its *own* subtree,
-  not across the whole search space.
+- **Failed work requests.** A core's view of its parent's availability is stale. By the time a request arrives, the parent may have already sent its last task elsewhere; the request fails and the core wastes a full round-trip retrying. Under difficult graphs this accounts for a large fraction of total communication.
+- **Skewed core-tree.** The root has ~log *c* neighbours while most leaves have none. Subtrees at leaf cores rarely receive help; the root's subtree is over-assisted.
+- **No global best value.** Each core tracks only its local best, which may lag the true global optimum and fail to prune branches as aggressively as a globally informed worker could.
+- **No global task priority.** A core picks the highest-priority task in its *own* subtree, not across the whole search space.
 
 **How semi-centralized addresses both extremes:**
 
-GemPBA's semi-centralized topology removes the bottleneck of the centralized approach and
-the failed-request / stale-view problems of the decentralized approach:
+GemPBA's semi-centralized topology removes the bottleneck of the centralized approach and the failed-request / stale-view problems of the decentralized approach:
 
 | | Centralized | Decentralized | Semi-centralized |
 |---|---|---|---|
 | Coordinator bottleneck | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
 | Tasks traverse coordinator | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
 | Global best value | <span style="color:#388e3c">Yes</span> | <span style="color:#f57c00">Partial</span> | <span style="color:#388e3c">Yes</span> |
-| Task bounce-back | <span style="color:#d32f2f">Yes (queue full)</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
+| Spare tasks kept local | <span style="color:#f57c00">Yes, while the queue is full</span> | <span style="color:#388e3c">No</span> | <span style="color:#388e3c">No</span> |
 | Request failures | <span style="color:#388e3c">No</span> | <span style="color:#d32f2f">Yes</span> | <span style="color:#388e3c">No</span> |
 | Task priority | <span style="color:#f57c00">Queue-limited</span> | <span style="color:#d32f2f">Local only</span> | <span style="color:#388e3c">Global</span> |
 
@@ -261,7 +128,8 @@ the failed-request / stale-view problems of the decentralized approach:
 | Coordinator role | Assigns idle workers to busy ones | Active task router |
 | Task path | Worker → Worker (direct) | Worker → Coordinator → Worker |
 | Coordinator sends | Lightweight assignment signals | Full task payloads |
-| Communication model | Push-based | On-demand |
-| Bounce-back | Eliminated | Possible |
+| Communication model | Push-based | Queue and dispatch, with full/free backpressure |
+| Bounce-back | Eliminated | None: a full coordinator stops the sends instead |
+| Termination | Exact: Dijkstra–Scholten acknowledgements | Exact: acknowledgements, once the queue is empty |
 | Coordinator bottleneck | No | Yes, at scale |
 | Recommended for | Production | Benchmarking |

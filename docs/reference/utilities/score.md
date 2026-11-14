@@ -82,13 +82,13 @@ Formats the stored value as a string using full precision for floating-point typ
 ## Comparison
 
 ```cpp
-bool operator==(const score&) const;
-auto operator<=>(const score&) const;
+friend constexpr bool operator==(const score&, const score&) noexcept;
+friend constexpr std::partial_ordering operator<=>(const score&, const score&) noexcept;
 ```
 
-Full ordering. Comparison is done by converting both operands to `long double`, so values of different types compare naturally:
+Two scores of the same type compare as that type. `<=>` compares scores of different types by converting both to `long double`, but `==` is `false` whenever the types differ:
 
 ```cpp
-gempba::score::make(10) < gempba::score::make(20.5)   // true
-gempba::score::make(3)  == gempba::score::make(3.0f)  // true
+gempba::score::make(10) < gempba::score::make(20.5)   // true: converted to long double
+gempba::score::make(3)  == gempba::score::make(3.0f)  // false: an int score and a float score
 ```

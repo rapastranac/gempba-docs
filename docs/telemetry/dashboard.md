@@ -30,7 +30,7 @@ So I built the part I had always been missing: a way to watch the run while it h
 The GemPBA Dashboard is a desktop app that connects to a running GemPBA program and shows the whole run live: every node and every rank, the cores working, the tasks started and moved each second, where the idle time goes, and the memory. It reads the same [telemetry stream](index.md) the runtime already broadcasts, so any GemPBA program is observable in it with no extra code.
 
 !!! info "Needs gempba v4.3.0 or later"
-    Dashboard 2.0 reads telemetry **schema 2**, which gempba v4.3.0 sends. For gempba v4.2.x and earlier, use dashboard 1.x.
+    Dashboard 2.0 reads telemetry **schema 2**, which gempba sends from v4.3.0 on, v5.0.0 included. For gempba v4.2.x and earlier, use dashboard 1.x. v5.0.0's additions, how a run ended and stopping it with its token, come with the dashboard's next release; 2.0 ignores them.
 
 <figure markdown="span">
   ![The GemPBA Dashboard Grid: the run summary above one tile per node, beside the Connection view](../assets/images/dashboard/grid.png)
@@ -118,7 +118,7 @@ Jump-host mode nests the hop rather than using SSH `ProxyJump`, so it works even
   <figcaption>Through a jump host: trust the login node once, answer the MFA prompt, and listen on the compute node.</figcaption>
 </figure>
 
-The gempba port must match the one the run bound (see [Configuration](configuration.md#the-dashboard-port)). To find which host runs rank 0, see [Connecting](connecting.md).
+The gempba port must match the one the run bound (see [Configuration](configuration.md#the-dashboard-port)). Rank 0 names the host it serves on when it starts: `telemetry listening on 127.0.0.1:9000 on host <name>`.
 
 ## Using it
 

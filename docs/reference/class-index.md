@@ -1,7 +1,8 @@
 # Class Index
 
-All public types in the `gempba` namespace, grouped by role. <span class="abstract-badge">abstract</span> marks
-pure-virtual interfaces.
+All public types, grouped by role. They live in the `gempba` namespace, except `tree`, which is global.
+<span class="abstract-badge">abstract</span> marks pure-virtual interfaces, and <span class="abstract-badge">private</span>
+marks built-in implementations you reach through a factory rather than by including them.
 
 <table class="class-index">
   <thead>
@@ -33,23 +34,13 @@ pure-virtual interfaces.
     <tr>
       <td><a href="../interfaces/scheduler/#scheduler_traits-shared-base"><code>scheduler_traits</code></a>
         <span class="abstract-badge">abstract</span></td>
-      <td>Shared base for <code>scheduler</code> and its role views: state, counters, world layout</td>
+      <td>Base of <code>scheduler</code>: barrier, rank, world size and this rank's stats</td>
     </tr>
 
     <tr>
       <td><a href="../interfaces/scheduler/"><code>scheduler</code></a>
         <span class="abstract-badge">abstract</span></td>
-      <td>Process-level IPC coordination — transport-agnostic contract</td>
-    </tr>
-    <tr class="nested">
-      <td><a href="../interfaces/scheduler/#schedulercenter"><code>scheduler::center</code></a>
-        <span class="abstract-badge">abstract</span></td>
-      <td>Seeds the initial task and coordinates workers (rank 0)</td>
-    </tr>
-    <tr class="nested">
-      <td><a href="../interfaces/scheduler/#schedulerworker"><code>scheduler::worker</code></a>
-        <span class="abstract-badge">abstract</span></td>
-      <td>Explores the search tree and exchanges tasks with other processes (non-zero ranks)</td>
+      <td>Process-level coordination over MPI; every rank calls its <code>run</code>, and the root (rank 0) seeds the run and reads its results</td>
     </tr>
 
     <tr>
@@ -89,11 +80,59 @@ pure-virtual interfaces.
       <td>Control panel — load balancer facade, thread pool config, result tracking</td>
     </tr>
 
+    <!-- ── Enums and outcomes ──────────────────────── -->
+    <tr class="category"><td colspan="2">Enums and outcomes</td></tr>
+
+    <tr>
+      <td><a href="../../stopping-a-run/#in-code"><code>run_outcome</code></a></td>
+      <td>How a run ended, as <code>scheduler::run</code> returns it: <code>m_reason</code>, <code>m_trigger</code>, <code>m_signal</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="../../stopping-a-run/#in-code"><code>end_reason</code></a></td>
+      <td><code>COMPLETED</code> (the result is proven) or <code>INTERRUPTED</code> (the best found before a stop)</td>
+    </tr>
+
+    <tr>
+      <td><a href="../../stopping-a-run/#in-code"><code>stop_trigger</code></a></td>
+      <td>What stopped a run: <code>NONE</code>, <code>CODE</code>, <code>SIGNAL</code> or <code>CONTROL</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="../interfaces/scheduler/"><code>rank_role</code></a></td>
+      <td>A rank's role in a scheduler: <code>COORDINATOR</code> or <code>WORKER</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="../interfaces/scheduler/#factory"><code>mpi::scheduler_topology</code></a></td>
+      <td>The built-in MPI schedulers: <code>SEMI_CENTRALIZED</code> or <code>CENTRALIZED</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="../defaults/node-manager/"><code>goal</code></a></td>
+      <td><code>MAXIMISE</code> or <code>MINIMISE</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="../interfaces/load-balancer/#related-types"><code>balancing_policy</code></a></td>
+      <td><code>QUASI_HORIZONTAL</code> or <code>WORK_STEALING</code></td>
+    </tr>
+
+    <tr>
+      <td><a href="../defaults/node-manager/"><code>score_type</code></a></td>
+      <td>The numeric type behind a <code>score</code>: <code>I32</code>, <code>I64</code>, <code>F32</code>, <code>F64</code>, <code>F128</code> (and <code>U_I32</code>, <code>U_I64</code>)</td>
+    </tr>
+
+    <tr>
+      <td><a href="../interfaces/node-traits/#member-types"><code>node_state</code></a></td>
+      <td>Where a node is in its life: <code>UNUSED</code>, <code>FORWARDED</code>, <code>PUSHED</code>, <code>DISCARDED</code>, <code>RETRIEVED</code>, <code>SENT_TO_ANOTHER_PROCESS</code>, <code>RUNNING</code></td>
+    </tr>
+
     <!-- ── Built-in implementations ─────────────── -->
     <tr class="category"><td colspan="2">Built-in implementations</td></tr>
 
     <tr>
-      <td><a href="../implementations/stats/default-mpi-stats/"><code>default_mpi_stats</code></a></td>
+      <td><a href="../implementations/stats/default-mpi-stats/"><code>default_mpi_stats</code></a> <span class="abstract-badge">private</span></td>
       <td>Built-in <code>stats</code> implementation for the MPI schedulers</td>
     </tr>
 
@@ -103,22 +142,22 @@ pure-virtual interfaces.
     </tr>
 
     <tr>
-      <td><a href="../implementations/load-balancers/quasi-horizontal/"><code>quasi_horizontal_load_balancer</code></a></td>
+      <td><a href="../implementations/load-balancers/quasi-horizontal/"><code>quasi_horizontal_load_balancer</code></a> <span class="abstract-badge">private</span></td>
       <td>Distributes work near the root first; recommended for unbalanced trees</td>
     </tr>
 
     <tr>
-      <td><a href="../implementations/load-balancers/work-stealing/"><code>work_stealing_load_balancer</code></a></td>
+      <td><a href="../implementations/load-balancers/work-stealing/"><code>work_stealing_load_balancer</code></a> <span class="abstract-badge">private</span></td>
       <td>Naive FIFO thread scheduler — baseline / benchmarking only</td>
     </tr>
 
     <tr>
-      <td><a href="../implementations/schedulers/semi-centralized/"><code>mpi_semi_centralized_scheduler</code></a></td>
+      <td><a href="../implementations/schedulers/semi-centralized/"><code>mpi_semi_centralized_scheduler</code></a> <span class="abstract-badge">private</span></td>
       <td>Tasks travel point-to-point between workers; recommended for production</td>
     </tr>
 
     <tr>
-      <td><a href="../implementations/schedulers/centralized/"><code>mpi_centralized_scheduler</code></a></td>
+      <td><a href="../implementations/schedulers/centralized/"><code>mpi_centralized_scheduler</code></a> <span class="abstract-badge">private</span></td>
       <td>All tasks route through the coordinator — benchmarking only</td>
     </tr>
 
@@ -131,8 +170,8 @@ pure-virtual interfaces.
     </tr>
 
     <tr>
-      <td><a href="../../telemetry/data-model/"><code>telemetry::worker_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
-      <td>The frame structs behind the live stream: per-worker counters, per-host stats, and the startup topology</td>
+      <td><a href="../../telemetry/data-model/"><code>telemetry::rank_frame</code>, <code>node_frame</code>, <code>topology_snapshot</code></a></td>
+      <td>The frame structs behind the live stream: per-rank counters, per-host stats, and the startup topology</td>
     </tr>
 
     <!-- ── C ABI ──────────────────────────────────── -->
@@ -140,7 +179,12 @@ pure-virtual interfaces.
 
     <tr>
       <td><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba.h"><code>gempba/cabi/gempba.h</code></a></td>
-      <td>Stable <code>extern "C"</code> surface over the full runtime: opaque handles, status codes, callbacks. The <a href="../../java/how-it-works/">Java binding</a> is its first consumer</td>
+      <td>The <code>extern "C"</code> surface over the core: opaque handles, status codes, callbacks. The <a href="../../java/how-it-works/">Java binding</a> is its first consumer</td>
+    </tr>
+
+    <tr>
+      <td><a href="https://github.com/rapastranac/gempba/blob/main/include/gempba/cabi/gempba_mpi.h"><code>gempba/cabi/gempba_mpi.h</code></a></td>
+      <td>The MPI component's C calls: <code>gempba_mpi_create_scheduler</code> and <code>gempba_scheduler_topology_t</code></td>
     </tr>
 
     <!-- ── Utilities ──────────────────────────────── -->
@@ -148,7 +192,7 @@ pure-virtual interfaces.
 
     <tr>
       <td><a href="../utilities/queue/"><code>queue&lt;T&gt;</code></a></td>
-      <td>Thread-safe FIFO queue used internally by load balancers</td>
+      <td>Thread-safe FIFO queue the MPI schedulers use for outgoing tasks</td>
     </tr>
 
     <tr>
@@ -177,7 +221,7 @@ pure-virtual interfaces.
     </tr>
 
     <tr>
-      <td><a href="../utilities/tree/"><code>tree</code></a></td>
+      <td><a href="../utilities/tree/"><code>tree</code></a> (global namespace)</td>
       <td>Index-based flat tree used for scheduler startup topology</td>
     </tr>
 

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 330" role="img" aria-label="Decentralized core-tree, not in GemPBA: core r's parent is r minus the largest power of two not above r; parents send tasks down and children send work requests up, which may fail">
+<title>Decentralized core-tree, not in GemPBA: core r's parent is r minus the largest power of two not above r; parents send tasks down and children send work requests up, which may fail</title>
+<path class="ln-core" d="M356.1 53.7 L189.8 132.2"/>
+<polygon class="head-core" points="189.8,132.2 197.8,132.7 194.5,125.7"/>
+<path class="ln dashed" d="M193.9 141.3 L360.2 62.8"/>
+<polygon class="head" points="360.2,62.8 352.2,62.3 355.5,69.3"/>
+<path class="ln-core" d="M375.0 70.0 L375.0 125.0"/>
+<polygon class="head-core" points="375.0,125.0 378.9,118.0 371.1,118.0"/>
+<path class="ln dashed" d="M385.0 125.0 L385.0 70.0"/>
+<polygon class="head" points="385.0,70.0 381.1,77.0 388.9,77.0"/>
+<path class="ln-core" d="M399.8 62.8 L566.1 141.3"/>
+<polygon class="head-core" points="566.1,141.3 561.4,134.8 558.1,141.8"/>
+<path class="ln dashed" d="M570.2 132.2 L403.9 53.7"/>
+<polygon class="head" points="403.9,53.7 408.6,60.2 411.9,53.2"/>
+<path class="ln-core" d="M153.0 159.2 L118.6 220.4"/>
+<polygon class="head-core" points="118.6,220.4 125.4,216.2 118.7,212.4"/>
+<path class="ln dashed" d="M127.0 225.8 L161.4 164.6"/>
+<polygon class="head" points="161.4,164.6 154.6,168.8 161.3,172.6"/>
+<path class="ln-core" d="M178.6 164.6 L213.0 225.8"/>
+<polygon class="head-core" points="213.0,225.8 212.9,217.8 206.2,221.5"/>
+<path class="ln dashed" d="M221.4 220.4 L187.0 159.2"/>
+<polygon class="head" points="187.0,159.2 187.1,167.2 193.8,163.5"/>
+<path class="ln-core" d="M375.0 165.0 L375.0 220.0"/>
+<polygon class="head-core" points="375.0,220.0 378.9,213.0 371.1,213.0"/>
+<path class="ln dashed" d="M385.0 220.0 L385.0 165.0"/>
+<polygon class="head" points="385.0,165.0 381.1,172.0 388.9,172.0"/>
+<path class="ln-core" d="M105.0 260.0 L105.0 280.0"/>
+<polygon class="head-core" points="105.0,280.0 108.8,273.0 101.2,273.0"/>
+<path class="ln dashed" d="M115.0 280.0 L115.0 260.0"/>
+<polygon class="head" points="115.0,260.0 111.2,267.0 118.8,267.0"/>
+<rect class="core" x="336.0" y="33.0" width="88.0" height="34.0" rx="17"/>
+<text x="380.0" y="55.0" text-anchor="middle" style="font-size:13px">Core 0 (root)</text>
+<rect class="core" x="126.0" y="128.0" width="88.0" height="34.0" rx="17"/>
+<text x="170.0" y="150.0" text-anchor="middle">Core 1</text>
+<rect class="core" x="336.0" y="128.0" width="88.0" height="34.0" rx="17"/>
+<text x="380.0" y="150.0" text-anchor="middle">Core 2</text>
+<rect class="core" x="546.0" y="128.0" width="88.0" height="34.0" rx="17"/>
+<text x="590.0" y="150.0" text-anchor="middle">Core 4</text>
+<rect class="core" x="66.0" y="223.0" width="88.0" height="34.0" rx="17"/>
+<text x="110.0" y="245.0" text-anchor="middle">Core 3</text>
+<rect class="core" x="186.0" y="223.0" width="88.0" height="34.0" rx="17"/>
+<text x="230.0" y="245.0" text-anchor="middle">Core 5</text>
+<rect class="core" x="336.0" y="223.0" width="88.0" height="34.0" rx="17"/>
+<text x="380.0" y="245.0" text-anchor="middle">Core 6</text>
+<rect class="core" x="66.0" y="283.0" width="88.0" height="34.0" rx="17"/>
+<text x="110.0" y="305.0" text-anchor="middle">Core 7</text>
+<path class="ln-core" d="M470.0 262.0 L504.0 262.0"/>
+<polygon class="head-core" points="504.0,262.0 497.0,258.1 497.0,265.9"/>
+<text x="512.0" y="266.0" text-anchor="start" class="t-soft">task (parent → child)</text>
+<path class="ln dashed" d="M470.0 290.0 L504.0 290.0"/>
+<polygon class="head" points="504.0,290.0 497.0,286.1 497.0,293.9"/>
+<text x="512.0" y="294.0" text-anchor="start" class="t-soft">work request; may fail</text>
+</svg>

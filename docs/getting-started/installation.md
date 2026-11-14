@@ -1,14 +1,11 @@
 # Installation
 
-GemPBA comes in two **flavors**, and which one you want depends on where your computation runs:
+GemPBA is one library with multithreading built in, plus an optional **MPI component**:
 
-- **Multithreading (`mt`)** — the default. Uses all the cores of a **single machine**. No MPI to install, nothing to configure. If you are unsure, start here.
-- **Multiprocessing (`mpi`; the Java artifact calls it `mp-mpi`)** — distributes work across **multiple machines/nodes** over MPI. Add it when one machine is not enough.
+- **The core** (`gempba`) uses all the cores of a **single machine**. No MPI to install, nothing to configure. If you are unsure, start here.
+- **The MPI component** (`gempba-mpi`, the same name as the Java artifact) adds the schedulers that distribute work across **multiple machines/nodes** over MPI. Install it on top of the core when one machine is not enough. It installs as source: your build compiles it against the MPI on your machine (Open MPI, MPICH or MS-MPI), so one installation works with any of them.
 
-Both flavors can be installed side by side on **any** platform. You pick which one a program uses when you build *that* program (see [Selecting a flavor](#selecting-a-flavor)), not when you install.
-
-!!! note "Where the API picks the flavor"
-    Consumer code is identical regardless of flavor. The flavor is selected at `find_package` time, not at every call site.
+A program uses the MPI component only when it asks for it (see [Using in your CMake project](#using-in-your-cmake-project-find_package)), so multithreading and MPI programs build side by side from the same installation.
 
 ---
 
@@ -27,12 +24,12 @@ echo "deb [signed-by=/etc/apt/keyrings/gempba.gpg] https://rapastranac.github.io
   | sudo tee /etc/apt/sources.list.d/gempba.list > /dev/null
 sudo apt update
 
-# 3. Install the flavor(s) you need
-sudo apt install libgempba-dev          # multithreading flavor (default)
-sudo apt install libgempba-mpi-dev      # MPI flavor; depends on libgempba-dev
+# 3. Install
+sudo apt install libgempba-dev          # the core
+sudo apt install libgempba-mpi-dev      # the MPI component, as source; with libopenmpi-dev or libmpich-dev
 ```
 
-The two packages install side by side without conflict: `libgempba-mpi-dev` `Depends:` the base `libgempba-dev` plus `libopenmpi-dev`.
+`libgempba-mpi-dev` `Depends:` `libgempba-dev` of the same version, plus `libopenmpi-dev` (≥ 4.0) or `libmpich-dev`. Ubuntu 24.04's MPICH package starts every rank of a job alone ([Launchpad bug 2072338](https://bugs.launchpad.net/ubuntu/+source/mpich/+bug/2072338)), so use Open MPI there.
 
 If you already have the repository registered and just want to pick up a new release:
 
@@ -40,10 +37,11 @@ If you already have the repository registered and just want to pick up a new rel
 sudo apt update && sudo apt upgrade libgempba-dev libgempba-mpi-dev
 ```
 
-Alternatively, download the `.deb` directly from the [Releases page](https://github.com/rapastranac/gempba/releases) and install it manually:
+Alternatively, download the `.deb`s directly from the [Releases page](https://github.com/rapastranac/gempba/releases) and install them manually:
 
 ```bash
 sudo dpkg -i libgempba-dev_<version>_amd64.deb
+sudo dpkg -i libgempba-mpi-dev_<version>_amd64.deb   # the MPI component, if you need it
 ```
 
 ### Verify the installation
@@ -64,14 +62,21 @@ Use `purge` instead of `remove` to also clear any leftover configuration files.
 
 ## Windows (MSYS2 / UCRT64)
 
-MSYS2 packages are attached to each GitHub Release rather than served from a custom pacman repository. Download the `.pkg.tar.zst` asset(s) for the flavor you want from the [latest release](https://github.com/rapastranac/gempba/releases/latest); their names carry the version, such as `mingw-w64-ucrt-x86_64-gempba-4.4.0-1-any.pkg.tar.zst`. Then install them from an MSYS2 UCRT64 shell:
+GemPBA is in MSYS2's own UCRT64 repository. Install it from an MSYS2 UCRT64 shell:
 
 ```bash
-pacman -U mingw-w64-ucrt-x86_64-gempba-<version>-any.pkg.tar.zst       # multithreading (default)
-pacman -U mingw-w64-ucrt-x86_64-gempba-mpi-<version>-any.pkg.tar.zst   # MPI; depends on the mt package above
+pacman -S mingw-w64-ucrt-x86_64-gempba       # the core
+pacman -S mingw-w64-ucrt-x86_64-gempba-mpi   # the MPI component, as source; brings the core and MS-MPI
 ```
 
-If you installed from a local package and want to upgrade, download the new package and run the same command again.
+`pacman -Syu` picks up new releases with the rest of your system.
+
+Each [GitHub Release](https://github.com/rapastranac/gempba/releases) also carries the `.pkg.tar.zst` files, for a specific version or before MSYS2 has picked a release up. Their names carry the version, such as `mingw-w64-ucrt-x86_64-gempba-5.0.0-1-any.pkg.tar.zst`; install them with `pacman -U`:
+
+```bash
+pacman -U mingw-w64-ucrt-x86_64-gempba-<version>-any.pkg.tar.zst       # the core
+pacman -U mingw-w64-ucrt-x86_64-gempba-mpi-<version>-any.pkg.tar.zst   # the MPI component, as source
+```
 
 Prefer to build from the `PKGBUILD` instead, in the same shell:
 
@@ -89,7 +94,8 @@ pacman -Qi mingw-w64-ucrt-x86_64-gempba
 ### Uninstall
 
 ```bash
-pacman -R mingw-w64-ucrt-x86_64-gempba
+pacman -R mingw-w64-ucrt-x86_64-gempba-mpi   # the MPI component, if installed
+pacman -R mingw-w64-ucrt-x86_64-gempba       # the core
 ```
 
 ---
@@ -100,52 +106,56 @@ Install from the project's Homebrew tap:
 
 ```bash
 brew tap rapastranac/gempba
-brew install gempba       # multithreading (default), or `brew install gempba-mpi` for MPI
-```
-
-To keep **both** flavors on one machine, install the second after unlinking the first, then point each project at the flavor it uses:
-
-```bash
-brew unlink gempba && brew install gempba-mpi
-cmake -B build -DCMAKE_PREFIX_PATH=$(brew --prefix gempba)       # a project built against mt
-cmake -B build -DCMAKE_PREFIX_PATH=$(brew --prefix gempba-mpi)   # a project built against mpi
+brew install gempba       # the core
+brew install gempba-mpi   # the MPI component, as source; installs gempba too
+brew install open-mpi     # or mpich: the MPI your build compiles it against
 ```
 
 ---
 
 ## Java (Maven)
 
-GemPBA is also a Maven dependency, published to GitHub Packages as a fat JAR (one per `mt` / `mp-mpi` flavor classifier). See the dedicated **[Java section](../java/index.md)** for the registry setup, authentication, dependency snippet, and a full Quick Start.
+GemPBA is also a Maven dependency: `io.github.rapastranac:gempba`, or `gempba-mpi` for MPI, on Maven Central. See the dedicated **[Java section](../java/index.md)** for the dependency snippet, which MPI the JAR needs, and a full Quick Start.
 
 ---
 
 ## Using in your CMake project (find_package)
 
-Once GemPBA is installed system-wide, wire it into your project. The flavor is chosen via `COMPONENTS`:
+Once GemPBA is installed system-wide, wire it into your project. Ask for the core, and for the MPI component when a program uses MPI:
 
 ```cmake
-find_package(gempba REQUIRED)                  # default: mt
-find_package(gempba REQUIRED COMPONENTS mt)    # explicit mt
-find_package(gempba REQUIRED COMPONENTS mpi)   # mpi (requires libgempba-mpi-dev installed)
+find_package(gempba REQUIRED)                  # gempba::gempba, the core
+find_package(gempba REQUIRED COMPONENTS mpi)   # adds gempba::mpi, compiled here against the MPI CMake finds
 
-target_link_libraries(your-target PRIVATE gempba::gempba)
+target_link_libraries(my_app PRIVATE gempba::gempba)
+target_link_libraries(my_mpi_app PRIVATE gempba::mpi)   # brings gempba::gempba and MPI with it
 ```
 
-Both flavors export the same imported target `gempba::gempba`, so your link line never changes between modes. The `GEMPBA_MULTIPROCESSING` macro flows through the target's interface, and `<gempba/gempba.hpp>` exposes the matching API at compile time.
+libgempba is a shared library that keeps its own dependencies (spdlog, fmt, hwloc) inside, so a consumer needs only the C++ standard library, plus MPI for `gempba::mpi`. `gempba::mpi` is compiled in your build with your compiler, which must be compatible with the one that built libgempba, as for any C++ code that uses it. Each build directory compiles it against the MPI CMake finds there, so switching between MPIs takes another build directory, not a reinstall.
 
-### Selecting a flavor
+### Multithreading and MPI programs
 
-Consumer code is identical regardless of flavor. Write the short form:
+The API is the same for every program. A multithreading program creates its load balancer and node manager from `<gempba/gempba.hpp>` alone:
 
 ```cpp
-auto* lb = gempba::create_load_balancer(gempba::QUASI_HORIZONTAL /*, worker* if MP*/);
-auto& nm = gempba::create_node_manager(lb /*, worker* if MP*/);
+#include <gempba/gempba.hpp>
+
+auto* lb = gempba::create_load_balancer(gempba::QUASI_HORIZONTAL);
+auto& nm = gempba::create_node_manager(lb);
 ```
 
-The explicit `gempba::multithreading::*` and `gempba::multiprocessing::*` qualifiers are also available for code that wants to be unambiguous.
+An MPI program first creates its scheduler from `<gempba/mpi.hpp>`, then passes it to both:
 
-!!! warning "One flavor per binary"
-    The two flavors are **mutually exclusive within a single binary**: they share mode-agnostic top-level symbols (`gempba::shutdown`, `gempba::get_load_balancer`, …) and would ODR-clash at link time. `find_package(gempba COMPONENTS mt mpi)` is therefore rejected up front with a clear diagnostic. A project that genuinely needs both flavors — say, an MT debug runner and an MPI cluster runner — splits into two executables, each `find_package`-ing the flavor it needs.
+```cpp
+#include <gempba/gempba.hpp>
+#include <gempba/mpi.hpp>
+
+auto* scheduler = gempba::mpi::create_scheduler(gempba::mpi::SEMI_CENTRALIZED);
+auto* lb = gempba::create_load_balancer(gempba::QUASI_HORIZONTAL, scheduler);
+auto& nm = gempba::create_node_manager(lb, scheduler);
+```
+
+The core and the MPI component link into one program together. The [Quick Start](../quick-start.md) builds a complete multithreading program and lists what an MPI one adds.
 
 ---
 
@@ -169,7 +179,7 @@ include(${CPM_DOWNLOAD_LOCATION})
 CPMAddPackage(
     NAME gempba
     GITHUB_REPOSITORY rapastranac/gempba
-    GIT_TAG main
+    GIT_TAG v5.0.0
 )
 
 add_library(external INTERFACE)
@@ -185,12 +195,13 @@ project(your-project VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 
 # GemPBA flags
-set(GEMPBA_MULTIPROCESSING ON CACHE BOOL "" FORCE)  # ON = MPI flavor, OFF = multithreading
+set(GEMPBA_BUILD_MPI ON CACHE BOOL "" FORCE)        # compile gempba::mpi too (needs MPI); OFF builds the core alone
 set(GEMPBA_HWLOC ON CACHE BOOL "" FORCE)            # hardware-topology probe (telemetry)
 set(GEMPBA_DEBUG_COMMENTS OFF CACHE BOOL "" FORCE)  # (Optional) extra logging
 add_subdirectory(external)
 
-target_link_libraries(main PUBLIC gempba::gempba)
+add_executable(main main.cpp)
+target_link_libraries(main PUBLIC gempba::mpi)      # gempba::gempba for a multithreading program
 ```
 
 For ready-to-clone consumer projects, see the [gempba-examples](https://github.com/rapastranac/gempba-examples) (C++) and [gempba-java-examples](https://github.com/rapastranac/gempba-java-examples) (Java) repositories.

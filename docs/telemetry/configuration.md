@@ -12,7 +12,7 @@ The kill switch is a process-local, sticky flag. Set it **before** the first `no
     #include <gempba/gempba.hpp>
 
     gempba::telemetry::disable();      // no hub is installed; no pump thread, no socket
-    // ... create_load_balancer / create_node_manager / create_scheduler ...
+    // ... create_load_balancer / create_node_manager, or gempba::mpi::create_scheduler ...
 
     gempba::telemetry::enable();       // lift a prior disable
     bool on = gempba::telemetry::is_enabled();
@@ -31,7 +31,7 @@ The kill switch is a process-local, sticky flag. Set it **before** the first `no
     ```
 
 !!! warning "Set it symmetrically across all ranks"
-    The flag is **process-local**. In `mp-mpi`, disabling telemetry on only *some* ranks will deadlock the still-enabled ranks during transport setup (the MPI transport sets up collectively). Call `disable()` on **every** rank, or none. The recommended pattern is to disable on all ranks before any `create_*` entry point.
+    The flag is **process-local**. In an MPI run, disabling telemetry on only *some* ranks will deadlock the still-enabled ranks during transport setup (the MPI transport sets up collectively). Call `disable()` on **every** rank, or none. The recommended pattern is to disable on all ranks before any `create_*` entry point.
 
 ## The dashboard port
 
@@ -40,35 +40,38 @@ The aggregator (rank 0) binds a loopback-only TCP server for the dashboard chann
 === "C++"
 
     ```cpp
+    #include <gempba/gempba.hpp>
+
     gempba::telemetry::configure_port(9100);   // must be called before the first node_manager / scheduler
     ```
 
 === "Java"
 
     ```java
-    GemPBA.configureTelemetryPort(9100);       // available from v4.1.3, both flavors
+    GemPBA.configureTelemetryPort(9100);       // in both artifacts, gempba and gempba-mpi
     ```
 
 The server binds **loopback only** by design; it is never exposed on a public interface. To reach it from another machine, use the [GemPBA Dashboard](dashboard.md), which opens the SSH forward for you (see [Connecting](connecting.md)).
 
-!!! note "Example binaries expose `-telemetry_port`"
-    The `gempba-examples` programs forward a `-telemetry_port <n>` command-line argument to `configure_port`. That flag is an example-binary convention, not part of the library API; in your own code, call `configure_port` directly.
+Two runs on the same host need different ports.
+
+!!! note "The examples take a port"
+    Every gempba-examples program takes `-telemetry_port <n>`, and its `scripts/run*` read the `TELEMETRY_PORT` environment variable. gempba-java-examples' `synthetic_void` takes `-Dgempba.telemetry.port=<n>`, and its `multiprocessing/run` scripts take `-port <n>`. The two repositories' cluster jobs serve on 9001 and 9000, so both can run on one node. These options belong to the examples, not to the library; in your own code, call `configure_port` directly.
 
 ## Emission cadence and live control
 
-gempba v4.3.0 uses **one telemetry interval**. Rank frames, per-host (node) frames and the aggregator's broadcast all refresh on it: **500 ms** by default, clamped to 50–600000 ms. Change it in code, or **live from a connected client**, so a UI can throttle the stream without restarting the run.
+gempba uses **one telemetry interval**. Rank frames, per-host (node) frames and the aggregator's broadcast all refresh on it: **500 ms** by default, clamped to 50–600000 ms. Change it in code, or **live from a connected client**, so a UI can throttle the stream without restarting the run.
 
 A connected client writes control lines back on the same socket, one JSON object per line:
 
 | Control line | Effect |
 |---|---|
 | `{"kind":"set_interval_ms","value":N}` | Set the interval to `N` ms, for rank frames, node frames and the broadcast alike. |
-| `{"kind":"set_worker_interval_ms","value":N}` | The schema-1 name for the same thing; accepted until v5.0.0. |
-| `{"kind":"set_node_interval_ms","value":N}` | Accepted and ignored since v4.3.0, now that node frames follow the one interval; removed in v5.0.0. |
 | `{"kind":"pause"}` | Stop every rank sending frames. Counters keep counting, and the aggregator keeps sending a short `"paused":true` line so the run does not look lost. |
 | `{"kind":"resume"}` | Resume at the current interval. |
 | `{"kind":"snapshot"}` | Make every rank send one frame at once, whatever the interval and even while paused; the aggregator then broadcasts one full line. |
 | `{"kind":"mark","label":"..."}` | Record a timestamped marker on the run, labelled as you choose. |
+| `{"kind":"stop","token":"..."}` | Stop the run, from gempba v5.0.0: every rank prunes the work it hasn't started, and the run ends with its best result so far. Accepted only when `token` matches the `GEMPBA_STOP_TOKEN` environment variable the run was started with; see [Stopping a Run](../stopping-a-run.md#from-the-dashboard). |
 
 In code, the equivalent setter lives on the hub:
 
@@ -79,7 +82,7 @@ if (hub) {
 }
 ```
 
-The in-process control enum is `control_kind::SET_INTERVAL_MS`. The old `set_worker_interval_ms()` and `control_kind::SET_WORKER_INTERVAL_MS` still compile, with a deprecation warning, and forward to these until v5.0.0; `set_node_interval_ms()` does nothing and is removed in v5.0.0.
+The in-process control enum is `control_kind::SET_INTERVAL_MS`.
 
 A faster interval gives a more responsive dashboard at the cost of more frames on the wire; a slower one is cheaper for long unattended runs. Because the interval is client-controllable, a dashboard can dial it up while you are watching and back down when you are not.
 

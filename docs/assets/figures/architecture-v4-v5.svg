@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 400" role="img" aria-label="v4 against v5: v4 built two flavors and a program picked one at build time; v5 is one core library with multithreading built in, plus an MPI component a program asks for">
+<title>v4 against v5: v4 built two flavors and a program picked one at build time; v5 is one core library with multithreading built in, plus an MPI component a program asks for</title>
+<rect class="panel" x="10.0" y="10.0" width="370.0" height="380.0" rx="12"/>
+<rect class="panel" x="400.0" y="10.0" width="370.0" height="380.0" rx="12"/>
+<text x="195.0" y="40.0" text-anchor="middle" class="t-title">v4: two flavors, chosen at build time</text>
+<text x="585.0" y="40.0" text-anchor="middle" class="t-title">v5: one core, plus a component</text>
+<rect class="box" x="22.0" y="66.0" width="170.0" height="120.0" rx="8"/>
+<text x="107.0" y="92.0" text-anchor="middle">libgempba</text>
+<text x="107.0" y="111.0" text-anchor="middle" class="t-soft">multithreading</text>
+<text x="107.0" y="134.0" text-anchor="middle" class="t-mono t-soft" style="font-size:11px">gempba::multithreading</text>
+<text x="107.0" y="153.0" text-anchor="middle" class="t-mono t-soft" style="font-size:11px">COMPONENTS mt</text>
+<rect class="box" x="200.0" y="66.0" width="170.0" height="120.0" rx="8"/>
+<text x="285.0" y="92.0" text-anchor="middle">libgempba-mpi</text>
+<text x="285.0" y="111.0" text-anchor="middle" class="t-soft">one MPI per package</text>
+<text x="285.0" y="134.0" text-anchor="middle" class="t-mono t-soft" style="font-size:11px">gempba::multiprocessing</text>
+<text x="285.0" y="153.0" text-anchor="middle" class="t-mono t-soft" style="font-size:11px">GEMPBA_MULTIPROCESSING</text>
+<rect class="bad dashed" x="30.0" y="236.0" width="330.0" height="52.0" rx="8"/>
+<text x="195.0" y="258.0" text-anchor="middle" class="t-bad">A program picks one flavor; mt and mpi</text>
+<text x="195.0" y="276.0" text-anchor="middle" class="t-bad">can't be used together</text>
+<path class="ln dashed" d="M107.0 186.0 L107.0 234.0"/>
+<polygon class="head" points="107.0,234.0 111.4,226.0 102.6,226.0"/>
+<path class="ln dashed" d="M285.0 186.0 L285.0 234.0"/>
+<polygon class="head" points="285.0,234.0 289.4,226.0 280.6,226.0"/>
+<rect class="box" x="30.0" y="310.0" width="330.0" height="60.0" rx="8"/>
+<text x="195.0" y="334.0" text-anchor="middle" class="t-soft">Java: io.gempba:gempba, mt / mp-mpi</text>
+<text x="195.0" y="352.0" text-anchor="middle" class="t-soft">classifiers, from GitHub Packages with a token</text>
+<rect class="box" x="420.0" y="60.0" width="330.0" height="46.0" rx="8"/>
+<text x="585.0" y="88.0" text-anchor="middle">Your program, multithreading or MPI</text>
+<rect class="core" x="420.0" y="144.0" width="196.0" height="140.0" rx="8"/>
+<text x="518.0" y="168.0" text-anchor="middle">libgempba.so.5</text>
+<text x="518.0" y="187.0" text-anchor="middle" class="t-mono t-core">gempba::gempba</text>
+<text x="518.0" y="206.0" text-anchor="middle" class="t-soft">nodes · node manager</text>
+<text x="518.0" y="225.0" text-anchor="middle" class="t-soft">load balancers · thread pool</text>
+<text x="518.0" y="244.0" text-anchor="middle" class="t-soft">scheduler interface</text>
+<text x="518.0" y="263.0" text-anchor="middle" class="t-soft">telemetry · C ABI</text>
+<rect class="mpi dashed" x="630.0" y="144.0" width="120.0" height="140.0" rx="8"/>
+<text x="690.0" y="168.0" text-anchor="middle">gempba::mpi</text>
+<text x="690.0" y="187.0" text-anchor="middle" class="t-soft">on request</text>
+<text x="690.0" y="206.0" text-anchor="middle" class="t-soft">MPI schedulers</text>
+<text x="690.0" y="225.0" text-anchor="middle" class="t-soft">MPI telemetry</text>
+<text x="690.0" y="244.0" text-anchor="middle" class="t-soft">built against</text>
+<text x="690.0" y="263.0" text-anchor="middle" class="t-soft">your MPI</text>
+<path class="ln-core" d="M518.0 106.0 L518.0 142.0"/>
+<polygon class="head-core" points="518.0,142.0 522.4,134.0 513.6,134.0"/>
+<path class="ln-mpi dashed" d="M690.0 106.0 L690.0 142.0"/>
+<polygon class="head-mpi" points="690.0,142.0 694.4,134.0 685.6,134.0"/>
+<text x="536.0" y="128.0" text-anchor="start" class="t-soft">always</text>
+<text x="706.0" y="128.0" text-anchor="start" class="t-soft">if asked</text>
+<rect class="box" x="420.0" y="310.0" width="330.0" height="60.0" rx="8"/>
+<text x="585.0" y="334.0" text-anchor="middle" class="t-soft">Java: io.github.rapastranac:gempba</text>
+<text x="585.0" y="352.0" text-anchor="middle" class="t-soft">and gempba-mpi, on Maven Central, no token</text>
+</svg>

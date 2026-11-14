@@ -24,7 +24,8 @@ enum node_state {
     PUSHED,
     DISCARDED,
     RETRIEVED,
-    SENT_TO_ANOTHER_PROCESS
+    SENT_TO_ANOTHER_PROCESS,
+    RUNNING
 };
 ```
 
@@ -44,15 +45,21 @@ virtual void deserialize(const task_packet&) = 0;
 ```
 Restore arguments from bytes on the receiving side.
 
+---
+
+### Result serializers
+
+Declared by `node_traits` itself.
+
 ```cpp
 virtual void set_result_serializer(const std::function<task_packet(std::any)>&) = 0;
 ```
-Attach serializer for the return value. Called by node factory functions — not called directly.
+Attach serializer for the return value. Called by node factory functions, not directly.
 
 ```cpp
 virtual void set_result_deserializer(const std::function<std::any(task_packet)>&) = 0;
 ```
-Attach deserializer for the return value. Called by node factory functions — not called directly.
+Attach deserializer for the return value. Called by node factory functions, not directly.
 
 ---
 
@@ -81,7 +88,7 @@ virtual bool should_branch() = 0;
 ```cpp
 virtual void prune() = 0;
 ```
-Mark as `DISCARDED`, release held resources.
+Detach the node from the tree: from its parent, its children and its root. It doesn't change the node's state.
 
 ---
 
@@ -98,9 +105,9 @@ virtual void delegate_locally(load_balancer* lb) = 0;
 Hand to `lb` for thread-level dispatch within this process.
 
 ```cpp
-virtual void delegate_remotely(scheduler::worker* worker, int runner_id) = 0;
+virtual void delegate_remotely(scheduler* scheduler, int runner_id) = 0;
 ```
-Serialize and send to another process via `worker`. `runner_id` selects the matching [`serial_runnable`](serial-runnable.md) on the remote side.
+Serialize and send to another process via `scheduler`. `runner_id` selects the matching [`serial_runnable`](serial-runnable.md) on the remote side.
 
 ---
 
@@ -124,7 +131,7 @@ Deserialize return value to `std::any`.
 ```cpp
 [[nodiscard]] virtual bool is_result_ready() const = 0;
 ```
-`true` if a result has been stored.
+`true` in every state except `DISCARDED` and `RETRIEVED`; it doesn't check that a result was stored.
 
 ---
 
