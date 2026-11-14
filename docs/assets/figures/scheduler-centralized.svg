@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 518" role="img" aria-label="Inside the centralized scheduler: rank 0's coordinator loop keeps a bounded priority queue of tasks, the process states, the global best score and the root of termination detection; four duplicated communicators carry tasks and states, fullness signals, scores and telemetry; on every worker, pool threads put one spare task in the outgoing slot while rank 0 isn't full, and the MPI thread sends it to rank 0">
+<title>Inside the centralized scheduler: rank 0's coordinator loop keeps a bounded priority queue of tasks, the process states, the global best score and the root of termination detection; four duplicated communicators carry tasks and states, fullness signals, scores and telemetry; on every worker, pool threads put one spare task in the outgoing slot while rank 0 isn't full, and the MPI thread sends it to rank 0</title>
+<text x="125.0" y="26.0" text-anchor="middle" class="t-head">Rank 0</text>
+<text x="390.0" y="26.0" text-anchor="middle" class="t-head">Communicators</text>
+<text x="655.0" y="26.0" text-anchor="middle" class="t-head">Every worker rank</text>
+<rect class="mpi" x="10.0" y="40.0" width="230.0" height="400.0" rx="10"/>
+<text x="125.0" y="66.0" text-anchor="middle" class="t-title">Coordinator loop</text>
+<text x="125.0" y="84.0" text-anchor="middle" class="t-soft">the thread that called run</text>
+<rect class="box" x="24.0" y="100.0" width="202.0" height="50.0" rx="6"/>
+<text x="125.0" y="121.0" text-anchor="middle">Task queue</text>
+<text x="125.0" y="139.0" text-anchor="middle" class="t-soft">by priority · 1000 × ranks or 10 GB</text>
+<rect class="box" x="24.0" y="162.0" width="202.0" height="50.0" rx="6"/>
+<text x="125.0" y="183.0" text-anchor="middle">Process states</text>
+<text x="125.0" y="201.0" text-anchor="middle" class="t-soft">AVAILABLE · RUNNING</text>
+<rect class="box" x="24.0" y="224.0" width="202.0" height="50.0" rx="6"/>
+<text x="125.0" y="245.0" text-anchor="middle">Global best score</text>
+<text x="125.0" y="263.0" text-anchor="middle" class="t-soft">broadcast when it improves</text>
+<rect class="box" x="24.0" y="286.0" width="202.0" height="50.0" rx="6"/>
+<text x="125.0" y="307.0" text-anchor="middle">Termination detector</text>
+<text x="125.0" y="325.0" text-anchor="middle" class="t-soft">the root: a deficit, no parent</text>
+<text x="125.0" y="368.0" text-anchor="middle" class="t-soft">dispatches queued tasks to</text>
+<text x="125.0" y="385.0" text-anchor="middle" class="t-soft">available workers; runs none itself</text>
+<rect class="core" x="540.0" y="40.0" width="230.0" height="400.0" rx="10"/>
+<rect class="box" x="554.0" y="56.0" width="202.0" height="92.0" rx="6"/>
+<text x="655.0" y="77.0" text-anchor="middle" class="t-title">Pool threads</text>
+<text x="655.0" y="97.0" text-anchor="middle" class="t-soft">run nodes; the load balancer</text>
+<text x="655.0" y="114.0" text-anchor="middle" class="t-soft">offers a spare node to</text>
+<text x="655.0" y="131.0" text-anchor="middle" class="t-mono" style="font-size:10.5px">try_open_transmission_channel</text>
+<path class="ln-core" d="M655.0 150.0 L655.0 166.0"/>
+<polygon class="head-core" points="655.0,166.0 658.3,160.0 651.7,160.0"/>
+<rect class="warn" x="554.0" y="168.0" width="202.0" height="44.0" rx="6"/>
+<text x="655.0" y="187.0" text-anchor="middle">Outgoing slot: one task</text>
+<text x="655.0" y="204.0" text-anchor="middle" class="t-soft">while rank 0 isn't full</text>
+<path class="ln-core" d="M655.0 214.0 L655.0 230.0"/>
+<polygon class="head-core" points="655.0,230.0 658.3,224.0 651.7,224.0"/>
+<rect class="box" x="554.0" y="232.0" width="202.0" height="196.0" rx="6"/>
+<text x="655.0" y="253.0" text-anchor="middle" class="t-title">MPI thread</text>
+<text x="655.0" y="273.0" text-anchor="middle" class="t-soft" style="font-size:12px">the thread that called run;</text>
+<text x="655.0" y="292.0" text-anchor="middle" class="t-soft" style="font-size:12px">every MPI call goes through it.</text>
+<text x="655.0" y="311.0" text-anchor="middle" class="t-soft" style="font-size:12px">It probes the communicators,</text>
+<text x="655.0" y="330.0" text-anchor="middle" class="t-soft" style="font-size:12px">runs received tasks on the pool,</text>
+<text x="655.0" y="349.0" text-anchor="middle" class="t-soft" style="font-size:12px">sends the slot to rank 0,</text>
+<text x="655.0" y="368.0" text-anchor="middle" class="t-soft" style="font-size:12px">proposes scores, acknowledges</text>
+<text x="655.0" y="387.0" text-anchor="middle" class="t-soft" style="font-size:12px">tasks and reports its state</text>
+<rect class="panel" x="262.0" y="44.0" width="256.0" height="74.0" rx="8"/>
+<text x="390.0" y="62.0" text-anchor="middle" class="t-head">world</text>
+<text x="390.0" y="80.0" text-anchor="middle" class="t-mono" style="font-size:11px">TASK_FOR_CENTER · TASK_FROM_CENTER</text>
+<text x="390.0" y="95.0" text-anchor="middle" class="t-mono" style="font-size:11px">RUNNING / AVAILABLE_STATE</text>
+<text x="390.0" y="110.0" text-anchor="middle" class="t-mono" style="font-size:11px">TASK_RECEIVED · STOP · TERMINATION</text>
+<path class="ln" d="M243.0 81.0 L259.0 81.0"/>
+<polygon class="head" points="259.0,81.0 253.0,77.7 253.0,84.3"/>
+<polygon class="head" points="243.0,81.0 249.0,84.3 249.0,77.7"/>
+<path class="ln" d="M521.0 81.0 L537.0 81.0"/>
+<polygon class="head" points="537.0,81.0 531.0,77.7 531.0,84.3"/>
+<polygon class="head" points="521.0,81.0 527.0,84.3 527.0,77.7"/>
+<rect class="panel" x="262.0" y="136.0" width="256.0" height="74.0" rx="8"/>
+<text x="390.0" y="154.0" text-anchor="middle" class="t-head">center fullness</text>
+<text x="390.0" y="172.0" text-anchor="middle" class="t-mono" style="font-size:11px">CENTER_IS_FULL · CENTER_IS_FREE</text>
+<path class="ln" d="M243.0 173.0 L259.0 173.0"/>
+<polygon class="head" points="259.0,173.0 253.0,169.7 253.0,176.3"/>
+<polygon class="head" points="243.0,173.0 249.0,176.3 249.0,169.7"/>
+<path class="ln" d="M521.0 173.0 L537.0 173.0"/>
+<polygon class="head" points="537.0,173.0 531.0,169.7 531.0,176.3"/>
+<polygon class="head" points="521.0,173.0 527.0,176.3 527.0,169.7"/>
+<rect class="panel" x="262.0" y="228.0" width="256.0" height="74.0" rx="8"/>
+<text x="390.0" y="246.0" text-anchor="middle" class="t-head">global score</text>
+<text x="390.0" y="264.0" text-anchor="middle" class="t-mono" style="font-size:11px">SCORE_PROPOSAL → rank 0</text>
+<text x="390.0" y="279.0" text-anchor="middle" class="t-mono" style="font-size:11px">SCORE_UPDATE → every worker</text>
+<path class="ln-warn" d="M243.0 265.0 L259.0 265.0"/>
+<polygon class="head-warn" points="259.0,265.0 253.0,261.7 253.0,268.3"/>
+<polygon class="head-warn" points="243.0,265.0 249.0,268.3 249.0,261.7"/>
+<path class="ln-warn" d="M521.0 265.0 L537.0 265.0"/>
+<polygon class="head-warn" points="537.0,265.0 531.0,261.7 531.0,268.3"/>
+<polygon class="head-warn" points="521.0,265.0 527.0,268.3 527.0,261.7"/>
+<rect class="panel" x="262.0" y="320.0" width="256.0" height="74.0" rx="8"/>
+<text x="390.0" y="338.0" text-anchor="middle" class="t-head">telemetry</text>
+<text x="390.0" y="356.0" text-anchor="middle" class="t-mono" style="font-size:11px">rank and node frames → rank 0</text>
+<path class="ln dashed" d="M243.0 357.0 L259.0 357.0"/>
+<polygon class="head" points="259.0,357.0 253.0,353.7 253.0,360.3"/>
+<polygon class="head" points="243.0,357.0 249.0,360.3 249.0,353.7"/>
+<path class="ln dashed" d="M521.0 357.0 L537.0 357.0"/>
+<polygon class="head" points="537.0,357.0 531.0,353.7 531.0,360.3"/>
+<polygon class="head" points="521.0,357.0 527.0,360.3 527.0,353.7"/>
+<text x="390.0" y="418.0" text-anchor="middle" class="t-soft">each an MPI_Comm_dup of MPI_COMM_WORLD,</text>
+<text x="390.0" y="435.0" text-anchor="middle" class="t-soft">so gempba's messages never meet yours</text>
+<text x="390.0" y="486.0" text-anchor="middle" class="t-soft">Every task goes through rank 0's queue: workers send their spare tasks there</text>
+<text x="390.0" y="504.0" text-anchor="middle" class="t-soft">and take new ones from it; no task goes from worker to worker.</text>
+</svg>

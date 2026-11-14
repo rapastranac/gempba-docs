@@ -12,6 +12,16 @@ The coordinator (rank 0) is an active participant: workers send excess tasks to 
 
 For the full protocol walkthrough and comparison with the semi-centralized topology, see [Scheduler Topologies](../../../scheduler-topologies.md).
 
+## Inside the scheduler
+
+<figure class="diagram">
+--8<-- "assets/figures/scheduler-centralized.svg"
+</figure>
+
+- **Rank 0** runs the coordinator loop on the thread that called `scheduler::run`. It keeps every spare task in a priority queue and hands them out to available workers; past its limits it tells the workers to keep their tasks.
+- **Every worker** works as in the semi-centralized scheduler: pool threads run nodes and, while rank 0 isn't full, put a spare task in the one-task outgoing slot; the **MPI thread** makes every MPI call and sends that slot to rank 0.
+- **Four communicators**, each an `MPI_Comm_dup` of `MPI_COMM_WORLD`: tasks, states, acknowledgements and termination on one, the full and free signals on another, scores on a third, and [telemetry](../../../telemetry/index.md) on its own.
+
 ---
 
 ## Coordinator responsibilities

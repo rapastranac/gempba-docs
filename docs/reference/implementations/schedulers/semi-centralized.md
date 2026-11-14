@@ -12,6 +12,16 @@ The coordinator (rank 0) maintains a lightweight state table — process statuse
 
 For the full protocol walkthrough, message sequence diagrams, and comparison with the centralized topology, see [Scheduler Topologies](../../../scheduler-topologies.md).
 
+## Inside the scheduler
+
+<figure class="diagram">
+--8<-- "assets/figures/scheduler-semi-centralized.svg"
+</figure>
+
+- **Rank 0** runs the coordinator loop on the thread that called `scheduler::run`. It holds the state table and the root of termination detection, and runs no search itself.
+- **Every worker** splits the job between two kinds of thread. Pool threads run nodes; when the load balancer finds a spare node and the rank has a process waiting for work, `try_open_transmission_channel` succeeds and `force_push` puts the serialized task in a one-task outgoing slot. The **MPI thread**, the one that called `scheduler::run`, makes every MPI call: it probes the communicators in turn, runs each task it receives on the pool, sends the slot straight to the waiting process, proposes better scores, and acknowledges tasks.
+- **Four communicators**, each an `MPI_Comm_dup` of `MPI_COMM_WORLD`, keep the traffic apart: tasks, states, acknowledgements and termination on one, assignments on another, scores on a third, and [telemetry](../../../telemetry/index.md) on its own.
+
 ---
 
 ## Coordinator responsibilities
