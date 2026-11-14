@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 330" role="img" aria-label="How a run ends: completed, with a proven result; interrupted by a signal, the stop call or the dashboard, with the best result found before the stop; or lost, killed without warning, with no outcome, no log line and no final telemetry line">
+<title>How a run ends: completed, with a proven result; interrupted by a signal, the stop call or the dashboard, with the best result found before the stop; or lost, killed without warning, with no outcome, no log line and no final telemetry line</title>
+<rect class="ok" x="10.0" y="10.0" width="240.0" height="310.0" rx="10"/>
+<text x="130.0" y="40.0" text-anchor="middle" class="t-title t-ok">Completed</text>
+<text x="130.0" y="68.0" text-anchor="middle" class="t-soft">The whole search space</text>
+<text x="130.0" y="86.0" text-anchor="middle" class="t-soft">was explored</text>
+<rect class="box" x="24.0" y="104.0" width="212.0" height="40.0" rx="6"/>
+<text x="130.0" y="121.0" text-anchor="middle" class="t-soft">result</text>
+<text x="130.0" y="137.0" text-anchor="middle">proven</text>
+<text x="30.0" y="170.0" text-anchor="start" class="t-head">run_outcome</text>
+<text x="30.0" y="190.0" text-anchor="start" class="t-mono">COMPLETED</text>
+<text x="30.0" y="220.0" text-anchor="start" class="t-head">log</text>
+<text x="30.0" y="240.0" text-anchor="start" class="t-mono">info: run completed</text>
+<text x="30.0" y="270.0" text-anchor="start" class="t-head">final line</text>
+<text x="30.0" y="290.0" text-anchor="start" class="t-mono">{"reason":"completed"}</text>
+<rect class="warn" x="270.0" y="10.0" width="240.0" height="310.0" rx="10"/>
+<text x="390.0" y="40.0" text-anchor="middle" class="t-title t-warn">Interrupted</text>
+<text x="390.0" y="68.0" text-anchor="middle" class="t-soft">Ctrl+C or SIGTERM,</text>
+<text x="390.0" y="86.0" text-anchor="middle" class="t-soft">request_stop(), or the dashboard</text>
+<rect class="box" x="284.0" y="104.0" width="212.0" height="40.0" rx="6"/>
+<text x="390.0" y="121.0" text-anchor="middle" class="t-soft">result</text>
+<text x="390.0" y="137.0" text-anchor="middle">best found before the stop</text>
+<text x="290.0" y="170.0" text-anchor="start" class="t-head">run_outcome</text>
+<text x="290.0" y="190.0" text-anchor="start" class="t-mono">INTERRUPTED + trigger</text>
+<text x="290.0" y="220.0" text-anchor="start" class="t-head">log</text>
+<text x="290.0" y="240.0" text-anchor="start" class="t-mono">warning, naming the trigger</text>
+<text x="290.0" y="270.0" text-anchor="start" class="t-head">final line</text>
+<text x="290.0" y="290.0" text-anchor="start" class="t-mono">"interrupted" + "trigger"</text>
+<rect class="bad" x="530.0" y="10.0" width="240.0" height="310.0" rx="10"/>
+<text x="650.0" y="40.0" text-anchor="middle" class="t-title t-bad">Lost</text>
+<text x="650.0" y="68.0" text-anchor="middle" class="t-soft">SIGKILL, a crash,</text>
+<text x="650.0" y="86.0" text-anchor="middle" class="t-soft">a node failure</text>
+<rect class="box" x="544.0" y="104.0" width="212.0" height="40.0" rx="6"/>
+<text x="650.0" y="121.0" text-anchor="middle" class="t-soft">result</text>
+<text x="650.0" y="137.0" text-anchor="middle">none returned</text>
+<text x="550.0" y="170.0" text-anchor="start" class="t-head">run_outcome</text>
+<text x="550.0" y="190.0" text-anchor="start" class="t-mono">none</text>
+<text x="550.0" y="220.0" text-anchor="start" class="t-head">log</text>
+<text x="550.0" y="240.0" text-anchor="start" class="t-mono">no end line</text>
+<text x="550.0" y="270.0" text-anchor="start" class="t-head">final line</text>
+<text x="550.0" y="290.0" text-anchor="start" class="t-mono">none: the stream just closes</text>
+</svg>

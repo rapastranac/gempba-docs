@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" role="img" aria-label="Semi-centralized topology: the coordinator keeps statuses, assignments and the global best value and exchanges only signals and scores with the workers, while tasks travel directly from worker to worker">
+<title>Semi-centralized topology: the coordinator keeps statuses, assignments and the global best value and exchanges only signals and scores with the workers, while tasks travel directly from worker to worker</title>
+<rect class="mpi" x="230.0" y="16.0" width="300.0" height="110.0" rx="10"/>
+<text x="380.0" y="40.0" text-anchor="middle" class="t-title">Coordinator (rank 0)</text>
+<text x="380.0" y="64.0" text-anchor="middle" class="t-soft">process statuses</text>
+<text x="380.0" y="82.0" text-anchor="middle" class="t-soft">process assignments</text>
+<text x="380.0" y="100.0" text-anchor="middle" class="t-soft">global best value</text>
+<rect class="core" x="30.0" y="262.0" width="140.0" height="48.0" rx="8"/>
+<text x="100.0" y="291.0" text-anchor="middle">Worker 1</text>
+<rect class="core" x="220.0" y="262.0" width="140.0" height="48.0" rx="8"/>
+<text x="290.0" y="291.0" text-anchor="middle">Worker 2</text>
+<rect class="core" x="410.0" y="262.0" width="140.0" height="48.0" rx="8"/>
+<text x="480.0" y="291.0" text-anchor="middle">Worker 3</text>
+<rect class="core" x="600.0" y="262.0" width="140.0" height="48.0" rx="8"/>
+<text x="670.0" y="291.0" text-anchor="middle">Worker N</text>
+<path class="ln dashed" d="M276.0 126.0 L94.0 262.0"/>
+<polygon class="head" points="94.0,262.0 101.9,260.9 97.3,254.7"/>
+<polygon class="head" points="276.0,126.0 268.1,127.1 272.7,133.3"/>
+<path class="ln-warn" d="M290.0 126.0 L108.0 262.0"/>
+<polygon class="head-warn" points="108.0,262.0 115.9,260.9 111.3,254.7"/>
+<polygon class="head-warn" points="290.0,126.0 282.1,127.1 286.7,133.3"/>
+<path class="ln dashed" d="M342.5 126.0 L284.0 262.0"/>
+<polygon class="head" points="284.0,262.0 290.3,257.1 283.2,254.0"/>
+<polygon class="head" points="342.5,126.0 336.2,130.9 343.3,134.0"/>
+<path class="ln-warn" d="M356.5 126.0 L298.0 262.0"/>
+<polygon class="head-warn" points="298.0,262.0 304.3,257.1 297.2,254.0"/>
+<polygon class="head-warn" points="356.5,126.0 350.2,130.9 357.3,134.0"/>
+<path class="ln dashed" d="M409.0 126.0 L474.0 262.0"/>
+<polygon class="head" points="474.0,262.0 474.5,254.0 467.5,257.3"/>
+<polygon class="head" points="409.0,126.0 408.5,134.0 415.5,130.7"/>
+<path class="ln-warn" d="M423.0 126.0 L488.0 262.0"/>
+<polygon class="head-warn" points="488.0,262.0 488.5,254.0 481.5,257.3"/>
+<polygon class="head-warn" points="423.0,126.0 422.5,134.0 429.5,130.7"/>
+<path class="ln dashed" d="M475.5 126.0 L664.0 262.0"/>
+<polygon class="head" points="664.0,262.0 660.6,254.8 656.1,261.0"/>
+<polygon class="head" points="475.5,126.0 478.9,133.2 483.4,127.0"/>
+<path class="ln-warn" d="M489.5 126.0 L678.0 262.0"/>
+<polygon class="head-warn" points="678.0,262.0 674.6,254.8 670.1,261.0"/>
+<polygon class="head-warn" points="489.5,126.0 492.9,133.2 497.4,127.0"/>
+<text x="36.0" y="152.0" text-anchor="start" class="t-soft halo">status · assignment</text>
+<text x="736.0" y="152.0" text-anchor="end" class="t-soft halo">score proposal · best value</text>
+<path class="ln-core" d="M130.0 310.0 L130.0 330.0 L260.0 330.0 L260.0 312.0"/>
+<polygon class="head-core" points="260.0,312.0 256.1,319.0 263.9,319.0"/>
+<text x="195.0" y="348.0" text-anchor="middle" class="t-soft halo">task (direct)</text>
+<path class="ln-core" d="M320.0 310.0 L320.0 330.0 L450.0 330.0 L450.0 312.0"/>
+<polygon class="head-core" points="450.0,312.0 446.1,319.0 453.9,319.0"/>
+<text x="385.0" y="348.0" text-anchor="middle" class="t-soft halo">task (direct)</text>
+<path class="ln-core dashed" d="M510.0 310.0 L510.0 330.0 L640.0 330.0 L640.0 312.0"/>
+<polygon class="head-core" points="640.0,312.0 636.1,319.0 643.9,319.0"/>
+<text x="575.0" y="348.0" text-anchor="middle" class="t-soft halo">…</text>
+<path class="ln-core" d="M230.0 46.0 L22.0 46.0 L22.0 286.0 L28.0 286.0"/>
+<polygon class="head-core" points="28.0,286.0 21.0,282.1 21.0,289.9"/>
+<text x="126.0" y="40.0" text-anchor="middle" class="t-soft">seed</text>
+<path class="ln-core" d="M40.0 382.0 L74.0 382.0"/>
+<polygon class="head-core" points="74.0,382.0 67.0,378.1 67.0,385.9"/>
+<text x="82.0" y="386.0" text-anchor="start" class="t-soft">task payload</text>
+<path class="ln dashed" d="M240.0 382.0 L274.0 382.0"/>
+<polygon class="head" points="274.0,382.0 267.0,378.1 267.0,385.9"/>
+<text x="282.0" y="386.0" text-anchor="start" class="t-soft">signal, no payload</text>
+<path class="ln-warn" d="M440.0 382.0 L474.0 382.0"/>
+<polygon class="head-warn" points="474.0,382.0 467.0,378.1 467.0,385.9"/>
+<text x="482.0" y="386.0" text-anchor="start" class="t-soft">score</text>
+<text x="380.0" y="415.0" text-anchor="middle" class="t-soft">Every task the coordinator never sees still gets its acknowledgement, which is how the run knows it is over.</text>
+</svg>
