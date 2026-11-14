@@ -138,7 +138,7 @@ pure-virtual interfaces.
 
     <tr>
       <td><a href="../utilities/queue/"><code>queue&lt;T&gt;</code></a></td>
-      <td>Thread-safe FIFO queue used internally by load balancers</td>
+      <td>Thread-safe FIFO queue the MPI schedulers use for outgoing tasks</td>
     </tr>
 
     <tr>

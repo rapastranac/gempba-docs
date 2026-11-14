@@ -8,7 +8,7 @@
 
 Non-copyable. Movable.
 
-Used internally by the scheduler worker's communication thread. Not intended for direct use in user code.
+Returned by [`scheduler::try_open_transmission_channel()`](../interfaces/scheduler.md) and held by the load balancers while they send a task to another rank. Not intended for direct use in user code.
 
 ---
 

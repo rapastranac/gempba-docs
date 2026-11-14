@@ -6,7 +6,7 @@
 
 `task_bundle` pairs a [`task_packet`](task-packet.md) with a `runnable_id`. It is the unit of inter-process task transfer: when a worker sends work to another process, it wraps the serialized arguments in a `task_bundle` so the receiving end knows which [`serial_runnable`](../interfaces/serial-runnable.md) to dispatch it to.
 
-You do not construct `task_bundle` directly in normal use. Node factory functions and the scheduler produce and consume them internally.
+In an MPI program, rank 0 builds one for the seed it passes to [`scheduler::run`](../interfaces/scheduler.md): `std::optional<gempba::task_bundle> seed; if (scheduler->is_root()) { seed.emplace(packet, runnable_id); }`. Otherwise node factory functions and the scheduler produce and consume them internally.
 
 ---
 
