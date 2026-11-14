@@ -69,6 +69,12 @@ description: GemPBA parallelizes branch-and-bound and other branching algorithms
 
     [Java](java/index.md)
 
+-   **In MSYS2's own repository**
+
+    On Windows, `pacman -S mingw-w64-ucrt-x86_64-gempba` installs GemPBA from MSYS2's UCRT64 repository, next to `apt` on Ubuntu and `brew` on macOS.
+
+    [Installation](getting-started/installation.md#windows-msys2-ucrt64)
+
 -   **A clean shared library**
 
     `libgempba.so.5` exports only its API, keeps its dependencies private, and its headers include only the standard library.

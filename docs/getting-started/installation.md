@@ -62,14 +62,21 @@ Use `purge` instead of `remove` to also clear any leftover configuration files.
 
 ## Windows (MSYS2 / UCRT64)
 
-MSYS2 packages are attached to each GitHub Release rather than served from a custom pacman repository. Download the `.pkg.tar.zst` assets from the [latest release](https://github.com/rapastranac/gempba/releases/latest); their names carry the version, such as `mingw-w64-ucrt-x86_64-gempba-5.0.0-1-any.pkg.tar.zst`. Then install them from an MSYS2 UCRT64 shell:
+GemPBA is in MSYS2's own UCRT64 repository. Install it from an MSYS2 UCRT64 shell:
+
+```bash
+pacman -S mingw-w64-ucrt-x86_64-gempba       # the core
+pacman -S mingw-w64-ucrt-x86_64-gempba-mpi   # the MPI component, as source; brings the core and MS-MPI
+```
+
+`pacman -Syu` picks up new releases with the rest of your system.
+
+Each [GitHub Release](https://github.com/rapastranac/gempba/releases) also carries the `.pkg.tar.zst` files, for a specific version or before MSYS2 has picked a release up. Their names carry the version, such as `mingw-w64-ucrt-x86_64-gempba-5.0.0-1-any.pkg.tar.zst`; install them with `pacman -U`:
 
 ```bash
 pacman -U mingw-w64-ucrt-x86_64-gempba-<version>-any.pkg.tar.zst       # the core
-pacman -U mingw-w64-ucrt-x86_64-gempba-mpi-<version>-any.pkg.tar.zst   # the MPI component, as source; depends on the core and MS-MPI
+pacman -U mingw-w64-ucrt-x86_64-gempba-mpi-<version>-any.pkg.tar.zst   # the MPI component, as source
 ```
-
-If you installed from a local package and want to upgrade, download the new package and run the same command again.
 
 Prefer to build from the `PKGBUILD` instead, in the same shell:
 
