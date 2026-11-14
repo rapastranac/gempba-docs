@@ -70,11 +70,12 @@ Pre-built packages and the Java fat JAR target one architecture per OS; other ar
 
 | Dependency | Version | Notes |
 |---|---|---|
-| C++ compiler | C++23 | GCC 13+, Clang 17+, AppleClang, MSVC 19.38+ |
+| C++ compiler | C++23 | GCC or Clang (AppleClang on macOS); on Windows, MSYS2 UCRT64's GCC |
 | CMake | ≥ 3.28 | |
-| hwloc | any recent | Hardware-topology probe (telemetry) |
+| hwloc | ≥ 2.10 | Hardware-topology probe (telemetry); needed at run time too |
+| pkg-config | any recent | Finds hwloc in the build |
 | MPI | Open MPI ≥ 4.0, MPICH, or MS-MPI | Only for the MPI component |
-| spdlog / fmt | any recent | Build only; compiled into the library |
+| spdlog / fmt | ≥ 1.12 / ≥ 9.1 | Build only; compiled into the library |
 | Boost | any recent | Optional — tests only |
 | GoogleTest | any recent | Optional — running tests only |
 

@@ -172,7 +172,7 @@ include(${CPM_DOWNLOAD_LOCATION})
 CPMAddPackage(
     NAME gempba
     GITHUB_REPOSITORY rapastranac/gempba
-    GIT_TAG main
+    GIT_TAG v5.0.0
 )
 
 add_library(external INTERFACE)
@@ -193,6 +193,7 @@ set(GEMPBA_HWLOC ON CACHE BOOL "" FORCE)            # hardware-topology probe (t
 set(GEMPBA_DEBUG_COMMENTS OFF CACHE BOOL "" FORCE)  # (Optional) extra logging
 add_subdirectory(external)
 
+add_executable(main main.cpp)
 target_link_libraries(main PUBLIC gempba::mpi)      # gempba::gempba for a multithreading program
 ```
 
